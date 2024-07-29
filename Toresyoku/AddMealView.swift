@@ -6,17 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddMealView: View {
 
-    @ObservedObject var mealContentModel = MealContentModel()
-    @ObservedObject var mealListModel: MealListModel
+    @Environment(\.modelContext) private var context
+    @Environment(\.presentationMode) var presentation
+    
+    @State private var MealName: String = ""
+    @State private var MealProtein: Double = 0.0
+    @State private var MealFat: Double = 0.0
+    @State private var MealCarbohydrate: Double = 0.0
+    @State private var MealKcal: Double = 0.0
+//    @State private var MealDate: Int = 1
+    
     @State var myMenuSelectModal: Bool = false
-    @Binding var addMealPresented: Bool
     @State private var isFormValid: Bool = true
     @State private var isProteinValid: Bool = true
     @State private var isFatValid: Bool = true
     @State private var isCarbohydrateValid: Bool = true
+    @State private var addMealModal: Bool = false
 
     var body: some View {
         Color.orange.opacity(0.2)
@@ -24,7 +33,7 @@ struct AddMealView: View {
             .overlay {
                 VStack {
                     HStack {
-                        TextField("メニュー", text: $mealContentModel.MealName)
+                        TextField("メニュー", text: $MealName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .frame(width: 250)
                         Spacer()
@@ -57,7 +66,7 @@ struct AddMealView: View {
 
                     HStack {
                         Text("たんぱく質")
-                        TextField("-", value: $mealContentModel.MealProtein, format: .number)
+                        TextField("-", value: $MealProtein, format: .number)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 60)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -75,7 +84,7 @@ struct AddMealView: View {
 
                     HStack {
                         Text("脂質")
-                        TextField("-", value: $mealContentModel.MealFat, format: .number)
+                        TextField("-", value: $MealFat, format: .number)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 60)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -93,7 +102,7 @@ struct AddMealView: View {
 
                     HStack {
                         Text("炭水化物")
-                        TextField("-", value: $mealContentModel.MealCarbohydrate, format: .number)
+                        TextField("-", value: $MealCarbohydrate, format: .number)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 60)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -116,32 +125,15 @@ struct AddMealView: View {
                             .frame(width: 60, height: 30)
                             .cornerRadius(5)
                             .overlay {
-                                Text("\(mealContentModel.MealKcal, specifier: "%.1f")")
+                                Text("\(MealKcal, specifier: "%.1f")")
                             }
                         Text("kcal")
                         Spacer()
                     }
                     .padding()
-
-                    HStack {
-                        Button("決定") {
-                            if validateInputs() {
-                                decisionMeal()
-                                addMealPresented = false
-                            }
-                        }
-                        .padding()
-                        .frame(width: 100, height: 35)
-                        .foregroundColor(.black)
-                        .background(isFormValid ? Color(red: 0.4, green: 0.8, blue: 1.0) : Color.gray)
-                        .cornerRadius(10)
-                        .disabled(!isFormValid)
-                        Spacer()
-                    }
-                    .padding()
-
-                    Button("キーボードを閉じる") {
-                        hideKeyboard()
+                    
+                    Button("決定") {
+                        addMeal()
                     }
                     .padding()
                     .frame(width: 200, height: 35)
@@ -151,40 +143,51 @@ struct AddMealView: View {
 
                     Spacer()
                 }
-                .padding(.top, 200)
+                .padding(.top, 100)
             }
     }
 
-    func validateInputs() -> Bool {
-        isProteinValid = mealContentModel.MealProtein > 0
-        isFatValid = mealContentModel.MealFat > 0
-        isCarbohydrateValid = mealContentModel.MealCarbohydrate > 0
-        isFormValid = isProteinValid && isFatValid && isCarbohydrateValid
-        return isFormValid
-    }
-
-    func decisionMeal() {
-        mealListModel.addMeal(mealContentModel)
-        print("Meal added: \(mealContentModel.MealName)")
-    }
+//    func validateInputs() -> Bool {
+//        isProteinValid = mealContentModel.MealProtein > 0
+//        isFatValid = mealContentModel.MealFat > 0
+//        isCarbohydrateValid = mealContentModel.MealCarbohydrate > 0
+//        isFormValid = isProteinValid && isFatValid && isCarbohydrateValid
+//        return isFormValid
+//    }
+//
+//    func decisionMeal() {
+//        mealListModel.addMeal(mealContentModel)
+//        print("Meal added: \(mealContentModel.MealName)")
+//    }
+    
 
     func calculateKcal() {
-        guard mealContentModel.MealProtein >= 0,
-              mealContentModel.MealFat >= 0,
-              mealContentModel.MealCarbohydrate >= 0 else {
+        guard MealProtein >= 0,
+              MealFat >= 0,
+              MealCarbohydrate >= 0 else {
             return
         }
-        mealContentModel.MealKcal = mealContentModel.MealProtein * 4 + mealContentModel.MealFat * 9 + mealContentModel.MealCarbohydrate * 4
+       MealKcal = MealProtein * 4 + MealFat * 9 + MealCarbohydrate * 4
     }
 
     // キーボードを閉じる関数
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
+    private func addMeal() {
+        guard MealProtein >= 0, MealFat >= 0, MealCarbohydrate >= 0, MealKcal >= 0 else {
+            return
+        }
+        let newMeal = MealContentModel(MealName: MealName, MealProtein: MealProtein, MealFat: MealFat, MealCarbohydrate: MealCarbohydrate, MealKcal: MealKcal)
+        context.insert(newMeal)
+        presentation.wrappedValue.dismiss()
+    }
 }
 
 struct AddMealView_Previews: PreviewProvider {
     static var previews: some View {
-        AddMealView(mealListModel: MealListModel(), addMealPresented: .constant(true))
+        AddMealView()
+            .modelContainer(for: MealContentModel.self, inMemory: true)
     }
 }

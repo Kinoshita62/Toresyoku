@@ -6,17 +6,25 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MyPageMainView: View {
-    @StateObject var profileModel: ProfileModel
+    @Environment(\.modelContext) private var context
+    @Query private var profiles: [ProfileModel]
 
     var body: some View {
         NavigationView {
             VStack {
-                Text("ユーザーネーム: \(profileModel.UserName)")
-                    .padding()
-                
-                NavigationLink(destination: ProfileSettingView(profile: profileModel)) {
+//                Text("ユーザーネーム: \(profiles.UserName)")
+//                    .padding()
+                if let profile = profiles.first {
+                                    Text("ユーザーネーム: \(profile.UserName)")
+                                        .padding()
+                                } else {
+                                    Text("プロフィールが設定されていません")
+                                        .padding()
+                                }
+                NavigationLink(destination: ProfileSettingView()) {
                     Text("プロフィール設定")
                 }
             }
@@ -26,6 +34,7 @@ struct MyPageMainView: View {
 
 struct MyPageMainView_Previews: PreviewProvider {
     static var previews: some View {
-        MyPageMainView(profileModel: ProfileModel())
+        MyPageMainView()
+            .modelContainer(for: ProfileModel.self, inMemory: true)
     }
 }

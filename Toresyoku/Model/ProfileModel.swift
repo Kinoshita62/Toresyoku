@@ -6,9 +6,18 @@
 //
 
 import Foundation
+import SwiftData
 
-class ProfileModel: ObservableObject {
-    @Published var UserName: String = ""
-    @Published var UserGender: Int = 0
+@Model
+final class ProfileModel {
+    let id: String
+    var UserName: String
+    var UserGender: Int
+    
+    init(UserName: String, UserGender: Int) {
+        self.id = UUID().uuidString
+        self.UserName = UserName
+        self.UserGender = UserGender
+    }
 }
 

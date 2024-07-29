@@ -9,8 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct MainView: View {
-    @ObservedObject var mealListModel: MealListModel
-    @ObservedObject var profileModel: ProfileModel
+//    @ObservedObject var mealListModel: MealListModel
+//    @ObservedObject var profileModel: ProfileModel
+    
     @State var mainSelectedTag = 1
     
     var body: some View {
@@ -30,7 +31,7 @@ struct MainView: View {
             .background(Color.orange.opacity(0.2))
             
             TabView(selection: $mainSelectedTag) {
-                MealMainView(mealListModel: mealListModel)
+                MealMainView()
                     .tabItem {
                         Label("食事", systemImage: "fork.knife")
                     }.tag(1)
@@ -38,7 +39,7 @@ struct MainView: View {
                     .tabItem {
                         Label("グラフ", systemImage: "chart.line.uptrend.xyaxis")
                     }.tag(2)
-                MyPageMainView(profileModel: profileModel)
+                MyPageMainView()
                     .tabItem {
                         Label("マイページ", systemImage: "person.crop.circle")
                     }.tag(3)
@@ -49,10 +50,10 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(mealListModel: MealListModel(), profileModel: ProfileModel())
+        MainView()
+            .modelContainer(for: [ProfileModel.self, MealContentModel.self])
     }
 }
-
 
 //struct MainView: View {
 //    @Environment(\.modelContext) private var modelContext

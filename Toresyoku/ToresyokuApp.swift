@@ -12,7 +12,8 @@ import SwiftData
 struct ToresyokuApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            ProfileModel.self,
+            MealContentModel.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +26,7 @@ struct ToresyokuApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView(mealListModel: MealListModel(), profileModel: ProfileModel())
+            MainView()
         }
         .modelContainer(sharedModelContainer)
     }

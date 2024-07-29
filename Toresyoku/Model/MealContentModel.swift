@@ -6,16 +6,25 @@
 //
 
 import Foundation
+import SwiftData
 
-class MealContentModel: ObservableObject, Identifiable {
-    @Published var id = UUID()
-    @Published var MealName: String = ""
-    @Published var MealProtein: Double = 0.0
-    @Published var MealFat: Double = 0.0
-    @Published var MealCarbohydrate: Double = 0.0
-    @Published var MealKcal: Double = 0.0
-    @Published var MealDate = Date()
-    @Published var isValidProtein: Bool = true
-    @Published var isValidFat: Bool = true
-    @Published var isValidCarbohydrate: Bool = true
+@Model
+final class MealContentModel {
+    let id: String
+    var MealName: String
+    var MealProtein: Double
+    var MealFat: Double
+    var MealCarbohydrate: Double
+    var MealKcal: Double
+//    var MealDate: Int
+    
+    init(MealName: String, MealProtein: Double, MealFat: Double, MealCarbohydrate: Double, MealKcal: Double /*MealDate: Int*/) {
+        self.id = UUID().uuidString
+        self.MealName = MealName
+        self.MealProtein = MealProtein
+        self.MealFat = MealFat
+        self.MealCarbohydrate = MealCarbohydrate
+        self.MealKcal = MealKcal
+//        self.MealDate = MealDate
+    }
 }
