@@ -18,13 +18,14 @@ struct AddMealView: View {
     @State private var MealFat: Double = 0.0
     @State private var MealCarbohydrate: Double = 0.0
     @State private var MealKcal: Double = 0.0
-//    @State private var MealDate: Int = 1
+    @State private var MealDate: Date = Date()
+
+    
     
     @State var myMenuSelectModal: Bool = false
-    @State private var isFormValid: Bool = true
-    @State private var isProteinValid: Bool = true
-    @State private var isFatValid: Bool = true
-    @State private var isCarbohydrateValid: Bool = true
+    @State private var isProteinValid: Bool = false
+    @State private var isFatValid: Bool = false
+    @State private var isCarbohydrateValid: Bool = false
     @State private var addMealModal: Bool = false
 
     var body: some View {
@@ -32,6 +33,14 @@ struct AddMealView: View {
             .edgesIgnoringSafeArea(.all)
             .overlay {
                 VStack {
+                    HStack {
+                        DatePicker("日付を選択", selection: $MealDate, displayedComponents: [.date])
+                            .environment(\.locale, Locale(identifier: "ja_JP"))
+                        }
+                    
+                    .padding()
+                    
+                    
                     HStack {
                         TextField("メニュー", text: $MealName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -71,9 +80,16 @@ struct AddMealView: View {
                             .frame(width: 60)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
-                            
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("決定") {
+                                        hideKeyboard()
+                                    }
+                                }
+                            }
                         Text("g")
-                        if !isProteinValid {
+                        if isProteinValid {
                             Text("有効な値を入力してください")
                                 .foregroundColor(.red)
                                 .font(.caption)
@@ -89,9 +105,16 @@ struct AddMealView: View {
                             .frame(width: 60)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
-                           
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("決定") {
+                                        hideKeyboard()
+                                    }
+                                }
+                            }
                         Text("g")
-                        if !isFatValid {
+                        if isFatValid {
                             Text("有効な値を入力してください")
                                 .foregroundColor(.red)
                                 .font(.caption)
@@ -107,9 +130,16 @@ struct AddMealView: View {
                             .frame(width: 60)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
-
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("決定") {
+                                        hideKeyboard()
+                                    }
+                                }
+                            }
                         Text("g")
-                        if !isCarbohydrateValid {
+                        if isCarbohydrateValid {
                             Text("有効な値を入力してください")
                                 .foregroundColor(.red)
                                 .font(.caption)
@@ -128,6 +158,7 @@ struct AddMealView: View {
                                 Text("\(MealKcal, specifier: "%.1f")")
                             }
                         Text("kcal")
+
                         Spacer()
                     }
                     .padding()
@@ -147,39 +178,39 @@ struct AddMealView: View {
             }
     }
 
-//    func validateInputs() -> Bool {
-//        isProteinValid = mealContentModel.MealProtein > 0
-//        isFatValid = mealContentModel.MealFat > 0
-//        isCarbohydrateValid = mealContentModel.MealCarbohydrate > 0
-//        isFormValid = isProteinValid && isFatValid && isCarbohydrateValid
-//        return isFormValid
-//    }
-//
-//    func decisionMeal() {
-//        mealListModel.addMeal(mealContentModel)
-//        print("Meal added: \(mealContentModel.MealName)")
-//    }
-    
-
     func calculateKcal() {
-        guard MealProtein >= 0,
-              MealFat >= 0,
-              MealCarbohydrate >= 0 else {
-            return
-        }
+//        guard MealProtein >= 0,
+//              MealFat >= 0,
+//              MealCarbohydrate >= 0 else {
+//            return
+//        }
        MealKcal = MealProtein * 4 + MealFat * 9 + MealCarbohydrate * 4
     }
-
-    // キーボードを閉じる関数
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
+    
+    private func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     
     private func addMeal() {
+        if MealProtein < 0 {
+            isProteinValid = true
+        } else {
+            isProteinValid = false
+        }
+        if MealFat < 0 {
+            isFatValid = true
+        } else {
+            isFatValid = false
+        }
+        if MealCarbohydrate < 0 {
+            isCarbohydrateValid = true
+        } else {
+            isCarbohydrateValid = false
+        }
         guard MealProtein >= 0, MealFat >= 0, MealCarbohydrate >= 0, MealKcal >= 0 else {
             return
         }
-        let newMeal = MealContentModel(MealName: MealName, MealProtein: MealProtein, MealFat: MealFat, MealCarbohydrate: MealCarbohydrate, MealKcal: MealKcal)
+        let newMeal = MealContentModel(MealName: MealName, MealProtein: MealProtein, MealFat: MealFat, MealCarbohydrate: MealCarbohydrate, MealKcal: MealKcal, MealDate: MealDate)
         context.insert(newMeal)
         presentation.wrappedValue.dismiss()
     }

@@ -9,32 +9,50 @@ import SwiftUI
 import SwiftData
 
 struct MainView: View {
-//    @ObservedObject var mealListModel: MealListModel
-//    @ObservedObject var profileModel: ProfileModel
-    
+
     @State var mainSelectedTag = 1
+    @State var theDate = Date()
+    @State var datePickerPresented: Bool = false
+    
+    init() {
+        let appearance: UITabBarAppearance = UITabBarAppearance()
+        appearance.backgroundColor = .white
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        UITabBar.appearance().standardAppearance = appearance
+    }
     
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "calendar")
-                    .font(.system(size: 25))
-                    .padding()
-                Text("日付")
+                Button {
+                    datePickerPresented.toggle()
+                } label: {
+                    Image(systemName: "calendar")
+                }
+                .sheet(isPresented: $datePickerPresented) {
+                    DatePickerView(datePickerPresented: $datePickerPresented,theDate: $theDate)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+                }
+                .font(.system(size: 25))
+                .foregroundColor(.black)
+                .padding()
+                Text(dateFormat.string(from: theDate))
                     .font(.title2)
                     .frame(maxWidth: .infinity, alignment: .center)
                 Spacer()
                 Image(systemName: "gearshape")
                     .font(.system(size: 25))
                     .padding()
-            }
-            .background(Color.orange.opacity(0.2))
+                }
+                .background(Color.orange.opacity(0.2))
             
             TabView(selection: $mainSelectedTag) {
-                MealMainView()
+                MealMainView(selectedDate: theDate)
                     .tabItem {
                         Label("食事", systemImage: "fork.knife")
-                    }.tag(1)
+                    }
+                    .tag(1)
                 GraphMainView()
                     .tabItem {
                         Label("グラフ", systemImage: "chart.line.uptrend.xyaxis")
@@ -46,6 +64,30 @@ struct MainView: View {
             }
         }
     }
+    
+    var dateFormat: DateFormatter {
+        let df = DateFormatter()
+        df.timeStyle = .none
+        df.dateStyle = .full
+        df.locale = Locale(identifier: "ja_JP")
+        return df
+    }
+}
+
+struct DatePickerView: View {
+    @Binding var datePickerPresented: Bool
+    @Binding var theDate: Date
+    
+    var body: some View {
+        DatePicker("", selection: $theDate, displayedComponents: .date)
+            .environment(\.locale, Locale(identifier: "ja_JP"))
+            .datePickerStyle(.graphical)
+        Divider()
+        Spacer()
+        Button("保存") {
+            datePickerPresented = false
+        }
+    }
 }
 
 struct MainView_Previews: PreviewProvider {
@@ -54,55 +96,3 @@ struct MainView_Previews: PreviewProvider {
             .modelContainer(for: [ProfileModel.self, MealContentModel.self])
     }
 }
-
-//struct MainView: View {
-//    @Environment(\.modelContext) private var modelContext
-//    @Query private var items: [Item]
-//
-//    var body: some View {
-//        NavigationSplitView {
-//            List {
-//                ForEach(items) { item in
-//                    NavigationLink {
-//                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-//                    } label: {
-//                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-//                    }
-//                }
-//                .onDelete(perform: deleteItems)
-//            }
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-//                ToolbarItem {
-//                    Button(action: addItem) {
-//                        Label("Add Item", systemImage: "plus")
-//                    }
-//                }
-//            }
-//        } detail: {
-//            Text("Select an item")
-//        }
-//    }
-//
-//    private func addItem() {
-//        withAnimation {
-//            let newItem = Item(timestamp: Date())
-//            modelContext.insert(newItem)
-//        }
-//    }
-//
-//    private func deleteItems(offsets: IndexSet) {
-//        withAnimation {
-//            for index in offsets {
-//                modelContext.delete(items[index])
-//            }
-//        }
-//    }
-//}
-//
-//#Preview {
-//    MainView()
-//        .modelContainer(for: Item.self, inMemory: true)
-//}

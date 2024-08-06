@@ -16,15 +16,15 @@ final class MealContentModel {
     var MealFat: Double
     var MealCarbohydrate: Double
     var MealKcal: Double
-//    var MealDate: Int
+    var MealDate: Date
     
-    init(MealName: String, MealProtein: Double, MealFat: Double, MealCarbohydrate: Double, MealKcal: Double /*MealDate: Int*/) {
+    init(MealName: String, MealProtein: Double, MealFat: Double, MealCarbohydrate: Double, MealKcal: Double, MealDate: Date) {
         self.id = UUID().uuidString
         self.MealName = MealName
         self.MealProtein = MealProtein
         self.MealFat = MealFat
         self.MealCarbohydrate = MealCarbohydrate
         self.MealKcal = MealKcal
-//        self.MealDate = MealDate
+        self.MealDate = MealDate
     }
 }

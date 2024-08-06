@@ -8,50 +8,51 @@
 import SwiftUI
 
 struct MealMainView: View {
-//    @State var addMealModal: Bool = false
-    @Environment(\.modelContext) private var context
 
+    @Environment(\.modelContext) private var context
+    var selectedDate: Date
+    
     var body: some View {
         NavigationView {
-            VStack {
-                Text("達成状況")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                
-                Rectangle()
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.horizontal)
-                    .foregroundColor(.orange.opacity(0.2))
-                
-                NavigationLink(destination: AddMealView()) {
-                    Label("食事の追加", systemImage: "square.and.pencil")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top)
-                        .padding(.horizontal)
-//                        .onTapGesture {
-//                            addMealModal = true
-//                        }
-//                        .sheet(isPresented: $addMealModal, content: {
-//                            AddMealView(
-//                                addMealPresented: $addMealModal
-//                            )
-//                            .presentationDetents([.height(600)])
-//                            .presentationDragIndicator(.visible)
-                    
+            Color.gray.opacity(0.1)
+                .edgesIgnoringSafeArea(.all)
+                .overlay {
+                    VStack {
+                        Text("達成状況")
+                            .font(.title3)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                        
+                        Rectangle()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.horizontal)
+                            .foregroundColor(.orange.opacity(0.2))
+
+                        
+                        HStack {
+                            NavigationLink(destination: AddMealView()) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(.orange.opacity(0.2))
+                                    .frame(width: 150, height: 30)
+                                        .overlay(Label("食事の追加", systemImage: "square.and.pencil"))
+                                            .foregroundColor(.black)
+                                            .font(.title3)
+                            }
+                            .padding(.top)
+                            .padding(.leading)
+                            Spacer()
+                        }
+                        MealContentListView(selectedDate: selectedDate)
+                    }
+                    Spacer()
                 }
-                MealContentListView()
-//                Rectangle()
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.horizontal)
-                    .foregroundColor(.orange.opacity(0.2))
-            }
         }
     }
 }
 
 struct MealMainView_Previews: PreviewProvider {
     static var previews: some View {
-        MealMainView()
+        MealMainView(selectedDate: Date())
             .modelContainer(for: MealContentModel.self, inMemory: true)
     }
 }
