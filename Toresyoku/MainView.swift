@@ -13,6 +13,7 @@ struct MainView: View {
     @State var mainSelectedTag = 1
     @State var theDate = Date()
     @State var datePickerPresented: Bool = false
+    @State var refreshID = UUID()
     
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
@@ -30,7 +31,7 @@ struct MainView: View {
                     Image(systemName: "calendar")
                 }
                 .sheet(isPresented: $datePickerPresented) {
-                    DatePickerView(datePickerPresented: $datePickerPresented,theDate: $theDate)
+                    DatePickerView(datePickerPresented: $datePickerPresented, theDate: $theDate, refreshID: $refreshID)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
                 }
@@ -48,7 +49,7 @@ struct MainView: View {
                 .background(Color.orange.opacity(0.2))
             
             TabView(selection: $mainSelectedTag) {
-                MealMainView(selectedDate: theDate)
+                MealMainView(selectedDate: $theDate, refreshID: $refreshID)
                     .tabItem {
                         Label("食事", systemImage: "fork.knife")
                     }
@@ -77,6 +78,7 @@ struct MainView: View {
 struct DatePickerView: View {
     @Binding var datePickerPresented: Bool
     @Binding var theDate: Date
+    @Binding var refreshID: UUID
     
     var body: some View {
         DatePicker("", selection: $theDate, displayedComponents: .date)
@@ -84,7 +86,8 @@ struct DatePickerView: View {
             .datePickerStyle(.graphical)
         Divider()
         Spacer()
-        Button("保存") {
+        Button("決定") {
+            refreshID = UUID()
             datePickerPresented = false
         }
     }

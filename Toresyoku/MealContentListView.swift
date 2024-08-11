@@ -12,16 +12,16 @@ struct MealContentListView: View {
     @Environment(\.modelContext) private var context
     @Query private var mealContents: [MealContentModel]
     var selectedDate: Date
+    @Binding var refreshID: UUID
     
     var body: some View {
         ScrollView {
             NavigationView {
                 List {
                     let filteredMealContents = mealContents.filter { mealContent in
-                                        Calendar.current.isDate(mealContent.MealDate, inSameDayAs: selectedDate)
-                                    }
-                    
-                    
+                        Calendar.current.isDate(mealContent.MealDate, inSameDayAs: selectedDate)
+                    }
+        
                     ForEach(filteredMealContents) { mealContent in
                         LazyVStack(alignment: .leading) {
                             HStack {
@@ -49,47 +49,26 @@ struct MealContentListView: View {
                         for index in indexSet {
                             delete(mealContent: mealContents[index])
                         }
+                        refreshID = UUID()
                     })
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
             }
-            .frame(width: 350, height: 500)
+            .frame(maxWidth: .infinity)
             .background(Color.orange.opacity(0.2))
         }
     }
+    
     private func delete(mealContent: MealContentModel) {
         context.delete(mealContent)
+        try? context.save()
     }
 }
 
 struct MealContentListView_Previews: PreviewProvider {
     static var previews: some View {
-        MealContentListView(selectedDate: Date())
+        MealContentListView(selectedDate: Date(), refreshID: .constant(UUID()))
             .modelContainer(for: MealContentModel.self)
     }
 }
-
-//
-//                                Text(mealContent.MealName)
-//                                Spacer()
-//                                Text("\(mealContent.MealKcal, specifier: "%.1f") kcal")
-//                                Spacer()
-//                            }
-//                            .font(.system(size: 15))
-//                            Spacer()
-//                            HStack {
-//                                VStack {
-//                                    Text("たんぱく質")
-//                                    Text("\(mealContent.MealProtein, specifier: "%.1f") g")
-//                                }
-//                                Spacer()
-//                                VStack {
-//                                    Text("脂質")
-//                                    Text("\(mealContent.MealFat, specifier: "%.1f") g")
-//                                }
-//                                Spacer()
-//                                VStack {
-//                                    Text("炭水化物")
-//                                    Text("\(mealContent.MealCarbohydrate, specifier: "%.1f") g")
-//

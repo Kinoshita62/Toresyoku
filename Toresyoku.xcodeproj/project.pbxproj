@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE432EC82C61DEBE00F70560 /* MealProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432EC72C61DEBD00F70560 /* MealProgressView.swift */; };
 		CE8B09B32C561FB3006FD3D9 /* ToresyokuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09B22C561FB3006FD3D9 /* ToresyokuApp.swift */; };
 		CE8B09B52C561FB3006FD3D9 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09B42C561FB3006FD3D9 /* MainView.swift */; };
 		CE8B09B92C561FB6006FD3D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE8B09B82C561FB6006FD3D9 /* Assets.xcassets */; };
@@ -14,17 +15,16 @@
 		CE8B09C32C56241D006FD3D9 /* MealMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09C22C56241D006FD3D9 /* MealMainView.swift */; };
 		CE8B09C52C56245B006FD3D9 /* MealContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09C42C56245B006FD3D9 /* MealContentListView.swift */; };
 		CE8B09C72C56248B006FD3D9 /* AddMealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09C62C56248B006FD3D9 /* AddMealView.swift */; };
-		CE8B09C92C562538006FD3D9 /* DaySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09C82C562538006FD3D9 /* DaySelectView.swift */; };
 		CE8B09CB2C562558006FD3D9 /* MyMenuSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09CA2C562558006FD3D9 /* MyMenuSelectView.swift */; };
 		CE8B09CD2C56258D006FD3D9 /* GraphMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09CC2C56258D006FD3D9 /* GraphMainView.swift */; };
 		CE8B09CF2C5625A8006FD3D9 /* MyPageMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09CE2C5625A8006FD3D9 /* MyPageMainView.swift */; };
 		CE8B09D12C5625E3006FD3D9 /* ProfileSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09D02C5625E3006FD3D9 /* ProfileSettingView.swift */; };
-		CE8B09D32C562600006FD3D9 /* ProfileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09D22C562600006FD3D9 /* ProfileListView.swift */; };
 		CE8B09D52C562645006FD3D9 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09D42C562645006FD3D9 /* ProfileModel.swift */; };
 		CE8B09D72C562664006FD3D9 /* MealContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09D62C562664006FD3D9 /* MealContentModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE432EC72C61DEBD00F70560 /* MealProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealProgressView.swift; sourceTree = "<group>"; };
 		CE8B09AF2C561FB3006FD3D9 /* Toresyoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toresyoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8B09B22C561FB3006FD3D9 /* ToresyokuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToresyokuApp.swift; sourceTree = "<group>"; };
 		CE8B09B42C561FB3006FD3D9 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -33,12 +33,10 @@
 		CE8B09C22C56241D006FD3D9 /* MealMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealMainView.swift; sourceTree = "<group>"; };
 		CE8B09C42C56245B006FD3D9 /* MealContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealContentListView.swift; sourceTree = "<group>"; };
 		CE8B09C62C56248B006FD3D9 /* AddMealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMealView.swift; sourceTree = "<group>"; };
-		CE8B09C82C562538006FD3D9 /* DaySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectView.swift; sourceTree = "<group>"; };
 		CE8B09CA2C562558006FD3D9 /* MyMenuSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMenuSelectView.swift; sourceTree = "<group>"; };
 		CE8B09CC2C56258D006FD3D9 /* GraphMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphMainView.swift; sourceTree = "<group>"; };
 		CE8B09CE2C5625A8006FD3D9 /* MyPageMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMainView.swift; sourceTree = "<group>"; };
 		CE8B09D02C5625E3006FD3D9 /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
-		CE8B09D22C562600006FD3D9 /* ProfileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileListView.swift; sourceTree = "<group>"; };
 		CE8B09D42C562645006FD3D9 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		CE8B09D62C562664006FD3D9 /* MealContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealContentModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,14 +75,13 @@
 				CE8B09DA2C5626A0006FD3D9 /* Views */,
 				CE8B09B42C561FB3006FD3D9 /* MainView.swift */,
 				CE8B09C22C56241D006FD3D9 /* MealMainView.swift */,
+				CE432EC72C61DEBD00F70560 /* MealProgressView.swift */,
 				CE8B09C42C56245B006FD3D9 /* MealContentListView.swift */,
 				CE8B09C62C56248B006FD3D9 /* AddMealView.swift */,
-				CE8B09C82C562538006FD3D9 /* DaySelectView.swift */,
 				CE8B09CA2C562558006FD3D9 /* MyMenuSelectView.swift */,
 				CE8B09CC2C56258D006FD3D9 /* GraphMainView.swift */,
 				CE8B09CE2C5625A8006FD3D9 /* MyPageMainView.swift */,
 				CE8B09D02C5625E3006FD3D9 /* ProfileSettingView.swift */,
-				CE8B09D22C562600006FD3D9 /* ProfileListView.swift */,
 				CE8B09DB2C5626BE006FD3D9 /* Model */,
 				CE8B09B82C561FB6006FD3D9 /* Assets.xcassets */,
 				CE8B09BA2C561FB6006FD3D9 /* Preview Content */,
@@ -191,13 +188,12 @@
 				CE8B09CD2C56258D006FD3D9 /* GraphMainView.swift in Sources */,
 				CE8B09D12C5625E3006FD3D9 /* ProfileSettingView.swift in Sources */,
 				CE8B09B52C561FB3006FD3D9 /* MainView.swift in Sources */,
-				CE8B09D32C562600006FD3D9 /* ProfileListView.swift in Sources */,
 				CE8B09CF2C5625A8006FD3D9 /* MyPageMainView.swift in Sources */,
 				CE8B09D72C562664006FD3D9 /* MealContentModel.swift in Sources */,
-				CE8B09C92C562538006FD3D9 /* DaySelectView.swift in Sources */,
 				CE8B09C72C56248B006FD3D9 /* AddMealView.swift in Sources */,
 				CE8B09C52C56245B006FD3D9 /* MealContentListView.swift in Sources */,
 				CE8B09B32C561FB3006FD3D9 /* ToresyokuApp.swift in Sources */,
+				CE432EC82C61DEBE00F70560 /* MealProgressView.swift in Sources */,
 				CE8B09CB2C562558006FD3D9 /* MyMenuSelectView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
