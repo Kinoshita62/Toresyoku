@@ -305,7 +305,7 @@ struct ProfileSettingView: View {
 struct ProfileSettingView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileSettingView()
-            .modelContainer(for: ProfileModel.self, inMemory: true)
+            .modelContainer(for: ProfileModel.self/*, inMemory: true*/)
     }
 }
 
