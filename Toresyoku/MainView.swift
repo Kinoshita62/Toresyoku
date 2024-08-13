@@ -54,7 +54,7 @@ struct MainView: View {
                         Label("食事", systemImage: "fork.knife")
                     }
                     .tag(1)
-                GraphMainView()
+                GraphMainView(refreshID: $refreshID)
                     .tabItem {
                         Label("グラフ", systemImage: "chart.line.uptrend.xyaxis")
                     }.tag(2)
