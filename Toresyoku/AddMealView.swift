@@ -38,23 +38,34 @@ struct AddMealView: View {
             .padding()
             
             HStack {
-                TextField("メニュー", text: $MealName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .frame(width: 250)
+                ZStack(alignment: .leading) {
+                    TextField("", text: $MealName)
+                        .foregroundColor(Color("Text"))  // 通常のテキストの色を設定
+                        .padding(4)
+                        .background(.white, in: .rect(cornerRadius: 6))
+                        .font(.system(size: 25))
+                        .frame(width: 250)
+                        .overlay(  // 枠線を追加
+                               RoundedRectangle(cornerRadius: 6)
+                                   .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                           )
+                    if MealName.isEmpty {
+                        Text("メニュー")
+                            .foregroundColor(.gray)  // プレースホルダーの色をグレーに設定
+                            .padding(.leading, 4)    // プレースホルダーの位置を調整
+                    }
+                }
                 Spacer()
-                Label("検索", systemImage: "magnifyingglass")
-                    .padding()
-                    .frame(width: 100, height: 35)
-                    .background(Color.white)
-                    .cornerRadius(10)
             }
             .padding(.horizontal)
+            
 
             HStack {
                 Text("マイメニューから選択")
+                    .foregroundColor(.black)
                     .padding(10)
                     .frame(width: 200, height: 40)
-                    .background(Color.orange)
+                    .background(Color(red: 0/255, green: 255/255, blue: 255/255))
                     .cornerRadius(10)
                     .onTapGesture {
                         myMenuSelectModal = true
@@ -72,12 +83,19 @@ struct AddMealView: View {
                 Text("たんぱく質")
                 TextField("-", value: $MealProtein, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
                     .keyboardType(.numberPad)
                     .onChange(of: MealProtein) {
                         calculateKcal()
                     }
+                    .overlay(  // 枠線を追加
+                           RoundedRectangle(cornerRadius: 6)
+                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                       )
                 Text("g")
                 if isProteinValid {
                     Text("有効な値を入力してください")
@@ -92,12 +110,19 @@ struct AddMealView: View {
                 Text("脂質")
                 TextField("-", value: $MealFat, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
                     .keyboardType(.numberPad)
                     .onChange(of: MealFat) {
                         calculateKcal()
                     }
+                    .overlay(  // 枠線を追加
+                           RoundedRectangle(cornerRadius: 6)
+                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                       )
                 Text("g")
                 if isFatValid {
                     Text("有効な値を入力してください")
@@ -112,12 +137,19 @@ struct AddMealView: View {
                 Text("炭水化物")
                 TextField("-", value: $MealCarbohydrate, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
                     .keyboardType(.numberPad)
                     .onChange(of: MealCarbohydrate) {
                         calculateKcal()
                     }
+                    .overlay(  // 枠線を追加
+                           RoundedRectangle(cornerRadius: 6)
+                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                       )
                 Text("g")
                 if isCarbohydrateValid {
                     Text("有効な値を入力してください")
@@ -133,9 +165,16 @@ struct AddMealView: View {
                 Text("カロリー")
                 TextField("-", value: $MealKcal, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 80)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
                     .keyboardType(.numberPad)
+                    .overlay(  // 枠線を追加
+                           RoundedRectangle(cornerRadius: 6)
+                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                       )
                 Text("kcal")
                 if isKcalValid {
                     Text("有効な値を入力してください")
@@ -152,7 +191,7 @@ struct AddMealView: View {
             .padding()
             .frame(width: 200, height: 35)
             .foregroundColor(.black)
-            .background(Color.blue)
+            .background(Color(red: 0/255, green: 255/255, blue: 255/255))
             .cornerRadius(10)
             .disabled(MealProtein <= 0 || MealFat <= 0 || MealCarbohydrate <= 0)
             Spacer()

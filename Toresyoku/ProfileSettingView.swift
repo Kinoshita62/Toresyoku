@@ -38,9 +38,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $UserTall, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("cm   ")
             }
             .onChange(of: UserTall) {
@@ -53,9 +59,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $UserWeight, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("kg   ")
             }
             .onChange(of: UserWeight) {
@@ -69,9 +81,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $UserFatPercentage, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("%   ")
             }
             .onChange(of: UserFatPercentage) {
@@ -84,9 +102,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $UserBMI, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("       ")
             }
             
@@ -95,9 +119,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $UserLeanBodyMass, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("kg   ")
             }
             
@@ -106,9 +136,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $UserMuscleMass, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("kg   ")
             }
             
@@ -117,9 +153,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $TargetWeight, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("kg   ")
             }
             
@@ -128,9 +170,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $TargetMealKcal, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("kcal")
             }
             
@@ -142,13 +190,21 @@ struct ProfileSettingView: View {
                     calculate325()
                 }
                 .padding(5)
-                .border(Color.gray, width: 1)
+                .foregroundColor(Color("Text"))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
                 
                 Button("3：1：6") {
                     calculate316()
                 }
                 .padding(5)
-                .border(Color.gray, width: 1)
+                .foregroundColor(Color("Text"))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
             }
             
             HStack {
@@ -156,9 +212,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $TargetMealProtein, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("g    ")
             }
             
@@ -167,9 +229,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $TargetMealFat, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("g    ")
             }
             
@@ -178,9 +246,15 @@ struct ProfileSettingView: View {
                 Spacer()
                 TextField("", value: $TargetMealCarbohydrate, format: .number)
                     .multilineTextAlignment(.trailing)
+                    .padding(4)
                     .frame(width: 60)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundColor(.black)
                     .keyboardType(.numberPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Text("g    ")
                     
             }
@@ -198,6 +272,10 @@ struct ProfileSettingView: View {
                 presentationMode.wrappedValue.dismiss()
             }
             .padding()
+            .frame(width: 200, height: 35)
+            .foregroundColor(.black)
+            .background(Color(red: 0/255, green: 255/255, blue: 255/255))
+            .cornerRadius(10)
         }
         .padding(.horizontal)
         .onAppear {

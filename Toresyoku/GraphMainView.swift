@@ -111,12 +111,12 @@ struct GraphMainView: View {
                             x: .value("日", data.date),
                             y: .value("kcal", data.totalKcal)
                         )
-                        .foregroundStyle(Color.orange)
+                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255))
                     }
                     // ターゲットカロリーの水平線を追加
                     RuleMark(y: .value("ターゲットkcal", targetKcal))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.orange)
                 }
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {
@@ -151,11 +151,11 @@ struct GraphMainView: View {
                             x: .value("日", data.date),
                             y: .value("g", data.totalProtein)
                         )
-                        .foregroundStyle(Color.orange)
+                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetProtein))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.orange)
                 }
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {
@@ -189,11 +189,11 @@ struct GraphMainView: View {
                             x: .value("日", data.date),
                             y: .value("g", data.totalFat)
                         )
-                        .foregroundStyle(Color.orange)
+                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetFat))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.orange)
                 }
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {
@@ -228,11 +228,12 @@ struct GraphMainView: View {
                             x: .value("日", data.date),
                             y: .value("g", data.totalCarbohydrate)
                         )
-                        .foregroundStyle(Color.orange)
+                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255)
+)
                     }
                     RuleMark(y: .value("ターゲットkcal", targetCarbohydrate))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.orange)
                 }
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {

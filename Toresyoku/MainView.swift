@@ -29,6 +29,7 @@ struct MainView: View {
                     datePickerPresented.toggle()
                 } label: {
                     Image(systemName: "calendar")
+                        .foregroundColor(Color("Text"))
                 }
                 .sheet(isPresented: $datePickerPresented) {
                     DatePickerView(datePickerPresented: $datePickerPresented, theDate: $theDate, refreshID: $refreshID)
@@ -36,7 +37,7 @@ struct MainView: View {
                     .presentationDragIndicator(.visible)
                 }
                 .font(.system(size: 25))
-                .foregroundColor(.black)
+                .foregroundColor(Color("Text"))
                 .padding()
                 Text(dateFormat.string(from: theDate))
                     .font(.title2)
@@ -46,7 +47,6 @@ struct MainView: View {
                     .font(.system(size: 25))
                     .padding()
                 }
-                .background(Color.orange.opacity(0.2))
             
             TabView(selection: $mainSelectedTag) {
                 MealMainView(selectedDate: $theDate, refreshID: $refreshID)
@@ -63,7 +63,7 @@ struct MainView: View {
                         Label("マイページ", systemImage: "person.crop.circle")
                     }.tag(3)
             }
-        }
+        }.background(Color("Image"))
     }
     
     var dateFormat: DateFormatter {
