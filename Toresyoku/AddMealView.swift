@@ -198,6 +198,7 @@ struct AddMealView: View {
                 Spacer()
             }
             .padding(.horizontal)
+            .padding(.bottom, 30)
             
             Button("決定") {
                 addMeal()

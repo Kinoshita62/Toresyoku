@@ -13,7 +13,7 @@ struct MealContentListView: View {
     @Query private var mealContents: [MealContentModel]
     var selectedDate: Date
     @Binding var refreshID: UUID
-
+    
     var body: some View {
         ScrollView {
             NavigationView {
@@ -21,7 +21,7 @@ struct MealContentListView: View {
                     let filteredMealContents = mealContents.filter { mealContent in
                         Calendar.current.isDate(mealContent.MealDate, inSameDayAs: selectedDate)
                     }
-        
+                    
                     ForEach(filteredMealContents) { mealContent in
                         LazyVStack(alignment: .leading) {
                             HStack {
@@ -47,10 +47,7 @@ struct MealContentListView: View {
                         .listRowSeparatorTint(Color("Text"))
                     }
                     .onDelete(perform: { indexSet in
-                        for index in indexSet {
-                            delete(mealContent: mealContents[index])
-                        }
-                        refreshID = UUID()
+                        deleteItems(at: indexSet, from: filteredMealContents)
                     })
                 }
                 .listStyle(.plain)
@@ -60,9 +57,15 @@ struct MealContentListView: View {
         }
     }
     
-    private func delete(mealContent: MealContentModel) {
-        context.delete(mealContent)
+    private func deleteItems(at offsets: IndexSet, from filteredMealContents: [MealContentModel]) {
+        for index in offsets {
+            let itemToDelete = filteredMealContents[index]
+            if let originalIndex = mealContents.firstIndex(where: { $0.id == itemToDelete.id }) {
+                context.delete(mealContents[originalIndex])
+            }
+        }
         try? context.save()
+        refreshID = UUID()
     }
 }
 

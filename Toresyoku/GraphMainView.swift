@@ -142,7 +142,6 @@ struct GraphMainView: View {
                 }
                 .frame(height: 200)
                 
-                
                 Text("たんぱく質摂取量（一日あたり）")
                     .padding(.top, 20)
                 Chart {
