@@ -13,7 +13,8 @@ struct ToresyokuApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             ProfileModel.self,
-            MealContentModel.self
+            MealContentModel.self,
+            MyMealContentModel.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

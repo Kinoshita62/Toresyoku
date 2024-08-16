@@ -47,7 +47,7 @@ struct ProfileSettingView: View {
                         RoundedRectangle(cornerRadius: 6)
                             .stroke(Color.gray, lineWidth: 1)
                     )
-                Text("cm   ")
+                Text("cm  ")
             }
             .onChange(of: UserTall) {
                 calculateBMI()
@@ -90,7 +90,7 @@ struct ProfileSettingView: View {
                         RoundedRectangle(cornerRadius: 6)
                             .stroke(Color.gray, lineWidth: 1)
                     )
-                Text("%   ")
+                Text("%    ")
             }
             .onChange(of: UserFatPercentage) {
                 calculateLeanBodyMass()
@@ -111,7 +111,7 @@ struct ProfileSettingView: View {
                         RoundedRectangle(cornerRadius: 6)
                             .stroke(Color.gray, lineWidth: 1)
                     )
-                Text("       ")
+                Text("　    ")
             }
             
             HStack {
@@ -383,7 +383,7 @@ struct ProfileSettingView: View {
 struct ProfileSettingView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileSettingView()
-            .modelContainer(for: ProfileModel.self/*, inMemory: true*/)
+            .modelContainer(for: ProfileModel.self)
     }
 }
 

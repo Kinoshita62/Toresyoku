@@ -42,7 +42,7 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color("Image"))
+                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
                     .scaleEffect(x: MealKcalProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
@@ -60,7 +60,7 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color("Image"))
+                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
                     .scaleEffect(x: MealProteinProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
@@ -78,7 +78,7 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color("Image"))
+                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
                     .scaleEffect(x: MealFatProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
@@ -96,7 +96,7 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color("Image"))
+                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
                     .scaleEffect(x: MealCarbohydrateProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)

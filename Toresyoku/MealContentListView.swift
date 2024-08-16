@@ -13,7 +13,7 @@ struct MealContentListView: View {
     @Query private var mealContents: [MealContentModel]
     var selectedDate: Date
     @Binding var refreshID: UUID
-    
+
     var body: some View {
         ScrollView {
             NavigationView {
@@ -44,6 +44,7 @@ struct MealContentListView: View {
                                 .font(.system(size: 15))
                             }
                         }
+                        .listRowSeparatorTint(Color("Text"))
                     }
                     .onDelete(perform: { indexSet in
                         for index in indexSet {
@@ -56,7 +57,6 @@ struct MealContentListView: View {
                 .scrollContentBackground(.hidden)
             }
             .frame(maxWidth: .infinity)
-            .background(Color.orange.opacity(0.2))
         }
     }
     

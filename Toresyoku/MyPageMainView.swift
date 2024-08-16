@@ -110,6 +110,6 @@ struct MyPageMainView: View {
 struct MyPageMainView_Previews: PreviewProvider {
     static var previews: some View {
         MyPageMainView()
-            .modelContainer(for: ProfileModel.self/*, inMemory: true*/)
+            .modelContainer(for: ProfileModel.self)
     }
 }

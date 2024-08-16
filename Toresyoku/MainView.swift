@@ -96,6 +96,6 @@ struct DatePickerView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-            .modelContainer(for: [ProfileModel.self, MealContentModel.self])
+            .modelContainer(for: [ProfileModel.self, MealContentModel.self, MyMealContentModel.self])
     }
 }

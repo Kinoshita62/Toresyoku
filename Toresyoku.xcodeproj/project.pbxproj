@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CE432EC82C61DEBE00F70560 /* MealProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432EC72C61DEBD00F70560 /* MealProgressView.swift */; };
+		CE4BBE292C6DCB7100A51730 /* MyMealContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4BBE282C6DCB7000A51730 /* MyMealContentModel.swift */; };
 		CE8B09B32C561FB3006FD3D9 /* ToresyokuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09B22C561FB3006FD3D9 /* ToresyokuApp.swift */; };
 		CE8B09B52C561FB3006FD3D9 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09B42C561FB3006FD3D9 /* MainView.swift */; };
 		CE8B09B92C561FB6006FD3D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE8B09B82C561FB6006FD3D9 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		CE432EC72C61DEBD00F70560 /* MealProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealProgressView.swift; sourceTree = "<group>"; };
+		CE4BBE282C6DCB7000A51730 /* MyMealContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMealContentModel.swift; sourceTree = "<group>"; };
 		CE8B09AF2C561FB3006FD3D9 /* Toresyoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toresyoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8B09B22C561FB3006FD3D9 /* ToresyokuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToresyokuApp.swift; sourceTree = "<group>"; };
 		CE8B09B42C561FB3006FD3D9 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			children = (
 				CE8B09D42C562645006FD3D9 /* ProfileModel.swift */,
 				CE8B09D62C562664006FD3D9 /* MealContentModel.swift */,
+				CE4BBE282C6DCB7000A51730 /* MyMealContentModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				CE8B09CD2C56258D006FD3D9 /* GraphMainView.swift in Sources */,
 				CE8B09D12C5625E3006FD3D9 /* ProfileSettingView.swift in Sources */,
 				CE8B09B52C561FB3006FD3D9 /* MainView.swift in Sources */,
+				CE4BBE292C6DCB7100A51730 /* MyMealContentModel.swift in Sources */,
 				CE8B09CF2C5625A8006FD3D9 /* MyPageMainView.swift in Sources */,
 				CE8B09D72C562664006FD3D9 /* MealContentModel.swift in Sources */,
 				CE8B09C72C56248B006FD3D9 /* AddMealView.swift in Sources */,

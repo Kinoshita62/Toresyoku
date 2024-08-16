@@ -13,6 +13,8 @@ struct AddMealView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.presentationMode) var presentation
     
+    @Query private var MyMealContents: [MyMealContentModel]
+    
     @State private var MealName: String = ""
     @State private var MealProtein: Double = 0.0
     @State private var MealFat: Double = 0.0
@@ -27,7 +29,17 @@ struct AddMealView: View {
     @State private var isCarbohydrateValid: Bool = false
     @State private var addMealModal: Bool = false
     
+    @State private var MyMealName: String = ""
+    @State private var MyMealProtein: Double = 0.0
+    @State private var MyMealFat: Double = 0.0
+    @State private var MyMealCarbohydrate: Double = 0.0
+    @State private var MyMealKcal: Double = 0.0
+    
     @Binding var refreshID: UUID
+    
+    var buttonBackgroundColor: Color {
+        return isFormValid() ? Color.blue : Color.gray
+    }
 
     var body: some View {
         VStack {
@@ -38,9 +50,10 @@ struct AddMealView: View {
             .padding()
             
             HStack {
+                Text("メニュー")
                 ZStack(alignment: .leading) {
                     TextField("", text: $MealName)
-                        .foregroundColor(Color("Text"))  // 通常のテキストの色を設定
+                        .foregroundColor(.black)  // 通常のテキストの色を設定
                         .padding(4)
                         .background(.white, in: .rect(cornerRadius: 6))
                         .font(.system(size: 25))
@@ -48,12 +61,7 @@ struct AddMealView: View {
                         .overlay(  // 枠線を追加
                                RoundedRectangle(cornerRadius: 6)
                                    .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
-                           )
-                    if MealName.isEmpty {
-                        Text("メニュー")
-                            .foregroundColor(.gray)  // プレースホルダーの色をグレーに設定
-                            .padding(.leading, 4)    // プレースホルダーの位置を調整
-                    }
+                        )
                 }
                 Spacer()
             }
@@ -71,8 +79,14 @@ struct AddMealView: View {
                         myMenuSelectModal = true
                     }
                     .sheet(isPresented: $myMenuSelectModal) {
-                        MyMenuSelectView()
-                            .presentationDragIndicator(.visible)
+                        MyMenuSelectView(
+                            selectedMealName: $MealName,
+                            selectedMealProtein: $MealProtein,
+                            selectedMealFat: $MealFat,
+                            selectedMealCarbohydrate: $MealCarbohydrate,
+                            selectedMealKcal: $MealKcal
+                        )
+                        .presentationDragIndicator(.visible)
                     }
                 Spacer()
             }
@@ -191,9 +205,11 @@ struct AddMealView: View {
             .padding()
             .frame(width: 200, height: 35)
             .foregroundColor(.black)
-            .background(Color(red: 0/255, green: 255/255, blue: 255/255))
+            .background(buttonBackgroundColor)
             .cornerRadius(10)
-            .disabled(MealProtein <= 0 || MealFat <= 0 || MealCarbohydrate <= 0)
+            .disabled(!isFormValid())
+            Spacer()
+            
             Spacer()
         }
         .toolbar {
@@ -212,41 +228,25 @@ struct AddMealView: View {
         }
     
     private func calculateKcal() {
-        guard MealProtein > 0, MealFat > 0, MealCarbohydrate > 0 else {
+        guard MealProtein >= 0, MealFat >= 0, MealCarbohydrate >= 0 else {
             MealKcal = 0.0
             return
         }
         MealKcal = round((MealProtein * 4) + (MealFat * 9) + (MealCarbohydrate * 4))
     }
     
+    private func isFormValid() -> Bool {
+        return !MealName.isEmpty && MealProtein >= 0 && MealFat >= 0 && MealCarbohydrate >= 0 && MealKcal >= 0
+    }
+    
     private func addMeal() {
-        if MealKcal < 0 {
-            isKcalValid = true
-        } else {
-            isKcalValid = false
-        }
-        if MealProtein < 0 {
-            isProteinValid = true
-        } else {
-            isProteinValid = false
-        }
-        if MealFat < 0 {
-            isFatValid = true
-        } else {
-            isFatValid = false
-        }
-        if MealCarbohydrate < 0 {
-            isCarbohydrateValid = true
-        } else {
-            isCarbohydrateValid = false
-        }
-        guard MealProtein >= 0, MealFat >= 0, MealCarbohydrate >= 0, MealKcal >= 0 else {
+        if !isFormValid() {
             return
         }
         let newMeal = MealContentModel(MealName: MealName, MealProtein: MealProtein, MealFat: MealFat, MealCarbohydrate: MealCarbohydrate, MealKcal: MealKcal, MealDate: MealDate)
         context.insert(newMeal)
         try? context.save() // 追加: データベースに変更を保存
-            refreshID = UUID()  
+        refreshID = UUID()
         presentation.wrappedValue.dismiss()
     }
 }
@@ -255,6 +255,6 @@ struct AddMealView_Previews: PreviewProvider {
     @State static var refreshID = UUID()
     static var previews: some View {
         AddMealView(refreshID: $refreshID)
-            .modelContainer(for: MealContentModel.self/*, inMemory: true*/)
+            .modelContainer(for: [MealContentModel.self, MyMealContentModel.self])
     }
 }

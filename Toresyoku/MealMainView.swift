@@ -60,6 +60,6 @@ struct MealMainView_Previews: PreviewProvider {
     @State static var refreshID = UUID()
     static var previews: some View {
         MealMainView(selectedDate: $selectedDate, refreshID: $refreshID)
-            .modelContainer(for: [ProfileModel.self, MealContentModel.self]/*, inMemory: true*/)
+            .modelContainer(for: [ProfileModel.self, MealContentModel.self, MyMealContentModel.self])
     }
 }
