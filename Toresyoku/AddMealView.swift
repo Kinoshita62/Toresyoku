@@ -11,9 +11,10 @@ import SwiftData
 struct AddMealView: View {
 
     @Environment(\.modelContext) private var context
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.dismiss) var dismiss
     
     @Query private var MyMealContents: [MyMealContentModel]
+    @Query private var ImageColor: [ImageColorModel]
     
     @State private var MealName: String = ""
     @State private var MealProtein: Double = 0.0
@@ -35,10 +36,20 @@ struct AddMealView: View {
     @State private var MyMealCarbohydrate: Double = 0.0
     @State private var MyMealKcal: Double = 0.0
     
+    @State var R: Double = 0
+    @State var G: Double = 255
+    @State var B: Double = 255
+    @State var A: Double = 1
+    
     @Binding var refreshID: UUID
     
     var buttonBackgroundColor: Color {
-        return isFormValid() ? Color.blue : Color.gray
+        return isFormValid() ? Color(
+            red: ImageColor.first?.R ?? 0 / 255,
+            green: ImageColor.first?.G ?? 255 / 255,
+            blue: ImageColor.first?.B ?? 255 / 255,
+            opacity: ImageColor.first?.A ?? 1
+        ) : Color.gray
     }
 
     var body: some View {
@@ -73,7 +84,12 @@ struct AddMealView: View {
                     .foregroundColor(.black)
                     .padding(10)
                     .frame(width: 200, height: 40)
-                    .background(Color(red: 0/255, green: 255/255, blue: 255/255))
+                    .background(Color(
+                        red: ImageColor.first?.R ?? 0 / 255,
+                        green: ImageColor.first?.G ?? 255 / 255,
+                        blue: ImageColor.first?.B ?? 255 / 255,
+                        opacity: ImageColor.first?.A ?? 1
+                    ))
                     .cornerRadius(10)
                     .onTapGesture {
                         myMenuSelectModal = true
@@ -95,7 +111,7 @@ struct AddMealView: View {
             
             HStack {
                 Text("たんぱく質")
-                TextField("-", value: $MealProtein, format: .number)
+                TextField("", value: $MealProtein, format: .number)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
                     .frame(width: 60)
@@ -122,7 +138,7 @@ struct AddMealView: View {
 
             HStack {
                 Text("脂質")
-                TextField("-", value: $MealFat, format: .number)
+                TextField("", value: $MealFat, format: .number)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
                     .frame(width: 60)
@@ -149,7 +165,7 @@ struct AddMealView: View {
 
             HStack {
                 Text("炭水化物")
-                TextField("-", value: $MealCarbohydrate, format: .number)
+                TextField("", value: $MealCarbohydrate, format: .number)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
                     .frame(width: 60)
@@ -177,7 +193,7 @@ struct AddMealView: View {
             
             HStack {
                 Text("カロリー")
-                TextField("-", value: $MealKcal, format: .number)
+                TextField("", value: $MealKcal, format: .number)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
                     .frame(width: 80)
@@ -248,7 +264,7 @@ struct AddMealView: View {
         context.insert(newMeal)
         try? context.save() // 追加: データベースに変更を保存
         refreshID = UUID()
-        presentation.wrappedValue.dismiss()
+        dismiss()
     }
 }
 
@@ -256,6 +272,6 @@ struct AddMealView_Previews: PreviewProvider {
     @State static var refreshID = UUID()
     static var previews: some View {
         AddMealView(refreshID: $refreshID)
-            .modelContainer(for: [MealContentModel.self, MyMealContentModel.self])
+            .modelContainer(for: [MealContentModel.self, MyMealContentModel.self, ImageColorModel.self])
     }
 }

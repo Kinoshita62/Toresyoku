@@ -15,12 +15,23 @@ struct GraphMainView: View {
     @Environment(\.modelContext) private var context
     @Query private var profiles: [ProfileModel]
     @Query private var mealContents: [MealContentModel]
+    @Query private var ImageColor: [ImageColorModel]
+    
     @State private var kcalScrollPosition: TimeInterval = 0
     @State private var proteinScrollPosition: TimeInterval = 0
     @State private var fatScrollPosition: TimeInterval = 0
     @State private var carbohydrateScrollPosition: TimeInterval = 0
+    @State private var UserWeightScrollPosition: TimeInterval = 0
+    @State private var UserFatPercentageScrollPosition: TimeInterval = 0
     
+    @State var R: Double = 0
+    @State var G: Double = 255
+    @State var B: Double = 255
+    @State var A: Double = 1
+    
+    @Binding var refreshGraph: UUID
     @Binding var refreshID: UUID
+    
     
     let calendar = Calendar.current
     
@@ -38,6 +49,14 @@ struct GraphMainView: View {
     
     var targetCarbohydrate: Double {
         profiles.first?.TargetMealCarbohydrate ?? 0
+    }
+    
+    var targetUserWeight: Double {
+        profiles.first?.TargetWeight ?? 0
+    }
+    
+    var targetFatPercentage: Double {
+        profiles.first?.TargetFatPercentage ?? 0
     }
     
     private var dailyCalories: [(date: Date, totalKcal: Double)] {
@@ -100,24 +119,51 @@ struct GraphMainView: View {
         }
     }
     
+    private var dailyUserWeight: [(date: Date, userWeight: Double)] {
+        profiles
+            .filter { $0.UserWeight > 0 }  // データが存在するものだけをフィルタリング
+            .map { profile in
+                (date: calendar.startOfDay(for: profile.UserDataAddDate), userWeight: profile.UserWeight)
+            }
+    }
+    
+    private var dailyUserFatPercentage: [(date: Date, userFatPercentage: Double)] {
+        profiles
+            .filter { $0.UserFatPercentage > 0 }  // データが存在するものだけをフィルタリング
+            .map { profile in
+                (date: calendar.startOfDay(for: profile.UserDataAddDate), userFatPercentage: profile.UserFatPercentage)
+            }
+    }
+
+    
     var body: some View {
         ScrollView {
             VStack {
                 Text("カロリー摂取量（一日あたり）")
-                    .padding(.top, 20)
+                    .padding(.top, 25)
                 Chart {
                     ForEach(dailyCalories, id: \.date) { data in
                         LineMark(
                             x: .value("日", data.date),
                             y: .value("kcal", data.totalKcal)
                         )
-                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255))
+                        .foregroundStyle(Color(
+                            red: ImageColor.first?.R ?? 0 / 255,
+                            green: ImageColor.first?.G ?? 255 / 255,
+                            blue: ImageColor.first?.B ?? 255 / 255,
+                            opacity: ImageColor.first?.A ?? 1
+                        ))
                     }
                     // ターゲットカロリーの水平線を追加
                     RuleMark(y: .value("ターゲットkcal", targetKcal))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(Color("Text"))
+                        .annotation(position: .top, alignment: .trailing) {
+                            Text("目標")
+                                .font(.caption)
+                            .foregroundColor(Color("Text"))}
                 }
+                .padding(5)
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {
                     AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
@@ -143,19 +189,29 @@ struct GraphMainView: View {
                 .frame(height: 200)
                 
                 Text("たんぱく質摂取量（一日あたり）")
-                    .padding(.top, 20)
+                    .padding(.top, 50)
                 Chart {
                     ForEach(dailyProtein, id: \.date) { data in
                         LineMark(
                             x: .value("日", data.date),
                             y: .value("g", data.totalProtein)
                         )
-                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255))
+                        .foregroundStyle(Color(
+                            red: ImageColor.first?.R ?? 0 / 255,
+                            green: ImageColor.first?.G ?? 255 / 255,
+                            blue: ImageColor.first?.B ?? 255 / 255,
+                            opacity: ImageColor.first?.A ?? 1
+                        ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetProtein))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(Color("Text"))
+                        .annotation(position: .top, alignment: .trailing) {
+                            Text("目標")
+                                .font(.caption)
+                            .foregroundColor(Color("Text"))}
                 }
+                .padding(5)
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {
                     AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
@@ -181,19 +237,29 @@ struct GraphMainView: View {
                 .frame(height: 200)
             
                 Text("脂質摂取量（一日あたり）")
-                    .padding(.top, 20)
+                    .padding(.top, 50)
                 Chart {
                     ForEach(dailyFat, id: \.date) { data in
                         LineMark(
                             x: .value("日", data.date),
                             y: .value("g", data.totalFat)
                         )
-                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255))
+                        .foregroundStyle(Color(
+                            red: ImageColor.first?.R ?? 0 / 255,
+                            green: ImageColor.first?.G ?? 255 / 255,
+                            blue: ImageColor.first?.B ?? 255 / 255,
+                            opacity: ImageColor.first?.A ?? 1
+                        ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetFat))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(Color("Text"))
+                        .annotation(position: .top, alignment: .trailing) {
+                            Text("目標")
+                                .font(.caption)
+                            .foregroundColor(Color("Text"))}
                 }
+                .padding(5)
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {
                     AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
@@ -220,20 +286,29 @@ struct GraphMainView: View {
        
                 
                 Text("炭水化物摂取量（一日あたり）")
-                    .padding(.top, 20)
+                    .padding(.top, 50)
                 Chart {
                     ForEach(dailyCarbohydrate, id: \.date) { data in
                         LineMark(
                             x: .value("日", data.date),
                             y: .value("g", data.totalCarbohydrate)
                         )
-                        .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255)
-)
+                        .foregroundStyle(Color(
+                            red: ImageColor.first?.R ?? 0 / 255,
+                            green: ImageColor.first?.G ?? 255 / 255,
+                            blue: ImageColor.first?.B ?? 255 / 255,
+                            opacity: ImageColor.first?.A ?? 1
+                        ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetCarbohydrate))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(Color("Text"))
+                        .annotation(position: .top, alignment: .trailing) {
+                            Text("目標")
+                                .font(.caption)
+                            .foregroundColor(Color("Text"))}
                 }
+                .padding(5)
                 .chartScrollableAxes(.horizontal)
                 .chartXAxis {
                     AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
@@ -257,35 +332,118 @@ struct GraphMainView: View {
                     carbohydrateScrollPosition = Date().timeIntervalSince1970
                 }
                 .frame(height: 200)
-
                 
-                HStack {
-                    Text("データの追加")
-                    Spacer()
+                Text("体重")
+                    .padding(.top, 50)
+                Spacer()
+                Chart {
+                    ForEach(dailyUserWeight, id: \.date) { data in
+                        LineMark(
+                            x: .value("日", data.date),
+                            y: .value("体重", data.userWeight)
+                        )
+                        .foregroundStyle(Color(
+                            red: ImageColor.first?.R ?? 0 / 255,
+                            green: ImageColor.first?.G ?? 255 / 255,
+                            blue: ImageColor.first?.B ?? 255 / 255,
+                            opacity: ImageColor.first?.A ?? 1
+                        ))
+                    }
+                    RuleMark(y: .value("目標体重", targetUserWeight))
+                        .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
+                        .foregroundStyle(Color("Text"))
+                        .annotation(position: .top, alignment: .trailing) {
+                            Text("目標")
+                                .font(.caption)
+                            .foregroundColor(Color("Text"))}
                 }
-                HStack {
-                    Text("体重")
-                    Spacer()
+                .padding(5)
+                .chartScrollableAxes(.horizontal)
+                .chartXAxis() {
+                    AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
+                        AxisGridLine()
+                        AxisTick()
+                        AxisValueLabel(format: Date.FormatStyle()
+                            .month(.twoDigits)
+                            .day(.twoDigits)
+                            .locale(Locale(identifier: "ja_JP")))
+                    }
                 }
-                HStack {
-                    Text("BMI")
-                    Spacer()
+                .chartYAxis {
+                    AxisMarks(values: .automatic) { value in
+                        AxisGridLine()
+                        AxisTick()
+                        AxisValueLabel()
+                    }
                 }
-                HStack {
-                    Text("除脂肪体重")
-                    Spacer()
+                .chartScrollPosition(x: $UserWeightScrollPosition)
+                .onChange(of: refreshGraph) {
+                    UserWeightScrollPosition = Date().timeIntervalSince1970
                 }
-                HStack {
-                    Text("筋肉量")
-                    Spacer()
+                .onAppear {
+                    UserWeightScrollPosition = Date().timeIntervalSince1970
                 }
+                .frame(height: 200)
+
+
+                Text("体脂肪率")
+                    .padding(.top, 50)
+                Chart {
+                    ForEach(dailyUserFatPercentage, id: \.date) { data in
+                        LineMark(
+                            x: .value("日", data.date),
+                            y: .value("体脂肪率", data.userFatPercentage)
+                        )
+                        .foregroundStyle(Color(
+                            red: ImageColor.first?.R ?? 0 / 255,
+                            green: ImageColor.first?.G ?? 255 / 255,
+                            blue: ImageColor.first?.B ?? 255 / 255,
+                            opacity: ImageColor.first?.A ?? 1
+                        ))
+                    }
+                    RuleMark(y: .value("目標体脂肪率", targetFatPercentage))
+                        .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
+                        .foregroundStyle(Color("Text"))
+                        .annotation(position: .top, alignment: .trailing) {
+                            Text("目標")
+                                .font(.caption)
+                            .foregroundColor(Color("Text"))}
+                }
+                .padding(5)
+                .chartScrollableAxes(.horizontal)
+                .chartXAxis {
+                    AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
+                        AxisGridLine()
+                        AxisTick()
+                        AxisValueLabel(format: Date.FormatStyle()
+                            .month(.twoDigits)
+                            .day(.twoDigits)
+                            .locale(Locale(identifier: "ja_JP")))
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks(values: .automatic) { value in
+                        AxisGridLine()
+                        AxisTick()
+                        AxisValueLabel()
+                    }
+                }
+                .chartScrollPosition(x: $UserFatPercentageScrollPosition)
+                .onChange(of: refreshGraph) {
+                    UserFatPercentageScrollPosition = Date().timeIntervalSince1970
+                }
+                .onAppear {
+                    UserFatPercentageScrollPosition = Date().timeIntervalSince1970
+                }
+                .frame(height: 200)
             }
         }
     }
-
 }
 
-#Preview {
-    GraphMainView(refreshID: .constant(UUID()))
-        .modelContainer(for: [ProfileModel.self, MealContentModel.self])
+struct GraphMainView_Previews: PreviewProvider {
+    static var previews: some View {
+        GraphMainView(refreshGraph: .constant(UUID()), refreshID: .constant(UUID()))
+            .modelContainer(for: [ProfileModel.self, MealContentModel.self, ImageColorModel.self])
+    }
 }

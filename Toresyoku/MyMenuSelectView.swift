@@ -14,12 +14,18 @@ struct MyMenuSelectView: View {
     @Environment(\.presentationMode) var presentation
     
     @Query private var MyMealContents: [MyMealContentModel]
+    @Query private var ImageColor: [ImageColorModel]
     
     @State private var MyMealName: String = ""
     @State private var MyMealProtein: Double = 0.0
     @State private var MyMealFat: Double = 0.0
     @State private var MyMealCarbohydrate: Double = 0.0
     @State private var MyMealKcal: Double = 0.0
+    
+    @State var R: Double = 0
+    @State var G: Double = 255
+    @State var B: Double = 255
+    @State var A: Double = 1
     
     @Binding var selectedMealName: String
     @Binding var selectedMealProtein: Double
@@ -28,7 +34,7 @@ struct MyMenuSelectView: View {
     @Binding var selectedMealKcal: Double
     
     @State var MyMenuAddViewPresented: Bool = false
-
+    
     var body: some View {
         VStack {
             List {
@@ -51,9 +57,24 @@ struct MyMenuSelectView: View {
                             }
                             .font(.system(size: 15))
                             Spacer()
-                            Button("決定") {
+                            Button(action: {
                                 selectMeal(myMealContent)
+                            }) {
+                                Text("決定")
                             }
+                            .padding(10)
+                            .foregroundColor(.black)
+                            .background(Color(
+                                red: ImageColor.first?.R ?? 0 / 255,
+                                green: ImageColor.first?.G ?? 255 / 255,
+                                blue: ImageColor.first?.B ?? 255 / 255,
+                                opacity: ImageColor.first?.A ?? 1
+                            ))
+                            .cornerRadius(10)
+                            .overlay(  // 枠線を追加
+                                RoundedRectangle(cornerRadius: 6)
+                                    .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                            )
                         }
                     }
                     .listRowSeparatorTint(Color("Text"))
@@ -90,16 +111,28 @@ struct MyMenuAddView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.presentationMode) var presentation
     
+    @Query private var ImageColor: [ImageColorModel]
+    
     @State private var MyMealName: String = ""
     @State private var MyMealProtein: Double = 0.0
     @State private var MyMealFat: Double = 0.0
     @State private var MyMealCarbohydrate: Double = 0.0
     @State private var MyMealKcal: Double = 0.0
     
+    @State var R: Double = 0
+    @State var G: Double = 255
+    @State var B: Double = 255
+    @State var A: Double = 1
+    
     @Binding var MyMenuAddViewPresented: Bool
     
     var myMenuAddButtonBackgroundColor: Color {
-        return isMyMenuAddFormValid() ? Color.blue : Color.gray
+        return isMyMenuAddFormValid() ? Color(
+            red: ImageColor.first?.R ?? 0 / 255,
+            green: ImageColor.first?.G ?? 255 / 255,
+            blue: ImageColor.first?.B ?? 255 / 255,
+            opacity: ImageColor.first?.A ?? 1
+        ) : Color.gray
     }
     
     var body: some View {
@@ -126,7 +159,7 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("たんぱく質")
-            TextField("-", value: $MyMealProtein, format: .number)
+            TextField("", value: $MyMealProtein, format: .number)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
                 .frame(width: 60)
@@ -148,7 +181,7 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("脂質")
-            TextField("-", value: $MyMealFat, format: .number)
+            TextField("", value: $MyMealFat, format: .number)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
                 .frame(width: 60)
@@ -170,7 +203,7 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("炭水化物")
-            TextField("-", value: $MyMealCarbohydrate, format: .number)
+            TextField("", value: $MyMealCarbohydrate, format: .number)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
                 .frame(width: 60)
@@ -192,7 +225,7 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("カロリー")
-            TextField("-", value: $MyMealKcal, format: .number)
+            TextField("", value: $MyMealKcal, format: .number)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
                 .frame(width: 80)
@@ -210,9 +243,11 @@ struct MyMenuAddView: View {
         .padding(.horizontal)
         .padding(.bottom, 30)
         
-        Button("追加") {
+        Button(action: {
             addMyMeal()
             MyMenuAddViewPresented.toggle()
+        }) {
+            Text("決定")
         }
         .padding(10)
         .frame(width: 200, height: 35)
@@ -220,6 +255,10 @@ struct MyMenuAddView: View {
         .background(myMenuAddButtonBackgroundColor)
         .cornerRadius(10)
         .disabled(!isMyMenuAddFormValid())
+        .overlay(  // 枠線を追加
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+        )
         Spacer()
     }
     
@@ -268,6 +307,6 @@ struct MyMenuSelectView_Previews: PreviewProvider {
             selectedMealCarbohydrate: $selectedMealCarbohydrate,
             selectedMealKcal: $selectedMealKcal
         )
-        .modelContainer(for: MyMealContentModel.self)
+        .modelContainer(for: [MyMealContentModel.self, ImageColorModel.self])
     }
 }

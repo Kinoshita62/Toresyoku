@@ -22,6 +22,7 @@
 		CE8B09D12C5625E3006FD3D9 /* ProfileSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09D02C5625E3006FD3D9 /* ProfileSettingView.swift */; };
 		CE8B09D52C562645006FD3D9 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09D42C562645006FD3D9 /* ProfileModel.swift */; };
 		CE8B09D72C562664006FD3D9 /* MealContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09D62C562664006FD3D9 /* MealContentModel.swift */; };
+		CEBD36952C73834000A1AB99 /* ImageColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD36942C73834000A1AB99 /* ImageColorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		CE8B09D02C5625E3006FD3D9 /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
 		CE8B09D42C562645006FD3D9 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		CE8B09D62C562664006FD3D9 /* MealContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealContentModel.swift; sourceTree = "<group>"; };
+		CEBD36942C73834000A1AB99 /* ImageColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				CE8B09D42C562645006FD3D9 /* ProfileModel.swift */,
 				CE8B09D62C562664006FD3D9 /* MealContentModel.swift */,
 				CE4BBE282C6DCB7000A51730 /* MyMealContentModel.swift */,
+				CEBD36942C73834000A1AB99 /* ImageColorModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE8B09D52C562645006FD3D9 /* ProfileModel.swift in Sources */,
+				CEBD36952C73834000A1AB99 /* ImageColorModel.swift in Sources */,
 				CE8B09C32C56241D006FD3D9 /* MealMainView.swift in Sources */,
 				CE8B09CD2C56258D006FD3D9 /* GraphMainView.swift in Sources */,
 				CE8B09D12C5625E3006FD3D9 /* ProfileSettingView.swift in Sources */,

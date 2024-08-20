@@ -4,6 +4,7 @@
 //
 //  Created by USER on 2024/08/06.
 //
+
 import SwiftUI
 import SwiftData
 
@@ -12,6 +13,7 @@ struct MealProgressView: View {
     @Environment(\.modelContext) private var context
     @Query private var mealContents: [MealContentModel]
     @Query private var profiles: [ProfileModel]
+    @Query private var ImageColor: [ImageColorModel]
 
     @State private var MealKcalProgress: Double = 0.0
     @State private var MealProteinProgress: Double = 0.0
@@ -22,7 +24,11 @@ struct MealProgressView: View {
     @State private var remainingProtein: Double = 0.0
     @State private var remainingFat: Double = 0.0
     @State private var remainingCarbohydrate: Double = 0.0
-
+    
+    @State var R: Double = 0
+    @State var G: Double = 255
+    @State var B: Double = 255
+    @State var A: Double = 1
     
     var selectedDate: Date
     @Binding var refreshID: UUID
@@ -42,7 +48,12 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
+                    .foregroundColor(Color(
+                        red: ImageColor.first?.R ?? 0 / 255,
+                        green: ImageColor.first?.G ?? 255 / 255,
+                        blue: ImageColor.first?.B ?? 255 / 255,
+                        opacity: ImageColor.first?.A ?? 1
+                    ))
                     .scaleEffect(x: MealKcalProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
@@ -60,7 +71,12 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
+                    .foregroundColor(Color(
+                        red: ImageColor.first?.R ?? 0 / 255,
+                        green: ImageColor.first?.G ?? 255 / 255,
+                        blue: ImageColor.first?.B ?? 255 / 255,
+                        opacity: ImageColor.first?.A ?? 1
+                    ))
                     .scaleEffect(x: MealProteinProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
@@ -78,7 +94,12 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
+                    .foregroundColor(Color(
+                        red: ImageColor.first?.R ?? 0 / 255,
+                        green: ImageColor.first?.G ?? 255 / 255,
+                        blue: ImageColor.first?.B ?? 255 / 255,
+                        opacity: ImageColor.first?.A ?? 1
+                    ))
                     .scaleEffect(x: MealFatProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
@@ -96,7 +117,12 @@ struct MealProgressView: View {
             ZStack {
                 Rectangle().stroke(.gray)
                 Rectangle()
-                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
+                    .foregroundColor(Color(
+                        red: ImageColor.first?.R ?? 0 / 255,
+                        green: ImageColor.first?.G ?? 255 / 255,
+                        blue: ImageColor.first?.B ?? 255 / 255,
+                        opacity: ImageColor.first?.A ?? 1
+                    ))
                     .scaleEffect(x: MealCarbohydrateProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
@@ -104,7 +130,9 @@ struct MealProgressView: View {
         .onAppear(perform: {
             calculateMealKcalProgress()
         })
-        .id(refreshID)
+        .onChange(of: refreshID) {
+            calculateMealKcalProgress()
+        }
     }
     
     private func calculateMealKcalProgress() {
@@ -160,6 +188,6 @@ struct MealProgressView: View {
 struct MealProgressView_Previews: PreviewProvider {
     static var previews: some View {
         MealProgressView(selectedDate: Date(), refreshID: .constant(UUID()))
-            .modelContainer(for: [ProfileModel.self, MealContentModel.self])
+            .modelContainer(for: [ProfileModel.self, MealContentModel.self, ImageColorModel.self])
     }
 }

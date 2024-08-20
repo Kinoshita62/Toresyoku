@@ -10,25 +10,28 @@ import SwiftData
 
 @main
 struct ToresyokuApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            ProfileModel.self,
-            MealContentModel.self,
-            MyMealContentModel.self
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+    var sharedModelContainer: ModelContainer? = {
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            let container = try ModelContainer(for: ProfileModel.self, MealContentModel.self, MyMealContentModel.self, ImageColorModel.self)
+            print("ModelContainer initialized successfully")
+            return container
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            print("Error initializing ModelContainer: \(error.localizedDescription)")
+            return nil
         }
     }()
-
+    
     var body: some Scene {
         WindowGroup {
-            MainView()
+            if let _ = sharedModelContainer {
+                MainView()
+            } else {
+                Text("データの初期化に失敗しました。アプリを再起動してください。")
+                    .multilineTextAlignment(.center)
+                    .padding()
+            }
         }
-        .modelContainer(sharedModelContainer)
     }
 }
+
+

@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 final class MyMealContentModel {
-    let id: String
+    var id: String
     var MyMealName: String
     var MyMealProtein: Double
     var MyMealFat: Double
