@@ -260,11 +260,17 @@ struct AddMealView: View {
         if !isFormValid() {
             return
         }
+        print("Form validation passed")
         let newMeal = MealContentModel(MealName: MealName, MealProtein: MealProtein, MealFat: MealFat, MealCarbohydrate: MealCarbohydrate, MealKcal: MealKcal, MealDate: MealDate)
         context.insert(newMeal)
-        try? context.save() // 追加: データベースに変更を保存
-        refreshID = UUID()
-        dismiss()
+        do {
+            try context.save()
+            print("Meal saved successfully")
+            refreshID = UUID()
+            dismiss()
+        } catch {
+            print("Failed to save context: \(error.localizedDescription)")
+        }
     }
 }
 
