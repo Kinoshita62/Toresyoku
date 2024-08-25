@@ -11,7 +11,13 @@ import SwiftData
 struct MyPageMainView: View {
     @Environment(\.modelContext) private var context
     @Query private var profiles: [ProfileModel]
-
+    @Query private var ImageColor: [ImageColorModel]
+    
+    @State var R: Double = 0
+    @State var G: Double = 1
+    @State var B: Double = 1
+    @State var A: Double = 1
+    
     @Binding var refreshGraph: UUID
     
     var latestProfile: ProfileModel? {
@@ -121,6 +127,21 @@ struct MyPageMainView: View {
                 
                 NavigationLink(destination: ProfileSettingView(refreshGraph: $refreshGraph)) {
                     Text("プロフィール編集")
+                        .padding(10)
+                        .frame(width: 200, height: 35)
+                        .cornerRadius(10)
+                        .foregroundColor(.black)
+                        .background(Color(
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
+                            opacity: ImageColor.first?.A ?? 1
+                        ))
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
                 }
                 Spacer()
             }
@@ -140,6 +161,6 @@ struct MyPageMainView: View {
 struct MyPageMainView_Previews: PreviewProvider {
     static var previews: some View {
         MyPageMainView(refreshGraph: .constant(UUID()))
-            .modelContainer(for: ProfileModel.self)
+            .modelContainer(for: [ProfileModel.self, ImageColorModel.self])
     }
 }

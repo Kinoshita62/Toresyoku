@@ -23,14 +23,14 @@ struct MyMenuSelectView: View {
     @State private var MyMealKcal: Double = 0.0
     
     @State var R: Double = 0
-    @State var G: Double = 255
-    @State var B: Double = 255
+    @State var G: Double = 1
+    @State var B: Double = 1
     @State var A: Double = 1
     
     @Binding var selectedMealName: String
-    @Binding var selectedMealProtein: Double
-    @Binding var selectedMealFat: Double
-    @Binding var selectedMealCarbohydrate: Double
+    @Binding var selectedMealProtein:String
+    @Binding var selectedMealFat: String
+    @Binding var selectedMealCarbohydrate: String
     @Binding var selectedMealKcal: Double
     
     @State var MyMenuAddViewPresented: Bool = false
@@ -65,9 +65,9 @@ struct MyMenuSelectView: View {
                             .padding(10)
                             .foregroundColor(.black)
                             .background(Color(
-                                red: ImageColor.first?.R ?? 0 / 255,
-                                green: ImageColor.first?.G ?? 255 / 255,
-                                blue: ImageColor.first?.B ?? 255 / 255,
+                                red: ImageColor.first?.R ?? 0,
+                                green: ImageColor.first?.G ?? 1,
+                                blue: ImageColor.first?.B ?? 1,
                                 opacity: ImageColor.first?.A ?? 1
                             ))
                             .cornerRadius(10)
@@ -82,10 +82,26 @@ struct MyMenuSelectView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            Button("マイメニューの追加") {
+            
+            Button(action: {
                 MyMenuAddViewPresented.toggle()
+            }) {
+                Text("マイメニューの追加")
             }
             .padding(.horizontal)
+            .frame(width: 200, height: 35)
+            .foregroundColor(.black)
+            .background(Color(
+                red: ImageColor.first?.R ?? 0,
+                green: ImageColor.first?.G ?? 1,
+                blue: ImageColor.first?.B ?? 1,
+                opacity: ImageColor.first?.A ?? 1
+            ))
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
             .sheet(isPresented: $MyMenuAddViewPresented) {
                 MyMenuAddView(MyMenuAddViewPresented: $MyMenuAddViewPresented)
                     .presentationDetents([.medium])
@@ -98,9 +114,9 @@ struct MyMenuSelectView: View {
     
     private func selectMeal(_ myMealContent: MyMealContentModel) {
         selectedMealName = myMealContent.MyMealName
-        selectedMealProtein = myMealContent.MyMealProtein
-        selectedMealFat = myMealContent.MyMealFat
-        selectedMealCarbohydrate = myMealContent.MyMealCarbohydrate
+        selectedMealProtein = String(format: "%.1f", myMealContent.MyMealProtein)
+        selectedMealFat = String(format: "%.1f", myMealContent.MyMealFat)
+        selectedMealCarbohydrate = String(format: "%.1f", myMealContent.MyMealCarbohydrate)
         selectedMealKcal = myMealContent.MyMealKcal
         presentation.wrappedValue.dismiss()
     }
@@ -114,23 +130,23 @@ struct MyMenuAddView: View {
     @Query private var ImageColor: [ImageColorModel]
     
     @State private var MyMealName: String = ""
-    @State private var MyMealProtein: Double = 0.0
-    @State private var MyMealFat: Double = 0.0
-    @State private var MyMealCarbohydrate: Double = 0.0
+    @State private var MyMealProtein: String = ""
+    @State private var MyMealFat: String = ""
+    @State private var MyMealCarbohydrate: String = ""
     @State private var MyMealKcal: Double = 0.0
     
     @State var R: Double = 0
-    @State var G: Double = 255
-    @State var B: Double = 255
+    @State var G: Double = 1
+    @State var B: Double = 1
     @State var A: Double = 1
     
     @Binding var MyMenuAddViewPresented: Bool
     
     var myMenuAddButtonBackgroundColor: Color {
         return isMyMenuAddFormValid() ? Color(
-            red: ImageColor.first?.R ?? 0 / 255,
-            green: ImageColor.first?.G ?? 255 / 255,
-            blue: ImageColor.first?.B ?? 255 / 255,
+            red: ImageColor.first?.R ?? 0,
+            green: ImageColor.first?.G ?? 1,
+            blue: ImageColor.first?.B ?? 1,
             opacity: ImageColor.first?.A ?? 1
         ) : Color.gray
     }
@@ -146,9 +162,9 @@ struct MyMenuAddView: View {
                         .background(.white, in: .rect(cornerRadius: 6))
                         .font(.system(size: 25))
                         .frame(width: 250)
-                        .overlay(  // 枠線を追加
+                        .overlay(
                             RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                                .stroke(Color.gray, lineWidth: 1)
                         )
                 }
                 Spacer()
@@ -159,14 +175,14 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("たんぱく質")
-            TextField("", value: $MyMealProtein, format: .number)
+            TextField("", text: $MyMealProtein)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
                 .frame(width: 60)
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
-                .keyboardType(.numberPad)
+                .keyboardType(.decimalPad)
                 .onChange(of: MyMealProtein) {
                     calculateMyKcal()
                 }
@@ -181,14 +197,14 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("脂質")
-            TextField("", value: $MyMealFat, format: .number)
+            TextField("", text: $MyMealFat)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
                 .frame(width: 60)
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
-                .keyboardType(.numberPad)
+                .keyboardType(.decimalPad)
                 .onChange(of: MyMealFat) {
                     calculateMyKcal()
                 }
@@ -203,14 +219,14 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("炭水化物")
-            TextField("", value: $MyMealCarbohydrate, format: .number)
+            TextField("", text: $MyMealCarbohydrate)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
                 .frame(width: 60)
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
-                .keyboardType(.numberPad)
+                .keyboardType(.decimalPad)
                 .onChange(of: MyMealCarbohydrate) {
                     calculateMyKcal()
                 }
@@ -232,10 +248,10 @@ struct MyMenuAddView: View {
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
-                .keyboardType(.numberPad)
-                .overlay(  // 枠線を追加
+                .keyboardType(.decimalPad)
+                .overlay(
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                        .stroke(Color.gray, lineWidth: 1)
                 )
             Text("kcal")
             Spacer()
@@ -255,37 +271,60 @@ struct MyMenuAddView: View {
         .background(myMenuAddButtonBackgroundColor)
         .cornerRadius(10)
         .disabled(!isMyMenuAddFormValid())
-        .overlay(  // 枠線を追加
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.gray, lineWidth: 1)
         )
         Spacer()
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("決定") {
+                    hideKeyboard()
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .padding(.top, 100)
+    }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
     private func calculateMyKcal() {
-        guard MyMealProtein >= 0, MyMealFat >= 0, MyMealCarbohydrate >= 0 else {
+        let protein = Double(MyMealProtein) ?? 0
+        let fat = Double(MyMealFat) ?? 0
+        let carbohydrate = Double(MyMealCarbohydrate) ?? 0
+        guard protein >= 0, fat >= 0, carbohydrate >= 0 else {
             MyMealKcal = 0.0
             return
         }
-        MyMealKcal = round((MyMealProtein * 4) + (MyMealFat * 9) + (MyMealCarbohydrate * 4))
+        MyMealKcal = round((protein * 4) + (fat * 9) + (carbohydrate * 4))
     }
     
     private func isMyMenuAddFormValid() -> Bool {
-        return !MyMealName.isEmpty && MyMealProtein >= 0 && MyMealFat >= 0 && MyMealCarbohydrate >= 0 && MyMealKcal >= 0
+        let protein = Double(MyMealProtein) ?? 0
+        let fat = Double(MyMealFat) ?? 0
+        let carbohydrate = Double(MyMealCarbohydrate) ?? 0
+        return !MyMealName.isEmpty && protein >= 0 && fat >= 0 && carbohydrate >= 0 && MyMealKcal >= 0
     }
     
     private func addMyMeal() {
+        let protein = Double(MyMealProtein) ?? 0
+        let fat = Double(MyMealFat) ?? 0
+        let carbohydrate = Double(MyMealCarbohydrate) ?? 0
         if !isMyMenuAddFormValid() {
             return
         }
-        let newMyMeal = MyMealContentModel(MyMealName: MyMealName, MyMealProtein: MyMealProtein, MyMealFat: MyMealFat, MyMealCarbohydrate: MyMealCarbohydrate, MyMealKcal: MyMealKcal)
+        let newMyMeal = MyMealContentModel(MyMealName: MyMealName, MyMealProtein: protein, MyMealFat: fat, MyMealCarbohydrate: carbohydrate, MyMealKcal: MyMealKcal)
         context.insert(newMyMeal)
-        try? context.save() // 追加: データベースに変更を保存
+        try? context.save()
         
         MyMealName = ""
-        MyMealProtein = 0.0
-        MyMealFat = 0.0
-        MyMealCarbohydrate = 0.0
+        MyMealProtein = ""
+        MyMealFat = ""
+        MyMealCarbohydrate = ""
         MyMealKcal = 0.0
     }
 }
@@ -294,9 +333,9 @@ struct MyMenuAddView: View {
 struct MyMenuSelectView_Previews: PreviewProvider {
     
     @State static var selectedMealName = "Sample Meal"
-    @State static var selectedMealProtein: Double = 10.0
-    @State static var selectedMealFat: Double = 5.0
-    @State static var selectedMealCarbohydrate: Double = 20.0
+    @State static var selectedMealProtein = "10.0"
+    @State static var selectedMealFat = "5.0"
+    @State static var selectedMealCarbohydrate = "20.0"
     @State static var selectedMealKcal: Double = 200.0
     
     static var previews: some View {

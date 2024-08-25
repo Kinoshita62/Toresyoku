@@ -17,9 +17,9 @@ struct AddMealView: View {
     @Query private var ImageColor: [ImageColorModel]
     
     @State private var MealName: String = ""
-    @State private var MealProtein: Double = 0.0
-    @State private var MealFat: Double = 0.0
-    @State private var MealCarbohydrate: Double = 0.0
+    @State private var MealProtein: String = ""
+    @State private var MealFat: String = ""
+    @State private var MealCarbohydrate: String = ""
     @State private var MealKcal: Double = 0.0
     @State private var MealDate: Date = Date()
 
@@ -37,17 +37,17 @@ struct AddMealView: View {
     @State private var MyMealKcal: Double = 0.0
     
     @State var R: Double = 0
-    @State var G: Double = 255
-    @State var B: Double = 255
+    @State var G: Double = 1
+    @State var B: Double = 1
     @State var A: Double = 1
     
     @Binding var refreshID: UUID
     
     var buttonBackgroundColor: Color {
         return isFormValid() ? Color(
-            red: ImageColor.first?.R ?? 0 / 255,
-            green: ImageColor.first?.G ?? 255 / 255,
-            blue: ImageColor.first?.B ?? 255 / 255,
+            red: ImageColor.first?.R ?? 0,
+            green: ImageColor.first?.G ?? 1,
+            blue: ImageColor.first?.B ?? 1,
             opacity: ImageColor.first?.A ?? 1
         ) : Color.gray
     }
@@ -69,9 +69,9 @@ struct AddMealView: View {
                         .background(.white, in: .rect(cornerRadius: 6))
                         .font(.system(size: 25))
                         .frame(width: 250)
-                        .overlay(  // 枠線を追加
+                        .overlay(
                                RoundedRectangle(cornerRadius: 6)
-                                   .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                                   .stroke(Color.gray, lineWidth: 1)
                         )
                 }
                 Spacer()
@@ -85,12 +85,16 @@ struct AddMealView: View {
                     .padding(10)
                     .frame(width: 200, height: 40)
                     .background(Color(
-                        red: ImageColor.first?.R ?? 0 / 255,
-                        green: ImageColor.first?.G ?? 255 / 255,
-                        blue: ImageColor.first?.B ?? 255 / 255,
+                        red: ImageColor.first?.R ?? 0,
+                        green: ImageColor.first?.G ?? 1,
+                        blue: ImageColor.first?.B ?? 1,
                         opacity: ImageColor.first?.A ?? 1
                     ))
                     .cornerRadius(10)
+                    .overlay(
+                           RoundedRectangle(cornerRadius: 10)
+                               .stroke(Color.gray, lineWidth: 1)
+                    )
                     .onTapGesture {
                         myMenuSelectModal = true
                     }
@@ -107,18 +111,18 @@ struct AddMealView: View {
                 Spacer()
             }
             .padding(.horizontal)
-            .padding(.bottom, 50)
+            .padding(.bottom, 30)
             
             HStack {
                 Text("たんぱく質")
-                TextField("", value: $MealProtein, format: .number)
+                TextField("", text: $MealProtein)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
                     .frame(width: 60)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .font(.system(size: 20))
-                    .keyboardType(.numberPad)
+                    .keyboardType(.decimalPad)
                     .onChange(of: MealProtein) {
                         calculateKcal()
                     }
@@ -138,14 +142,14 @@ struct AddMealView: View {
 
             HStack {
                 Text("脂質")
-                TextField("", value: $MealFat, format: .number)
+                TextField("", text: $MealFat)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
                     .frame(width: 60)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .font(.system(size: 20))
-                    .keyboardType(.numberPad)
+                    .keyboardType(.decimalPad)
                     .onChange(of: MealFat) {
                         calculateKcal()
                     }
@@ -165,14 +169,14 @@ struct AddMealView: View {
 
             HStack {
                 Text("炭水化物")
-                TextField("", value: $MealCarbohydrate, format: .number)
+                TextField("", text: $MealCarbohydrate)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
                     .frame(width: 60)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .font(.system(size: 20))
-                    .keyboardType(.numberPad)
+                    .keyboardType(.decimalPad)
                     .onChange(of: MealCarbohydrate) {
                         calculateKcal()
                     }
@@ -200,7 +204,7 @@ struct AddMealView: View {
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .font(.system(size: 20))
-                    .keyboardType(.numberPad)
+                    .keyboardType(.decimalPad)
                     .overlay(  // 枠線を追加
                            RoundedRectangle(cornerRadius: 6)
                                .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
@@ -225,6 +229,10 @@ struct AddMealView: View {
             .background(buttonBackgroundColor)
             .cornerRadius(10)
             .disabled(!isFormValid())
+            .overlay(
+                   RoundedRectangle(cornerRadius: 10)
+                       .stroke(Color.gray, lineWidth: 1)
+            )
             Spacer()
             
             Spacer()
@@ -235,6 +243,7 @@ struct AddMealView: View {
                 Button("決定") {
                     hideKeyboard()
                 }
+                .foregroundColor(.black)
             }
         }
         .padding(.top, 100)
@@ -245,27 +254,43 @@ struct AddMealView: View {
         }
     
     private func calculateKcal() {
-        guard MealProtein >= 0, MealFat >= 0, MealCarbohydrate >= 0 else {
+        let protein = Double(MealProtein) ?? 0
+        let fat = Double(MealFat) ?? 0
+        let carbohydrate = Double(MealCarbohydrate) ?? 0
+        guard protein >= 0, fat >= 0, carbohydrate >= 0 else {
             MealKcal = 0.0
             return
         }
-        MealKcal = round((MealProtein * 4) + (MealFat * 9) + (MealCarbohydrate * 4))
+        MealKcal = round((protein * 4) + (fat * 9) + (carbohydrate * 4))
     }
     
     private func isFormValid() -> Bool {
-        return !MealName.isEmpty && MealProtein >= 0 && MealFat >= 0 && MealCarbohydrate >= 0 && MealKcal >= 0
+        let protein = Double(MealProtein) ?? 0
+        let fat = Double(MealFat) ?? 0
+        let carbohydrate = Double(MealCarbohydrate) ?? 0
+        return !MealName.isEmpty && protein >= 0 && fat >= 0 && carbohydrate >= 0 && MealKcal >= 0
     }
     
     private func addMeal() {
+        let protein = Double(MealProtein) ?? 0
+        let fat = Double(MealFat) ?? 0
+        let carbohydrate = Double(MealCarbohydrate) ?? 0
+        
         if !isFormValid() {
             return
         }
         print("Form validation passed")
-        let newMeal = MealContentModel(MealName: MealName, MealProtein: MealProtein, MealFat: MealFat, MealCarbohydrate: MealCarbohydrate, MealKcal: MealKcal, MealDate: MealDate)
+        let newMeal = MealContentModel(MealName: MealName, MealProtein: protein, MealFat: fat, MealCarbohydrate: carbohydrate, MealKcal: MealKcal, MealDate: MealDate)
         context.insert(newMeal)
         do {
             try context.save()
             print("Meal saved successfully")
+            MealName = ""
+            MealProtein = ""
+            MealFat = ""
+            MealCarbohydrate = ""
+            MealKcal = 0.0
+            
             refreshID = UUID()
             dismiss()
         } catch {
@@ -275,9 +300,8 @@ struct AddMealView: View {
 }
 
 struct AddMealView_Previews: PreviewProvider {
-    @State static var refreshID = UUID()
     static var previews: some View {
-        AddMealView(refreshID: $refreshID)
+        AddMealView(refreshID: .constant(UUID()))
             .modelContainer(for: [MealContentModel.self, MyMealContentModel.self, ImageColorModel.self])
     }
 }

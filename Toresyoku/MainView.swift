@@ -19,8 +19,8 @@ struct MainView: View {
     @State var isError: Bool = false
     
     @State var R: Double = 0
-    @State var G: Double = 255
-    @State var B: Double = 255
+    @State var G: Double = 1
+    @State var B: Double = 1
     @State var A: Double = 1
    
     @State var refreshID = UUID()
@@ -85,9 +85,9 @@ struct MainView: View {
                 }
             }
             .background(Color(
-                            red: ImageColor.first?.R ?? 0 / 255,
-                            green: ImageColor.first?.G ?? 255 / 255,
-                            blue: ImageColor.first?.B ?? 255 / 255,
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
                             opacity: ImageColor.first?.A ?? 1
                         ))
             
@@ -134,6 +134,7 @@ struct DatePickerView: View {
             refreshID = UUID()
             datePickerPresented = false
         }
+        .foregroundColor(.black)
     }
 }
 
@@ -157,38 +158,50 @@ struct SettingView: View {
                 .padding(.top, 350)
             HStack {
                 Circle()
-                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255))
+                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255, opacity: 0.5))
                     .frame(width: 25)
                     .overlay(
                         Circle()
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .onTapGesture {
-                        selectColor0ff()
+                        selectColorBlue()
                     }
                     .padding(.horizontal, 5)
                     .padding(.top, -5)
                 Circle()
-                    .foregroundColor(Color(red: 255/255, green: 0/255, blue: 255/255))
+                    .foregroundColor(Color(red: 255/255, green: 0/255, blue: 255/255, opacity: 0.5))
                     .frame(width: 25)
                     .overlay(
                         Circle()
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .onTapGesture {
-                        selectColorf0f()
+                        selectColorPink()
                     }
                     .padding(.horizontal, 5)
                     .padding(.top, -5)
                 Circle()
-                    .foregroundColor(Color(red: 255/255, green: 255/255, blue: 0/255))
+                    .foregroundColor(Color(red: 255/255, green: 255/255, blue: 0/255, opacity: 0.5))
                     .frame(width: 25)
                     .overlay(
                         Circle()
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .onTapGesture {
-                        selectColorff0()
+                        selectColorLemon()
+                    }
+                    .padding(.horizontal, 5)
+                    .padding(.top, -5)
+                Circle()
+                    .foregroundColor(Color(red: 150/255, green: 255/255, blue: 50/255, opacity: 0.5))
+                    .frame(width: 25)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .onTapGesture {
+                        selectColorGreen()
                     }
                     .padding(.horizontal, 5)
                     .padding(.top, -5)
@@ -253,27 +266,35 @@ struct SettingView: View {
         }
     }
     
-    private func selectColor0ff() {
+    private func selectColorBlue() {
         let R: Double = 0
         let G: Double = 255
         let B: Double = 255
-        let A: Double = 1
+        let A: Double = 0.5
         replaceImageColor(R: R, G: G, B: B, A: A)
     }
 
-    private func selectColorf0f() {
+    private func selectColorPink() {
         let R: Double = 255
         let G: Double = 0
         let B: Double = 255
-        let A: Double = 1
+        let A: Double = 0.5
         replaceImageColor(R: R, G: G, B: B, A: A)
     }
 
-    private func selectColorff0() {
+    private func selectColorLemon() {
         let R: Double = 255
         let G: Double = 255
         let B: Double = 0
-        let A: Double = 1
+        let A: Double = 0.5
+        replaceImageColor(R: R, G: G, B: B, A: A)
+    }
+    
+    private func selectColorGreen() {
+        let R: Double = 150
+        let G: Double = 255
+        let B: Double = 50
+        let A: Double = 0.5
         replaceImageColor(R: R, G: G, B: B, A: A)
     }
 
@@ -286,17 +307,17 @@ struct SettingView: View {
             }
             
             // 新しい色データを作成して保存
-            let imageColorModel = ImageColorModel(R: R, G: G, B: B, A: A)
+            let imageColorModel = ImageColorModel(R: R / 255, G: G / 255, B: B / 255, A: A)
             context.insert(imageColorModel)
             
             // データを保存
             try context.save()
             
             // UIを更新
-            refreshID = UUID()
             withAnimation {
                 settingViewPresented = false
             }
+            refreshID = UUID()
         } catch {
             print("Failed to replace color: \(error.localizedDescription)")
         }

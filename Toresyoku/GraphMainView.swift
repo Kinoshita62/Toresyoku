@@ -25,8 +25,8 @@ struct GraphMainView: View {
     @State private var UserFatPercentageScrollPosition: TimeInterval = 0
     
     @State var R: Double = 0
-    @State var G: Double = 255
-    @State var B: Double = 255
+    @State var G: Double = 1
+    @State var B: Double = 1
     @State var A: Double = 1
     
     @Binding var refreshGraph: UUID
@@ -148,9 +148,9 @@ struct GraphMainView: View {
                             y: .value("kcal", data.totalKcal)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0 / 255,
-                            green: ImageColor.first?.G ?? 255 / 255,
-                            blue: ImageColor.first?.B ?? 255 / 255,
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
                             opacity: ImageColor.first?.A ?? 1
                         ))
                     }
@@ -197,9 +197,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalProtein)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0 / 255,
-                            green: ImageColor.first?.G ?? 255 / 255,
-                            blue: ImageColor.first?.B ?? 255 / 255,
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
                             opacity: ImageColor.first?.A ?? 1
                         ))
                     }
@@ -245,9 +245,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalFat)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0 / 255,
-                            green: ImageColor.first?.G ?? 255 / 255,
-                            blue: ImageColor.first?.B ?? 255 / 255,
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
                             opacity: ImageColor.first?.A ?? 1
                         ))
                     }
@@ -294,9 +294,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalCarbohydrate)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0 / 255,
-                            green: ImageColor.first?.G ?? 255 / 255,
-                            blue: ImageColor.first?.B ?? 255 / 255,
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
                             opacity: ImageColor.first?.A ?? 1
                         ))
                     }
@@ -343,9 +343,9 @@ struct GraphMainView: View {
                             y: .value("体重", data.userWeight)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0 / 255,
-                            green: ImageColor.first?.G ?? 255 / 255,
-                            blue: ImageColor.first?.B ?? 255 / 255,
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
                             opacity: ImageColor.first?.A ?? 1
                         ))
                     }
@@ -395,9 +395,9 @@ struct GraphMainView: View {
                             y: .value("体脂肪率", data.userFatPercentage)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0 / 255,
-                            green: ImageColor.first?.G ?? 255 / 255,
-                            blue: ImageColor.first?.B ?? 255 / 255,
+                            red: ImageColor.first?.R ?? 0,
+                            green: ImageColor.first?.G ?? 1,
+                            blue: ImageColor.first?.B ?? 1,
                             opacity: ImageColor.first?.A ?? 1
                         ))
                     }
