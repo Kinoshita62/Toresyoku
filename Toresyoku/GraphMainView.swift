@@ -117,19 +117,25 @@ struct GraphMainView: View {
     }
     
     private var dailyUserWeight: [(date: Date, userWeight: Double)] {
-        profiles
-            .filter { $0.UserWeight > 0 }
-            .map { profile in
-                (date: calendar.startOfDay(for: profile.UserDataAddDate), userWeight: profile.UserWeight)
-            }
+        let groupedWeights = Dictionary(grouping: profiles, by: { calendar.startOfDay(for: $0.UserDataAddDate) })
+            
+            return groupedWeights.compactMap { (date, profiles) in
+                guard let latestProfile = profiles.max(by: { $0.UserDataAddDate < $1.UserDataAddDate }) else {
+                    return nil
+                }
+                return (date: date, userWeight: latestProfile.UserWeight)
+            }.sorted(by: { $0.date < $1.date })
     }
     
     private var dailyUserFatPercentage: [(date: Date, userFatPercentage: Double)] {
-        profiles
-            .filter { $0.UserFatPercentage > 0 }
-            .map { profile in
-                (date: calendar.startOfDay(for: profile.UserDataAddDate), userFatPercentage: profile.UserFatPercentage)
-            }
+        let groupedFatPercentages = Dictionary(grouping: profiles, by: { calendar.startOfDay(for: $0.UserDataAddDate) })
+            
+            return groupedFatPercentages.compactMap { (date, profiles) in
+                guard let latestProfile = profiles.max(by: { $0.UserDataAddDate < $1.UserDataAddDate }) else {
+                    return nil
+                }
+                return (date: date, userFatPercentage: latestProfile.UserFatPercentage)
+            }.sorted(by: { $0.date < $1.date })
     }
 
     

@@ -127,9 +127,9 @@ struct MyPageMainView: View {
                 }
                 
                 NavigationLink(destination: ProfileSettingView(refreshGraph: $refreshGraph)) {
-                    Text("プロフィール編集")
+                    Text("プロフィールの編集・更新")
                         .padding(10)
-                        .frame(width: 200, height: 35)
+                        .frame(width: 250, height: 35)
                         .cornerRadius(10)
                         .foregroundColor(.black)
                         .background(Color(

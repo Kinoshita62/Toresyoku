@@ -275,26 +275,45 @@ struct ProfileSettingView: View {
                 }
             }
             
-            Button("決定") {
-                addUpdateProfile()
-                refreshGraph = UUID()
-                dismiss()
+            HStack {
+                Spacer()
+                Button("戻る") {
+                    dismiss()
+                }
+                .padding()
+                .frame(width: 100, height: 35)
+                .foregroundColor(.black)
+                .background(Color.gray .opacity(0.8))
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                
+                Spacer()
+                Button("決定") {
+                    addUpdateProfile()
+                    refreshGraph = UUID()
+                    dismiss()
+                }
+                .padding()
+                .frame(width: 150, height: 35)
+                .foregroundColor(.black)
+                .background(Color(
+                    red: ImageColor.first?.R ?? 0,
+                    green: ImageColor.first?.G ?? 1,
+                    blue: ImageColor.first?.B ?? 1,
+                    opacity: ImageColor.first?.A ?? 1
+                ))
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                Spacer()
             }
-            .padding()
-            .frame(width: 150, height: 35)
-            .foregroundColor(.black)
-            .background(Color(
-                red: ImageColor.first?.R ?? 0,
-                green: ImageColor.first?.G ?? 1,
-                blue: ImageColor.first?.B ?? 1,
-                opacity: ImageColor.first?.A ?? 1
-            ))
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
         }
+        .navigationBarBackButtonHidden(true)
         .padding(.horizontal)
         .onAppear {
             if let latestProfile = profiles.sorted(by: { $0.UserDataAddDate > $1.UserDataAddDate }).first {

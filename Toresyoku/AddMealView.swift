@@ -24,10 +24,6 @@ struct AddMealView: View {
     @State private var MealDate: Date = Date()
 
     @State var myMenuSelectModal: Bool = false
-    @State private var isKcalValid: Bool = false
-    @State private var isProteinValid: Bool = false
-    @State private var isFatValid: Bool = false
-    @State private var isCarbohydrateValid: Bool = false
     @State private var addMealModal: Bool = false
     
     @State private var MyMealName: String = ""
@@ -131,11 +127,6 @@ struct AddMealView: View {
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
-                if isProteinValid {
-                    Text("有効な値を入力してください")
-                        .foregroundColor(.red)
-                        .font(.caption)
-                }
                 Spacer()
             }
             .padding(.horizontal)
@@ -158,11 +149,6 @@ struct AddMealView: View {
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
-                if isFatValid {
-                    Text("有効な値を入力してください")
-                        .foregroundColor(.red)
-                        .font(.caption)
-                }
                 Spacer()
             }
             .padding(.horizontal)
@@ -185,11 +171,6 @@ struct AddMealView: View {
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
-                if isCarbohydrateValid {
-                    Text("有効な値を入力してください")
-                        .foregroundColor(.red)
-                        .font(.caption)
-                }
                 Spacer()
             }
             .padding(.horizontal)
@@ -210,11 +191,6 @@ struct AddMealView: View {
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("kcal")
-                if isKcalValid {
-                    Text("有効な値を入力してください")
-                        .foregroundColor(.red)
-                        .font(.caption)
-                }
                 Spacer()
             }
             .padding(.horizontal)
@@ -233,8 +209,6 @@ struct AddMealView: View {
                    RoundedRectangle(cornerRadius: 10)
                        .stroke(Color.gray, lineWidth: 1)
             )
-            Spacer()
-            
             Spacer()
         }
         .toolbar {

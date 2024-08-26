@@ -60,7 +60,7 @@ struct MyMenuSelectView: View {
                             Button(action: {
                                 selectMeal(myMealContent)
                             }) {
-                                Text("決定")
+                                Text("選択")
                             }
                             .padding(10)
                             .foregroundColor(.black)

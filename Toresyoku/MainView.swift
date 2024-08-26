@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct MainView: View {
-    
+    @AppStorage("isFirstBoot") var isFirstBoot: Bool = true
     @Query private var ImageColor: [ImageColorModel]
     
     @State var mainSelectedTag = 1
@@ -26,7 +26,6 @@ struct MainView: View {
     @State var refreshID = UUID()
     @State var refreshGraph = UUID()
     
-    
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
         appearance.backgroundColor = .white
@@ -36,74 +35,78 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                HStack {
-                    Button {
-                        datePickerPresented.toggle()
-                    } label: {
-                        Image(systemName: "calendar")
+            if isFirstBoot {
+                FirstBootView(isFirstBoot: $isFirstBoot)
+            } else {
+                VStack {
+                    HStack {
+                        Button {
+                            datePickerPresented.toggle()
+                        } label: {
+                            Image(systemName: "calendar")
+                                .foregroundColor(.black)
+                                .font(.system(size: 25))
+                        }
+                        .sheet(isPresented: $datePickerPresented) {
+                            DatePickerView(datePickerPresented: $datePickerPresented, theDate: $theDate, refreshID: $refreshID)
+                                .presentationDetents([.medium])
+                                .presentationDragIndicator(.visible)
+                        }
+                        .padding()
+                        Text(dateFormat.string(from: theDate))
                             .foregroundColor(.black)
-                            .font(.system(size: 25))
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
+                        Button {
+                            withAnimation {
+                                settingViewPresented.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .foregroundColor(.black)
+                                .font(.system(size: 25))
+                        }
+                        .padding()
                     }
-                    .sheet(isPresented: $datePickerPresented) {
-                        DatePickerView(datePickerPresented: $datePickerPresented, theDate: $theDate, refreshID: $refreshID)
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.visible)
+                    
+                    TabView(selection: $mainSelectedTag) {
+                        MealMainView(selectedDate: $theDate, refreshID: $refreshID)
+                            .tabItem {
+                                Label("食事", systemImage: "fork.knife")
+                            }
+                            .tag(1)
+                        GraphMainView(refreshGraph: $refreshGraph, refreshID: $refreshID)
+                            .tabItem {
+                                Label("グラフ", systemImage: "chart.line.uptrend.xyaxis")
+                            }.tag(2)
+                        MyPageMainView(refreshGraph: $refreshGraph)
+                            .tabItem {
+                                Label("マイページ", systemImage: "person.crop.circle")
+                            }.tag(3)
                     }
-                    .padding()
-                    Text(dateFormat.string(from: theDate))
-                        .foregroundColor(.black)
-                        .font(.title2)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    Spacer()
-                    Button {
+                }
+                .background(Color(
+                    red: ImageColor.first?.R ?? 0,
+                    green: ImageColor.first?.G ?? 1,
+                    blue: ImageColor.first?.B ?? 1,
+                    opacity: ImageColor.first?.A ?? 1
+                ))
+                
+                if settingViewPresented {
+                    GeometryReader { geometry in
+                        SettingView(settingViewPresented: $settingViewPresented, isError: $isError, refreshID: $refreshID)
+                            .frame(width: geometry.size.width * 0.5)
+                            .background(Color(red: 240/255, green: 240/255, blue: 240/255))
+                            .shadow(radius: 5)
+                            .transition(.move(edge: .trailing))
+                            .position(x: geometry.size.width - (geometry.size.width * 0.25))
+                    }
+                    .background(Color.black.opacity(0.6))
+                    .onTapGesture {
                         withAnimation {
                             settingViewPresented.toggle()
                         }
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .foregroundColor(.black)
-                            .font(.system(size: 25))
-                    }
-                    .padding()
-                }
-                
-                TabView(selection: $mainSelectedTag) {
-                    MealMainView(selectedDate: $theDate, refreshID: $refreshID)
-                        .tabItem {
-                            Label("食事", systemImage: "fork.knife")
-                        }
-                        .tag(1)
-                    GraphMainView(refreshGraph: $refreshGraph, refreshID: $refreshID)
-                        .tabItem {
-                            Label("グラフ", systemImage: "chart.line.uptrend.xyaxis")
-                        }.tag(2)
-                    MyPageMainView(refreshGraph: $refreshGraph)
-                        .tabItem {
-                            Label("マイページ", systemImage: "person.crop.circle")
-                        }.tag(3)
-                }
-            }
-            .background(Color(
-                            red: ImageColor.first?.R ?? 0,
-                            green: ImageColor.first?.G ?? 1,
-                            blue: ImageColor.first?.B ?? 1,
-                            opacity: ImageColor.first?.A ?? 1
-                        ))
-            
-            if settingViewPresented {
-                GeometryReader { geometry in
-                    SettingView(settingViewPresented: $settingViewPresented, isError: $isError, refreshID: $refreshID)
-                    .frame(width: geometry.size.width * 0.5)
-                    .background(Color(red: 240/255, green: 240/255, blue: 240/255))
-                    .shadow(radius: 5)
-                    .transition(.move(edge: .trailing))
-                    .position(x: geometry.size.width - (geometry.size.width * 0.25))
-                }
-                .background(Color.black.opacity(0.6))
-                .onTapGesture {
-                    withAnimation {
-                        settingViewPresented.toggle()
                     }
                 }
             }
@@ -154,7 +157,7 @@ struct SettingView: View {
     var body: some View {
         VStack {
             Text("イメージカラーの変更")
-                .padding(.top, 350)
+                .padding(.top, 250)
             HStack {
                 Circle()
                     .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255, opacity: 0.5))
@@ -215,16 +218,16 @@ struct SettingView: View {
                     title: Text("注意!"),
                     message: Text("消去したデータは復元できません"),
                     primaryButton: .destructive(Text("消去する"), action:
-                        {deleteAllData()
-                        withAnimation {
-                            settingViewPresented = false
-                        }
-                    }),
+                                                    {deleteAllData()
+                                                        withAnimation {
+                                                            settingViewPresented = false
+                                                        }
+                                                    }),
                     secondaryButton: .cancel(Text("キャンセル"), action:
-                        {withAnimation {
-                            settingViewPresented = false
-                        }
-                    })
+                                                {withAnimation {
+                                                    settingViewPresented = false
+                                                }
+                                                })
                 )
             }
             .padding(.top, 20)
@@ -235,8 +238,8 @@ struct SettingView: View {
                 }
             }
             .foregroundColor(.black)
-            .padding(.top, 100)
-            .padding(.bottom, 50)
+            .padding(.top, 20)
+            .padding(.bottom, 20)
         }
     }
     
@@ -299,20 +302,13 @@ struct SettingView: View {
 
     private func replaceImageColor(R: Double, G: Double, B: Double, A: Double) {
         do {
-            // 既存の色データを削除
             let existingColors = try context.fetch(FetchDescriptor<ImageColorModel>())
             for color in existingColors {
                 context.delete(color)
             }
-            
-            // 新しい色データを作成して保存
             let imageColorModel = ImageColorModel(R: R / 255, G: G / 255, B: B / 255, A: A)
             context.insert(imageColorModel)
-            
-            // データを保存
             try context.save()
-            
-            // UIを更新
             withAnimation {
                 settingViewPresented = false
             }
