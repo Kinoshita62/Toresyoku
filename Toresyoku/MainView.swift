@@ -128,13 +128,12 @@ struct DatePickerView: View {
         DatePicker("", selection: $theDate, displayedComponents: .date)
             .environment(\.locale, Locale(identifier: "ja_JP"))
             .datePickerStyle(.graphical)
+            .onChange(of: theDate) {
+                refreshID = UUID()
+                datePickerPresented = false
+            }
         Divider()
         Spacer()
-        Button("決定") {
-            refreshID = UUID()
-            datePickerPresented = false
-        }
-        .foregroundColor(.black)
     }
 }
 

@@ -71,9 +71,9 @@ struct MyMenuSelectView: View {
                                 opacity: ImageColor.first?.A ?? 1
                             ))
                             .cornerRadius(10)
-                            .overlay(  // 枠線を追加
+                            .overlay(
                                 RoundedRectangle(cornerRadius: 6)
-                                    .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                                    .stroke(Color.gray, lineWidth: 1)
                             )
                         }
                     }
@@ -89,7 +89,7 @@ struct MyMenuSelectView: View {
                 Text("マイメニューの追加")
             }
             .padding(.horizontal)
-            .frame(width: 200, height: 35)
+            .frame(width: 180, height: 35)
             .foregroundColor(.black)
             .background(Color(
                 red: ImageColor.first?.R ?? 0,
@@ -157,7 +157,7 @@ struct MyMenuAddView: View {
                 Text("メニュー")
                 ZStack(alignment: .leading) {
                     TextField("", text: $MyMealName)
-                        .foregroundColor(.black)  // 通常のテキストの色を設定
+                        .foregroundColor(.black)
                         .padding(4)
                         .background(.white, in: .rect(cornerRadius: 6))
                         .font(.system(size: 25))
@@ -186,9 +186,9 @@ struct MyMenuAddView: View {
                 .onChange(of: MyMealProtein) {
                     calculateMyKcal()
                 }
-                .overlay(  // 枠線を追加
+                .overlay(
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                        .stroke(Color.gray, lineWidth: 1)
                 )
             Text("g")
             Spacer()
@@ -208,9 +208,9 @@ struct MyMenuAddView: View {
                 .onChange(of: MyMealFat) {
                     calculateMyKcal()
                 }
-                .overlay(  // 枠線を追加
+                .overlay(
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                        .stroke(Color.gray, lineWidth: 1)
                 )
             Text("g")
             Spacer()
@@ -230,9 +230,9 @@ struct MyMenuAddView: View {
                 .onChange(of: MyMealCarbohydrate) {
                     calculateMyKcal()
                 }
-                .overlay(  // 枠線を追加
+                .overlay(
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                        .stroke(Color.gray, lineWidth: 1)
                 )
             Text("g")
             Spacer()
@@ -266,7 +266,7 @@ struct MyMenuAddView: View {
             Text("決定")
         }
         .padding(10)
-        .frame(width: 200, height: 35)
+        .frame(width: 150, height: 35)
         .foregroundColor(.black)
         .background(myMenuAddButtonBackgroundColor)
         .cornerRadius(10)

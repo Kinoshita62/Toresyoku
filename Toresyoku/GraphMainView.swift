@@ -60,12 +60,9 @@ struct GraphMainView: View {
     }
     
     private var dailyCalories: [(date: Date, totalKcal: Double)] {
-//        let calendar = Calendar.current
-        // mealContentsから一番古い日付を取得
         guard let firstMealDate = mealContents.min(by: { $0.MealDate < $1.MealDate })?.MealDate else {
             return []
         }
-        // その日付から今日までのすべての日付を生成
         let today = calendar.startOfDay(for: Date())
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
@@ -121,7 +118,7 @@ struct GraphMainView: View {
     
     private var dailyUserWeight: [(date: Date, userWeight: Double)] {
         profiles
-            .filter { $0.UserWeight > 0 }  // データが存在するものだけをフィルタリング
+            .filter { $0.UserWeight > 0 }
             .map { profile in
                 (date: calendar.startOfDay(for: profile.UserDataAddDate), userWeight: profile.UserWeight)
             }
@@ -129,7 +126,7 @@ struct GraphMainView: View {
     
     private var dailyUserFatPercentage: [(date: Date, userFatPercentage: Double)] {
         profiles
-            .filter { $0.UserFatPercentage > 0 }  // データが存在するものだけをフィルタリング
+            .filter { $0.UserFatPercentage > 0 }
             .map { profile in
                 (date: calendar.startOfDay(for: profile.UserDataAddDate), userFatPercentage: profile.UserFatPercentage)
             }
@@ -154,7 +151,6 @@ struct GraphMainView: View {
                             opacity: ImageColor.first?.A ?? 1
                         ))
                     }
-                    // ターゲットカロリーの水平線を追加
                     RuleMark(y: .value("ターゲットkcal", targetKcal))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
                         .foregroundStyle(Color("Text"))

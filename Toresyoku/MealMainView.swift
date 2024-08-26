@@ -11,9 +11,6 @@ import SwiftData
 struct MealMainView: View {
 
     @Environment(\.modelContext) private var context
-//    @Query private var mealContents: [MealContentModel]
-//    @Query private var profiles: [ProfileModel]
-//    @Query private var myMealContents: [MyMealContentModel]
     @Query private var ImageColor: [ImageColorModel]
     
     @State var R: Double = 0

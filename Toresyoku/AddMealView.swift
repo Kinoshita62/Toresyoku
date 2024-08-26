@@ -64,7 +64,7 @@ struct AddMealView: View {
                 Text("メニュー")
                 ZStack(alignment: .leading) {
                     TextField("", text: $MealName)
-                        .foregroundColor(.black)  // 通常のテキストの色を設定
+                        .foregroundColor(.black)
                         .padding(4)
                         .background(.white, in: .rect(cornerRadius: 6))
                         .font(.system(size: 25))
@@ -83,7 +83,7 @@ struct AddMealView: View {
                 Text("マイメニューから選択")
                     .foregroundColor(.black)
                     .padding(10)
-                    .frame(width: 200, height: 40)
+                    .frame(width: 180, height: 35)
                     .background(Color(
                         red: ImageColor.first?.R ?? 0,
                         green: ImageColor.first?.G ?? 1,
@@ -126,9 +126,9 @@ struct AddMealView: View {
                     .onChange(of: MealProtein) {
                         calculateKcal()
                     }
-                    .overlay(  // 枠線を追加
+                    .overlay(
                            RoundedRectangle(cornerRadius: 6)
-                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                               .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
                 if isProteinValid {
@@ -153,9 +153,9 @@ struct AddMealView: View {
                     .onChange(of: MealFat) {
                         calculateKcal()
                     }
-                    .overlay(  // 枠線を追加
+                    .overlay(
                            RoundedRectangle(cornerRadius: 6)
-                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                               .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
                 if isFatValid {
@@ -180,9 +180,9 @@ struct AddMealView: View {
                     .onChange(of: MealCarbohydrate) {
                         calculateKcal()
                     }
-                    .overlay(  // 枠線を追加
+                    .overlay(
                            RoundedRectangle(cornerRadius: 6)
-                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                               .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
                 if isCarbohydrateValid {
@@ -205,9 +205,9 @@ struct AddMealView: View {
                     .foregroundColor(.black)
                     .font(.system(size: 20))
                     .keyboardType(.decimalPad)
-                    .overlay(  // 枠線を追加
+                    .overlay(
                            RoundedRectangle(cornerRadius: 6)
-                               .stroke(Color.gray, lineWidth: 1)  // 枠線の色と幅を設定
+                               .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("kcal")
                 if isKcalValid {
@@ -224,7 +224,7 @@ struct AddMealView: View {
                 addMeal()
             }
             .padding()
-            .frame(width: 200, height: 35)
+            .frame(width: 150, height: 35)
             .foregroundColor(.black)
             .background(buttonBackgroundColor)
             .cornerRadius(10)

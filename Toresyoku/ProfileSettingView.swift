@@ -39,14 +39,24 @@ struct ProfileSettingView: View {
     @State var B: Double = 1
     @State var A: Double = 1
     
+    @State private var dateSelectPresented: Bool = false
+    
     @Binding var refreshGraph: UUID
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
-                DatePicker("", selection: $UserDataAddDate, displayedComponents: [.date])
-                    .environment(\.locale, Locale(identifier: "ja_JP"))
+                Button {
+                    dateSelectPresented.toggle()
+                } label: {
+                    Text(dateFormat.string(from: UserDataAddDate))
+                }
+                .sheet(isPresented: $dateSelectPresented) {
+                    DateSelectView(UserDataAddDate: $UserDataAddDate)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+                }
                 Text("時点")
             }
             
@@ -271,7 +281,7 @@ struct ProfileSettingView: View {
                 dismiss()
             }
             .padding()
-            .frame(width: 200, height: 35)
+            .frame(width: 150, height: 35)
             .foregroundColor(.black)
             .background(Color(
                 red: ImageColor.first?.R ?? 0,
@@ -287,7 +297,6 @@ struct ProfileSettingView: View {
         }
         .padding(.horizontal)
         .onAppear {
-            // profiles配列を日付でソートし、一番最新のデータを取得
             if let latestProfile = profiles.sorted(by: { $0.UserDataAddDate > $1.UserDataAddDate }).first {
                 UserTall = String(latestProfile.UserTall)
                 UserWeight = String(latestProfile.UserWeight)
@@ -303,7 +312,14 @@ struct ProfileSettingView: View {
                 TargetMealCarbohydrate = String(latestProfile.TargetMealCarbohydrate)
             }
         }
-
+    }
+    
+    var dateFormat: DateFormatter {
+        let df = DateFormatter()
+        df.timeStyle = .none
+        df.dateStyle = .short
+        df.locale = Locale(identifier: "ja_JP")
+        return df
     }
     
     private func hideKeyboard() {
@@ -385,9 +401,7 @@ struct ProfileSettingView: View {
         let targetMealProtein = Double(TargetMealProtein) ?? 0
         let targetMealFat = Double(TargetMealFat) ?? 0
         let targetMealCarbohydrate = Double(TargetMealCarbohydrate) ?? 0
-        // 既存のデータがあるか確認する
         if let existingProfile = profiles.first(where: { $0.UserDataAddDate == UserDataAddDate }) {
-            // 既存のデータを更新する
             existingProfile.UserTall = userTall
             existingProfile.UserWeight = userWeight
             existingProfile.UserBMI = userBMI
@@ -401,7 +415,6 @@ struct ProfileSettingView: View {
             existingProfile.TargetMealFat = targetMealFat
             existingProfile.TargetMealCarbohydrate = targetMealCarbohydrate
         } else {
-            // 新しいデータを挿入する
             let newProfile = ProfileModel(
                 UserDataAddDate: UserDataAddDate,
                 UserTall: userTall,
@@ -426,6 +439,19 @@ struct ProfileSettingView: View {
         }
     }
 
+}
+
+struct DateSelectView: View {
+    @Environment(\.dismiss) var dismiss
+    @Binding var UserDataAddDate: Date
+    var body: some View {
+        DatePicker("", selection: $UserDataAddDate, displayedComponents: [.date])
+            .environment(\.locale, Locale(identifier: "ja_JP"))
+            .datePickerStyle(.graphical)
+            .onChange(of: UserDataAddDate) {
+                dismiss()
+            }
+    }
 }
 
 struct ProfileSettingView_Previews: PreviewProvider {

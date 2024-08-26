@@ -34,6 +34,7 @@ struct MyPageMainView: View {
                         Text(dateFormat.string(from: profile.UserDataAddDate))
                         Text("時点")
                     }
+                    .padding()
                     
                     HStack {
                         Text("身長")

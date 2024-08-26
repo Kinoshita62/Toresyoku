@@ -47,7 +47,12 @@ struct MealProgressView: View {
             }
             .padding(.horizontal)
             ZStack {
-                Rectangle().stroke(.gray)
+                Rectangle().stroke(Color(
+                    red: ImageColor.first?.R ?? 0,
+                    green: ImageColor.first?.G ?? 1,
+                    blue: ImageColor.first?.B ?? 1,
+                    opacity: ImageColor.first?.A ?? 1
+                ))
                 Rectangle()
                     .foregroundColor(Color(
                         red: ImageColor.first?.R ?? 0,
@@ -58,6 +63,7 @@ struct MealProgressView: View {
                     .scaleEffect(x: MealKcalProgress, y: 1.0, anchor: .leading)
             }
             .frame(width: 300, height: 20)
+            
             
             HStack {
                 Text("たんぱく質")
@@ -70,7 +76,12 @@ struct MealProgressView: View {
             }
             .padding(.horizontal)
             ZStack {
-                Rectangle().stroke(.gray)
+                Rectangle().stroke(Color(
+                    red: ImageColor.first?.R ?? 0,
+                    green: ImageColor.first?.G ?? 1,
+                    blue: ImageColor.first?.B ?? 1,
+                    opacity: ImageColor.first?.A ?? 1
+                ))
                 Rectangle()
                     .foregroundColor(Color(
                         red: ImageColor.first?.R ?? 0,
@@ -93,7 +104,12 @@ struct MealProgressView: View {
             }
             .padding(.horizontal)
             ZStack {
-                Rectangle().stroke(.gray)
+                Rectangle().stroke(Color(
+                    red: ImageColor.first?.R ?? 0,
+                    green: ImageColor.first?.G ?? 1,
+                    blue: ImageColor.first?.B ?? 1,
+                    opacity: ImageColor.first?.A ?? 1
+                ))
                 Rectangle()
                     .foregroundColor(Color(
                         red: ImageColor.first?.R ?? 0,
@@ -116,7 +132,12 @@ struct MealProgressView: View {
             }
             .padding(.horizontal)
             ZStack {
-                Rectangle().stroke(.gray)
+                Rectangle().stroke(Color(
+                    red: ImageColor.first?.R ?? 0,
+                    green: ImageColor.first?.G ?? 1,
+                    blue: ImageColor.first?.B ?? 1,
+                    opacity: ImageColor.first?.A ?? 1
+                ))
                 Rectangle()
                     .foregroundColor(Color(
                         red: ImageColor.first?.R ?? 0,
@@ -128,14 +149,13 @@ struct MealProgressView: View {
             }
             .frame(width: 300, height: 20)
         }
-        .onChange(of: profiles) {
+        .onChange(of: refreshID) {
             calculateMealKcalProgress()
         }
-//        .onAppear {
-////            refreshID = UUID()
-//            calculateMealKcalProgress()
-//        }
-       
+        .onAppear {
+            refreshID = UUID()
+            calculateMealKcalProgress()
+        }
     }
    
     
