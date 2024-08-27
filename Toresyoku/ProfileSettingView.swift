@@ -37,7 +37,7 @@ struct ProfileSettingView: View {
     @State var R: Double = 0
     @State var G: Double = 1
     @State var B: Double = 1
-    @State var A: Double = 1
+    @State var A: Double = 0.2
     
     @State private var dateSelectPresented: Bool = false
     
@@ -51,6 +51,7 @@ struct ProfileSettingView: View {
                     dateSelectPresented.toggle()
                 } label: {
                     Text(dateFormat.string(from: UserDataAddDate))
+                        .font(.title3)
                 }
                 .sheet(isPresented: $dateSelectPresented) {
                     DateSelectView(UserDataAddDate: $UserDataAddDate)
@@ -58,15 +59,18 @@ struct ProfileSettingView: View {
                     .presentationDragIndicator(.visible)
                 }
                 Text("時点")
+                    .font(.title3)
             }
             
             HStack {
                 Text("身長")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $UserTall)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -75,6 +79,7 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("cm  ")
+                    .font(.title3)
             }
             .onChange(of: UserTall) {
                 calculateBMI()
@@ -83,11 +88,13 @@ struct ProfileSettingView: View {
             
             HStack {
                 Text("体重")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $UserWeight)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -96,6 +103,7 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("kg   ")
+                    .font(.title3)
             }
             .onChange(of: UserWeight) {
                 calculateBMI()
@@ -105,11 +113,13 @@ struct ProfileSettingView: View {
             
             HStack {
                 Text("体脂肪率")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $UserFatPercentage)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -118,6 +128,7 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("%    ")
+                    .font(.title3)
             }
             .onChange(of: UserFatPercentage) {
                 calculateLeanBodyMass()
@@ -140,11 +151,13 @@ struct ProfileSettingView: View {
             
             HStack {
                 Text("目標体重")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $TargetWeight)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -153,15 +166,18 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("kg   ")
+                    .font(.title3)
             }
             
             HStack {
                 Text("目標体脂肪率")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $TargetFatPercentage)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -170,15 +186,18 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("%   ")
+                    .font(.title3)
             }
             
             HStack {
-                Text("目標摂取カロリー（一日あたり）")
+                Text("1日の目標摂取カロリー")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $TargetMealKcal)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -187,11 +206,12 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("kcal")
+                    .font(.title3)
             }
             
             HStack {
                 Spacer()
-                Text("PFCを自動計算")
+                Text("PFCを自動入力")
                     .foregroundColor(.gray)
                 Button("3：2：5") {
                     calculate325()
@@ -215,12 +235,14 @@ struct ProfileSettingView: View {
             }
             
             HStack {
-                Text("たんぱく質の目標摂取量（一日あたり）")
+                Text("1日の目標たんぱく質摂取量")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $TargetMealProtein)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -229,15 +251,18 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("g    ")
+                    .font(.title3)
             }
             
             HStack {
-                Text("脂質の目標摂取量（一日あたり）")
+                Text("1日の目標脂質摂取量")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $TargetMealFat)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -246,15 +271,18 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("g    ")
+                    .font(.title3)
             }
             
             HStack {
-                Text("炭水化物の目標摂取量（一日あたり）")
+                Text("1日の目標炭水化物摂取量")
+                    .font(.title3)
                 Spacer()
                 TextField("", text: $TargetMealCarbohydrate)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
@@ -263,8 +291,10 @@ struct ProfileSettingView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 Text("g    ")
+                    .font(.title3)
                     
             }
+            .padding(.bottom, 30)
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
@@ -280,6 +310,7 @@ struct ProfileSettingView: View {
                 Button("戻る") {
                     dismiss()
                 }
+                .font(.title3)
                 .padding()
                 .frame(width: 100, height: 35)
                 .foregroundColor(.black)
@@ -296,6 +327,7 @@ struct ProfileSettingView: View {
                     refreshGraph = UUID()
                     dismiss()
                 }
+                .font(.title3)
                 .padding()
                 .frame(width: 150, height: 35)
                 .foregroundColor(.black)
@@ -303,7 +335,7 @@ struct ProfileSettingView: View {
                     red: ImageColor.first?.R ?? 0,
                     green: ImageColor.first?.G ?? 1,
                     blue: ImageColor.first?.B ?? 1,
-                    opacity: ImageColor.first?.A ?? 1
+                    opacity: ImageColor.first?.A ?? 0.2
                 ))
                 .cornerRadius(10)
                 .overlay(

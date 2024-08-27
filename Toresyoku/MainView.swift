@@ -21,7 +21,7 @@ struct MainView: View {
     @State var R: Double = 0
     @State var G: Double = 1
     @State var B: Double = 1
-    @State var A: Double = 1
+    @State var A: Double = 0.2
    
     @State var refreshID = UUID()
     @State var refreshGraph = UUID()
@@ -29,6 +29,9 @@ struct MainView: View {
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
         appearance.backgroundColor = .white
+        appearance.stackedLayoutAppearance.normal.iconColor = .gray
+        appearance.stackedLayoutAppearance.selected.iconColor = .black
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         UITabBar.appearance().scrollEdgeAppearance = appearance
         UITabBar.appearance().standardAppearance = appearance
     }
@@ -45,7 +48,7 @@ struct MainView: View {
                         } label: {
                             Image(systemName: "calendar")
                                 .foregroundColor(.black)
-                                .font(.system(size: 25))
+                                .font(.system(size: 30))
                         }
                         .sheet(isPresented: $datePickerPresented) {
                             DatePickerView(datePickerPresented: $datePickerPresented, theDate: $theDate, refreshID: $refreshID)
@@ -65,7 +68,7 @@ struct MainView: View {
                         } label: {
                             Image(systemName: "gearshape")
                                 .foregroundColor(.black)
-                                .font(.system(size: 25))
+                                .font(.system(size: 30))
                         }
                         .padding()
                     }
@@ -90,7 +93,7 @@ struct MainView: View {
                     red: ImageColor.first?.R ?? 0,
                     green: ImageColor.first?.G ?? 1,
                     blue: ImageColor.first?.B ?? 1,
-                    opacity: ImageColor.first?.A ?? 1
+                    opacity: ImageColor.first?.A ?? 0.2
                 ))
                 
                 if settingViewPresented {
@@ -148,7 +151,7 @@ struct SettingView: View {
     @State var R: Double = 0
     @State var G: Double = 255
     @State var B: Double = 255
-    @State var A: Double = 1
+    @State var A: Double = 0.2
     
     @Binding var settingViewPresented: Bool
     @Binding var isError: Bool
@@ -156,11 +159,12 @@ struct SettingView: View {
     
     var body: some View {
         VStack {
-            Text("イメージカラーの変更")
+            Text("イメージカラー変更")
+                .font(.title3)
                 .padding(.top, 250)
             HStack {
                 Circle()
-                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255, opacity: 0.5))
+                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -172,7 +176,7 @@ struct SettingView: View {
                     .padding(.horizontal, 5)
                     .padding(.top, -5)
                 Circle()
-                    .foregroundColor(Color(red: 255/255, green: 0/255, blue: 255/255, opacity: 0.5))
+                    .foregroundColor(Color(red: 255/255, green: 0/255, blue: 255/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -184,7 +188,7 @@ struct SettingView: View {
                     .padding(.horizontal, 5)
                     .padding(.top, -5)
                 Circle()
-                    .foregroundColor(Color(red: 255/255, green: 255/255, blue: 0/255, opacity: 0.5))
+                    .foregroundColor(Color(red: 255/255, green: 255/255, blue: 0/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -196,7 +200,7 @@ struct SettingView: View {
                     .padding(.horizontal, 5)
                     .padding(.top, -5)
                 Circle()
-                    .foregroundColor(Color(red: 150/255, green: 255/255, blue: 50/255, opacity: 0.5))
+                    .foregroundColor(Color(red: 150/255, green: 255/255, blue: 50/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -212,22 +216,20 @@ struct SettingView: View {
             Button("データの初期化") {
                 isError.toggle()
             }
+            .font(.title3)
             .foregroundColor(.black)
             .alert(isPresented: $isError) {
                 Alert(
                     title: Text("注意!"),
                     message: Text("消去したデータは復元できません"),
-                    primaryButton: .destructive(Text("消去する"), action:
-                                                    {deleteAllData()
-                                                        withAnimation {
-                                                            settingViewPresented = false
-                                                        }
-                                                    }),
-                    secondaryButton: .cancel(Text("キャンセル"), action:
-                                                {withAnimation {
-                                                    settingViewPresented = false
-                                                }
-                                                })
+                    primaryButton: .destructive(Text("消去する"), action: {deleteAllData()
+                        withAnimation {
+                            settingViewPresented = false
+                        }
+                    }),
+                    secondaryButton: .cancel(Text("キャンセル"), action: {withAnimation {
+                        settingViewPresented = false}
+                    })
                 )
             }
             .padding(.top, 20)
@@ -237,6 +239,7 @@ struct SettingView: View {
                     settingViewPresented = false
                 }
             }
+            .font(.title3)
             .foregroundColor(.black)
             .padding(.top, 20)
             .padding(.bottom, 20)
@@ -272,7 +275,7 @@ struct SettingView: View {
         let R: Double = 0
         let G: Double = 255
         let B: Double = 255
-        let A: Double = 0.5
+        let A: Double = 0.2
         replaceImageColor(R: R, G: G, B: B, A: A)
     }
 
@@ -280,7 +283,7 @@ struct SettingView: View {
         let R: Double = 255
         let G: Double = 0
         let B: Double = 255
-        let A: Double = 0.5
+        let A: Double = 0.2
         replaceImageColor(R: R, G: G, B: B, A: A)
     }
 
@@ -288,7 +291,7 @@ struct SettingView: View {
         let R: Double = 255
         let G: Double = 255
         let B: Double = 0
-        let A: Double = 0.5
+        let A: Double = 0.2
         replaceImageColor(R: R, G: G, B: B, A: A)
     }
     
@@ -296,7 +299,7 @@ struct SettingView: View {
         let R: Double = 150
         let G: Double = 255
         let B: Double = 50
-        let A: Double = 0.5
+        let A: Double = 0.2
         replaceImageColor(R: R, G: G, B: B, A: A)
     }
 

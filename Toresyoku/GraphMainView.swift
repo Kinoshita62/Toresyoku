@@ -143,6 +143,7 @@ struct GraphMainView: View {
         ScrollView {
             VStack {
                 Text("カロリー摂取量（一日あたり）")
+                    .font(.title3)
                     .padding(.top, 25)
                 Chart {
                     ForEach(dailyCalories, id: \.date) { data in
@@ -154,7 +155,7 @@ struct GraphMainView: View {
                             red: ImageColor.first?.R ?? 0,
                             green: ImageColor.first?.G ?? 1,
                             blue: ImageColor.first?.B ?? 1,
-                            opacity: ImageColor.first?.A ?? 1
+                            opacity: 1
                         ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetKcal))
@@ -191,6 +192,7 @@ struct GraphMainView: View {
                 .frame(height: 200)
                 
                 Text("たんぱく質摂取量（一日あたり）")
+                    .font(.title3)
                     .padding(.top, 50)
                 Chart {
                     ForEach(dailyProtein, id: \.date) { data in
@@ -202,7 +204,7 @@ struct GraphMainView: View {
                             red: ImageColor.first?.R ?? 0,
                             green: ImageColor.first?.G ?? 1,
                             blue: ImageColor.first?.B ?? 1,
-                            opacity: ImageColor.first?.A ?? 1
+                            opacity: 1
                         ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetProtein))
@@ -239,6 +241,7 @@ struct GraphMainView: View {
                 .frame(height: 200)
             
                 Text("脂質摂取量（一日あたり）")
+                    .font(.title3)
                     .padding(.top, 50)
                 Chart {
                     ForEach(dailyFat, id: \.date) { data in
@@ -250,7 +253,7 @@ struct GraphMainView: View {
                             red: ImageColor.first?.R ?? 0,
                             green: ImageColor.first?.G ?? 1,
                             blue: ImageColor.first?.B ?? 1,
-                            opacity: ImageColor.first?.A ?? 1
+                            opacity: 1
                         ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetFat))
@@ -288,6 +291,7 @@ struct GraphMainView: View {
        
                 
                 Text("炭水化物摂取量（一日あたり）")
+                    .font(.title3)
                     .padding(.top, 50)
                 Chart {
                     ForEach(dailyCarbohydrate, id: \.date) { data in
@@ -299,7 +303,7 @@ struct GraphMainView: View {
                             red: ImageColor.first?.R ?? 0,
                             green: ImageColor.first?.G ?? 1,
                             blue: ImageColor.first?.B ?? 1,
-                            opacity: ImageColor.first?.A ?? 1
+                            opacity: 1
                         ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetCarbohydrate))
@@ -336,6 +340,7 @@ struct GraphMainView: View {
                 .frame(height: 200)
                 
                 Text("体重")
+                    .font(.title3)
                     .padding(.top, 50)
                 Spacer()
                 Chart {
@@ -348,7 +353,7 @@ struct GraphMainView: View {
                             red: ImageColor.first?.R ?? 0,
                             green: ImageColor.first?.G ?? 1,
                             blue: ImageColor.first?.B ?? 1,
-                            opacity: ImageColor.first?.A ?? 1
+                            opacity: 1
                         ))
                     }
                     RuleMark(y: .value("目標体重", targetUserWeight))
@@ -389,6 +394,7 @@ struct GraphMainView: View {
 
 
                 Text("体脂肪率")
+                    .font(.title3)
                     .padding(.top, 50)
                 Chart {
                     ForEach(dailyUserFatPercentage, id: \.date) { data in
@@ -400,7 +406,7 @@ struct GraphMainView: View {
                             red: ImageColor.first?.R ?? 0,
                             green: ImageColor.first?.G ?? 1,
                             blue: ImageColor.first?.B ?? 1,
-                            opacity: ImageColor.first?.A ?? 1
+                            opacity: 1
                         ))
                     }
                     RuleMark(y: .value("目標体脂肪率", targetFatPercentage))

@@ -25,7 +25,7 @@ struct MyMenuSelectView: View {
     @State var R: Double = 0
     @State var G: Double = 1
     @State var B: Double = 1
-    @State var A: Double = 1
+    @State var A: Double = 0.2
     
     @Binding var selectedMealName: String
     @Binding var selectedMealProtein:String
@@ -35,6 +35,8 @@ struct MyMenuSelectView: View {
     
     @State var MyMenuAddViewPresented: Bool = false
     
+    @State private var errorMessage: String?
+    
     var body: some View {
         VStack {
             List {
@@ -43,38 +45,43 @@ struct MyMenuSelectView: View {
                         HStack {
                             VStack {
                                 Spacer()
-                                Text(myMealContent.MyMealName)
+                                Text(truncatedText(myMealContent.MyMealName))
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
                                 Spacer()
                                 Text("\(myMealContent.MyMealKcal, specifier: "%.1f") kcal")
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
                                 Spacer()
                             }
                             .font(.title3)
                             Spacer()
                             VStack {
                                 Text("たんぱく質: \(myMealContent.MyMealProtein, specifier: "%.1f") g")
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
                                 Text("脂質: \(myMealContent.MyMealFat, specifier: "%.1f") g")
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
                                 Text("炭水化物: \(myMealContent.MyMealCarbohydrate, specifier: "%.1f") g")
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
                             }
                             .font(.system(size: 15))
                             Spacer()
-                            Button(action: {
-                                selectMeal(myMealContent)
-                            }) {
-                                Text("選択")
+                            HStack(spacing: 15) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.black)
+                                    .onTapGesture {
+                                        selectMeal(myMealContent)
+                                    }
+                                Image(systemName: "trash")
+                                    .foregroundColor(.gray)
+                                    .onTapGesture {
+                                        deleteMyMeal(myMealContent)
+                                    }
                             }
-                            .padding(10)
-                            .foregroundColor(.black)
-                            .background(Color(
-                                red: ImageColor.first?.R ?? 0,
-                                green: ImageColor.first?.G ?? 1,
-                                blue: ImageColor.first?.B ?? 1,
-                                opacity: ImageColor.first?.A ?? 1
-                            ))
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
+                            .font(.title2)
                         }
                     }
                     .listRowSeparatorTint(Color("Text"))
@@ -88,14 +95,15 @@ struct MyMenuSelectView: View {
             }) {
                 Text("マイメニューの追加")
             }
+            .font(.title3)
             .padding(.horizontal)
-            .frame(width: 180, height: 35)
+            .frame(width: 210, height: 35)
             .foregroundColor(.black)
             .background(Color(
                 red: ImageColor.first?.R ?? 0,
                 green: ImageColor.first?.G ?? 1,
                 blue: ImageColor.first?.B ?? 1,
-                opacity: ImageColor.first?.A ?? 1
+                opacity: ImageColor.first?.A ?? 0.2
             ))
             .cornerRadius(10)
             .overlay(
@@ -110,7 +118,13 @@ struct MyMenuSelectView: View {
         }
     }
     
-    
+    private func truncatedText(_ text: String) -> String {
+            if text.count > 6 {
+                return String(text.prefix(6)) + "…"
+            } else {
+                return text
+            }
+        }
     
     private func selectMeal(_ myMealContent: MyMealContentModel) {
         selectedMealName = myMealContent.MyMealName
@@ -119,6 +133,15 @@ struct MyMenuSelectView: View {
         selectedMealCarbohydrate = String(format: "%.1f", myMealContent.MyMealCarbohydrate)
         selectedMealKcal = myMealContent.MyMealKcal
         presentation.wrappedValue.dismiss()
+    }
+    
+    private func deleteMyMeal(_ myMealContent: MyMealContentModel) {
+        do {
+            context.delete(myMealContent)
+            try context.save()
+        } catch {
+            errorMessage = "削除に失敗しました: \(error.localizedDescription)"
+        }
     }
 }
 
@@ -138,8 +161,8 @@ struct MyMenuAddView: View {
     @State var R: Double = 0
     @State var G: Double = 1
     @State var B: Double = 1
-    @State var A: Double = 1
-    
+    @State var A: Double = 0.2
+
     @Binding var MyMenuAddViewPresented: Bool
     
     var myMenuAddButtonBackgroundColor: Color {
@@ -147,7 +170,7 @@ struct MyMenuAddView: View {
             red: ImageColor.first?.R ?? 0,
             green: ImageColor.first?.G ?? 1,
             blue: ImageColor.first?.B ?? 1,
-            opacity: ImageColor.first?.A ?? 1
+            opacity: ImageColor.first?.A ?? 0.2
         ) : Color.gray
     }
     
@@ -155,8 +178,10 @@ struct MyMenuAddView: View {
         VStack {
             HStack {
                 Text("メニュー")
+                    .font(.title3)
                 ZStack(alignment: .leading) {
                     TextField("", text: $MyMealName)
+                        .font(.title3)
                         .foregroundColor(.black)
                         .padding(4)
                         .background(.white, in: .rect(cornerRadius: 6))
@@ -175,15 +200,20 @@ struct MyMenuAddView: View {
         
         HStack {
             Text("たんぱく質")
+                .font(.title3)
             TextField("", text: $MyMealProtein)
+                .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
-                .frame(width: 60)
+                .frame(width: 80)
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .onChange(of: MyMealProtein) {
+                    if MyMealProtein.count > 4 {
+                        MyMealProtein = String(MyMealProtein.prefix(4))
+                    }
                     calculateMyKcal()
                 }
                 .overlay(
@@ -191,21 +221,27 @@ struct MyMenuAddView: View {
                         .stroke(Color.gray, lineWidth: 1)
                 )
             Text("g")
+                .font(.title3)
             Spacer()
         }
         .padding(.horizontal)
         
         HStack {
             Text("脂質")
+                .font(.title3)
             TextField("", text: $MyMealFat)
+                .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
-                .frame(width: 60)
+                .frame(width: 80)
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .onChange(of: MyMealFat) {
+                    if MyMealFat.count > 4 {
+                        MyMealFat = String(MyMealFat.prefix(4))
+                    }
                     calculateMyKcal()
                 }
                 .overlay(
@@ -213,21 +249,27 @@ struct MyMenuAddView: View {
                         .stroke(Color.gray, lineWidth: 1)
                 )
             Text("g")
+                .font(.title3)
             Spacer()
         }
         .padding(.horizontal)
         
         HStack {
             Text("炭水化物")
+                .font(.title3)
             TextField("", text: $MyMealCarbohydrate)
+                .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
-                .frame(width: 60)
+                .frame(width: 80)
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .onChange(of: MyMealCarbohydrate) {
+                    if MyMealCarbohydrate.count > 4 {
+                        MyMealCarbohydrate = String(MyMealCarbohydrate.prefix(4))
+                    }
                     calculateMyKcal()
                 }
                 .overlay(
@@ -235,16 +277,19 @@ struct MyMenuAddView: View {
                         .stroke(Color.gray, lineWidth: 1)
                 )
             Text("g")
+                .font(.title3)
             Spacer()
         }
         .padding(.horizontal)
         
         HStack {
             Text("カロリー")
+                .font(.title3)
             TextField("", value: $MyMealKcal, format: .number)
+                .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
-                .frame(width: 80)
+                .frame(width: 100)
                 .background(.white, in: .rect(cornerRadius: 6))
                 .foregroundColor(.black)
                 .font(.system(size: 20))
@@ -254,6 +299,7 @@ struct MyMenuAddView: View {
                         .stroke(Color.gray, lineWidth: 1)
                 )
             Text("kcal")
+                .font(.title3)
             Spacer()
         }
         .padding(.horizontal)
@@ -265,6 +311,7 @@ struct MyMenuAddView: View {
         }) {
             Text("決定")
         }
+        .font(.title3)
         .padding(10)
         .frame(width: 150, height: 35)
         .foregroundColor(.black)

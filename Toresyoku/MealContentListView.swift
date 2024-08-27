@@ -14,6 +14,8 @@ struct MealContentListView: View {
     var selectedDate: Date
     @Binding var refreshID: UUID
     
+    @State private var errorMessage: String?
+    
     var body: some View {
         ScrollView {
             NavigationView {
@@ -27,28 +29,40 @@ struct MealContentListView: View {
                             HStack {
                                 VStack {
                                     Spacer()
-                                    Text(mealContent.MealName)
+                                    Text(MealNameLimit(mealContent.MealName))
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
                                     Spacer()
                                     Text("\(mealContent.MealKcal, specifier: "%.1f") kcal")
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
                                     Spacer()
                                 }
                                 .font(.title3)
                                 Spacer()
                                 VStack {
                                     Text("たんぱく質: \(mealContent.MealProtein, specifier: "%.1f") g")
-                                    Spacer()
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
                                     Text("脂質: \(mealContent.MealFat, specifier: "%.1f") g")
-                                    Spacer()
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
                                     Text("炭水化物: \(mealContent.MealCarbohydrate, specifier: "%.1f") g")
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
                                 }
                                 .font(.system(size: 15))
+                                Spacer()
+                                Image(systemName: "trash")
+                                    .font(.title3)
+                                    .foregroundColor(.gray)
+                                    .onTapGesture {
+                                        deleteMeal(mealContent)
+                                    }
                             }
                         }
                         .listRowSeparatorTint(Color("Text"))
                     }
-                    .onDelete(perform: { indexSet in
-                        deleteItems(at: indexSet, from: filteredMealContents)
-                    })
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
@@ -57,15 +71,23 @@ struct MealContentListView: View {
         }
     }
     
-    private func deleteItems(at offsets: IndexSet, from filteredMealContents: [MealContentModel]) {
-        for index in offsets {
-            let itemToDelete = filteredMealContents[index]
-            if let originalIndex = mealContents.firstIndex(where: { $0.id == itemToDelete.id }) {
-                context.delete(mealContents[originalIndex])
+    private func MealNameLimit(_ text: String) -> String {
+            if text.count > 6 {
+                return String(text.prefix(6)) + "…"
+            } else {
+                return text
             }
         }
-        try? context.save()
-        refreshID = UUID()
+    private func deleteMeal(_ mealContent: MealContentModel) {
+        do {
+            if let originalIndex = mealContents.firstIndex(where: { $0.id == mealContent.id }) {
+                context.delete(mealContents[originalIndex])
+                try context.save()
+                refreshID = UUID()
+            }
+        } catch {
+            errorMessage = "削除に失敗しました: \(error.localizedDescription)"
+        }
     }
 }
 

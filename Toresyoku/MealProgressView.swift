@@ -39,12 +39,11 @@ struct MealProgressView: View {
             HStack {
                 Text("カロリー")
                 Text("\(String(format: "%.f", MealKcalProgress * 100))%")
-                    .font(.system(size: 25))
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingKcal)) Kcal")
-                    .font(.system(size: 25))
             }
+            .font(.title2)
             .padding(.horizontal)
             ZStack {
                 Rectangle()
@@ -52,7 +51,7 @@ struct MealProgressView: View {
                     red: ImageColor.first?.R ?? 0,
                     green: ImageColor.first?.G ?? 1,
                     blue: ImageColor.first?.B ?? 1,
-                    opacity: ImageColor.first?.A ?? 1
+                    opacity: 1
                 ))
                 .scaleEffect(x: MealKcalProgress, y: 1.0, anchor: .leading)
                 Rectangle()
@@ -64,12 +63,11 @@ struct MealProgressView: View {
             HStack {
                 Text("たんぱく質")
                 Text("\(String(format: "%.f", MealProteinProgress * 100))%")
-                    .font(.system(size: 25))
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingProtein)) g")
-                    .font(.system(size: 25))
             }
+            .font(.title2)
             .padding(.horizontal)
             ZStack {
                 Rectangle()
@@ -77,7 +75,7 @@ struct MealProgressView: View {
                         red: ImageColor.first?.R ?? 0,
                         green: ImageColor.first?.G ?? 1,
                         blue: ImageColor.first?.B ?? 1,
-                        opacity: ImageColor.first?.A ?? 1
+                        opacity: 1
                     ))
                     .scaleEffect(x: MealProteinProgress, y: 1.0, anchor: .leading)
                 Rectangle()
@@ -88,12 +86,11 @@ struct MealProgressView: View {
             HStack {
                 Text("脂質")
                 Text("\(String(format: "%.f", MealFatProgress * 100))%")
-                    .font(.system(size: 25))
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingFat)) g")
-                    .font(.system(size: 25))
             }
+            .font(.title2)
             .padding(.horizontal)
             ZStack {
                 Rectangle()
@@ -101,7 +98,7 @@ struct MealProgressView: View {
                         red: ImageColor.first?.R ?? 0,
                         green: ImageColor.first?.G ?? 1,
                         blue: ImageColor.first?.B ?? 1,
-                        opacity: ImageColor.first?.A ?? 1
+                        opacity: 1
                     ))
                     .scaleEffect(x: MealFatProgress, y: 1.0, anchor: .leading)
                 Rectangle()
@@ -112,12 +109,11 @@ struct MealProgressView: View {
             HStack {
                 Text("炭水化物")
                 Text("\(String(format: "%.f", MealCarbohydrateProgress * 100))%")
-                    .font(.system(size: 25))
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingCarbohydrate)) g")
-                    .font(.system(size: 25))
             }
+            .font(.title2)
             .padding(.horizontal)
             ZStack {
                 Rectangle()
@@ -125,7 +121,7 @@ struct MealProgressView: View {
                         red: ImageColor.first?.R ?? 0,
                         green: ImageColor.first?.G ?? 1,
                         blue: ImageColor.first?.B ?? 1,
-                        opacity: ImageColor.first?.A ?? 1
+                        opacity: 1
                     ))
                     .scaleEffect(x: MealCarbohydrateProgress, y: 1.0, anchor: .leading)
                 Rectangle()

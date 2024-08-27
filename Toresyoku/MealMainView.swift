@@ -16,7 +16,7 @@ struct MealMainView: View {
     @State var R: Double = 0
     @State var G: Double = 1
     @State var B: Double = 1
-    @State var A: Double = 1
+    @State var A: Double = 0.2
     
     @Binding var selectedDate: Date
     @Binding var refreshID: UUID
@@ -25,7 +25,7 @@ struct MealMainView: View {
         NavigationView {
             VStack {
                 Text("今日の達成状況")
-                    .font(.title3)
+                    .font(.title2)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top)
                     .padding(.horizontal)
@@ -41,16 +41,17 @@ struct MealMainView: View {
                                 red: ImageColor.first?.R ?? 0,
                                 green: ImageColor.first?.G ?? 1,
                                 blue: ImageColor.first?.B ?? 1,
-                                opacity: ImageColor.first?.A ?? 1
+                                opacity: ImageColor.first?.A ?? 0.2
                             ))
                             .frame(width: 150, height: 35)
                             .overlay(Label("食事の追加", systemImage: "square.and.pencil"))
+                            .font(.title3)
                             .overlay(
                                    RoundedRectangle(cornerRadius: 10)
                                        .stroke(Color.gray, lineWidth: 1)
                             )
                             .foregroundColor(.black)
-                                .font(.title3)
+                            
                     }
                     .padding(.top)
                     .padding(.leading)

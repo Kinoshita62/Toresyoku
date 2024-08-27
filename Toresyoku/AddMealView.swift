@@ -35,7 +35,9 @@ struct AddMealView: View {
     @State var R: Double = 0
     @State var G: Double = 1
     @State var B: Double = 1
-    @State var A: Double = 1
+    @State var A: Double = 0.2
+    
+    @State private var MealDateSelectPresented: Bool = false
     
     @Binding var refreshID: UUID
     
@@ -44,26 +46,39 @@ struct AddMealView: View {
             red: ImageColor.first?.R ?? 0,
             green: ImageColor.first?.G ?? 1,
             blue: ImageColor.first?.B ?? 1,
-            opacity: ImageColor.first?.A ?? 1
+            opacity: ImageColor.first?.A ?? 0.2
         ) : Color.gray
     }
 
     var body: some View {
         VStack {
             HStack {
-                DatePicker("日付を選択", selection: $MealDate, displayedComponents: [.date])
-                    .environment(\.locale, Locale(identifier: "ja_JP"))
+                Spacer()
+                Text("日付")
+                    .font(.title3)
+                Button {
+                    MealDateSelectPresented.toggle()
+                } label: {
+                    Text(dateFormat.string(from: MealDate))
+                        .font(.title3)
+                }
+                .sheet(isPresented: $MealDateSelectPresented) {
+                    MealDateSelectView(MealDate: $MealDate)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+                }
             }
             .padding()
             
             HStack {
                 Text("メニュー")
+                    .font(.title3)
                 ZStack(alignment: .leading) {
                     TextField("", text: $MealName)
                         .foregroundColor(.black)
                         .padding(4)
                         .background(.white, in: .rect(cornerRadius: 6))
-                        .font(.system(size: 25))
+                        .font(.title3)
                         .frame(width: 250)
                         .overlay(
                                RoundedRectangle(cornerRadius: 6)
@@ -77,14 +92,15 @@ struct AddMealView: View {
 
             HStack {
                 Text("マイメニューから選択")
+                    .font(.title3)
                     .foregroundColor(.black)
                     .padding(10)
-                    .frame(width: 180, height: 35)
+                    .frame(width: 210, height: 35)
                     .background(Color(
                         red: ImageColor.first?.R ?? 0,
                         green: ImageColor.first?.G ?? 1,
                         blue: ImageColor.first?.B ?? 1,
-                        opacity: ImageColor.first?.A ?? 1
+                        opacity: ImageColor.first?.A ?? 0.2
                     ))
                     .cornerRadius(10)
                     .overlay(
@@ -111,15 +127,19 @@ struct AddMealView: View {
             
             HStack {
                 Text("たんぱく質")
+                    .font(.title3)
                 TextField("", text: $MealProtein)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
-                    .font(.system(size: 20))
                     .keyboardType(.decimalPad)
                     .onChange(of: MealProtein) {
+                        if MealProtein.count > 4 {
+                            MealProtein = String(MealProtein.prefix(4))
+                        }
                         calculateKcal()
                     }
                     .overlay(
@@ -127,21 +147,26 @@ struct AddMealView: View {
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
+                    .font(.title3)
                 Spacer()
             }
             .padding(.horizontal)
 
             HStack {
                 Text("脂質")
+                    .font(.title3)
                 TextField("", text: $MealFat)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
-                    .font(.system(size: 20))
                     .keyboardType(.decimalPad)
                     .onChange(of: MealFat) {
+                        if MealFat.count > 4 {
+                            MealFat = String(MealFat.prefix(4))
+                        }
                         calculateKcal()
                     }
                     .overlay(
@@ -149,21 +174,26 @@ struct AddMealView: View {
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
+                    .font(.title3)
                 Spacer()
             }
             .padding(.horizontal)
 
             HStack {
                 Text("炭水化物")
+                    .font(.title3)
                 TextField("", text: $MealCarbohydrate)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 60)
+                    .frame(width: 80)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
-                    .font(.system(size: 20))
                     .keyboardType(.decimalPad)
                     .onChange(of: MealCarbohydrate) {
+                        if MealCarbohydrate.count > 4 {
+                            MealCarbohydrate = String(MealCarbohydrate.prefix(4))
+                        }
                         calculateKcal()
                     }
                     .overlay(
@@ -171,6 +201,7 @@ struct AddMealView: View {
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("g")
+                    .font(.title3)
                 Spacer()
             }
             .padding(.horizontal)
@@ -178,19 +209,21 @@ struct AddMealView: View {
             
             HStack {
                 Text("カロリー")
+                    .font(.title3)
                 TextField("", value: $MealKcal, format: .number)
+                    .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
-                    .frame(width: 80)
+                    .frame(width: 100)
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
-                    .font(.system(size: 20))
                     .keyboardType(.decimalPad)
                     .overlay(
                            RoundedRectangle(cornerRadius: 6)
                                .stroke(Color.gray, lineWidth: 1)
                        )
                 Text("kcal")
+                    .font(.title3)
                 Spacer()
             }
             .padding(.horizontal)
@@ -199,6 +232,7 @@ struct AddMealView: View {
             Button("決定") {
                 addMeal()
             }
+            .font(.title3)
             .padding()
             .frame(width: 150, height: 35)
             .foregroundColor(.black)
@@ -211,6 +245,7 @@ struct AddMealView: View {
             )
             Spacer()
         }
+        Spacer()
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
@@ -221,6 +256,14 @@ struct AddMealView: View {
             }
         }
         .padding(.top, 100)
+    }
+    
+    var dateFormat: DateFormatter {
+        let df = DateFormatter()
+        df.timeStyle = .none
+        df.dateStyle = .medium
+        df.locale = Locale(identifier: "ja_JP")
+        return df
     }
     
     private func hideKeyboard() {
@@ -270,6 +313,19 @@ struct AddMealView: View {
         } catch {
             print("Failed to save context: \(error.localizedDescription)")
         }
+    }
+}
+
+struct MealDateSelectView: View {
+    @Environment(\.dismiss) var dismiss
+    @Binding var MealDate: Date
+    var body: some View {
+        DatePicker("", selection: $MealDate, displayedComponents: [.date])
+            .environment(\.locale, Locale(identifier: "ja_JP"))
+            .datePickerStyle(.graphical)
+            .onChange(of: MealDate) {
+                dismiss()
+            }
     }
 }
 
