@@ -11,68 +11,59 @@ import SwiftData
 struct MealMainView: View {
 
     @Environment(\.modelContext) private var context
-    @Query private var ImageColor: [ImageColorModel]
+    @Query private var imageColor: [ImageColorModel]
     
-    @State var R: Double = 0
-    @State var G: Double = 1
-    @State var B: Double = 1
-    @State var A: Double = 0.2
-    
-    @Binding var selectedDate: Date
+    @Binding var theDate: Date
     @Binding var refreshID: UUID
-    
+ 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Text("今日の達成状況")
                     .font(.title2)
+                    .bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top)
-                    .padding(.horizontal)
+                    .padding([.top, .horizontal])
                         
-                MealProgressView(selectedDate: selectedDate, refreshID: $refreshID)
+                MealProgressView(theDate: $theDate, refreshID: $refreshID)
                     .padding(.horizontal)
 
                         
                 HStack {
-                    NavigationLink(destination: AddMealView(refreshID: $refreshID)) {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(
-                                red: ImageColor.first?.R ?? 0,
-                                green: ImageColor.first?.G ?? 1,
-                                blue: ImageColor.first?.B ?? 1,
-                                opacity: ImageColor.first?.A ?? 0.2
-                            ))
+                    NavigationLink(destination: AddMealView(theDate: $theDate, refreshID: $refreshID)) {
+                        Text("食事の追加")
+                            .bold()
                             .frame(width: 150, height: 35)
-                            .overlay(Label("食事の追加", systemImage: "square.and.pencil"))
-                            .font(.title3)
-                            .overlay(
-                                   RoundedRectangle(cornerRadius: 10)
-                                       .stroke(Color.gray, lineWidth: 1)
-                            )
+                            .background(Color(
+                                red: imageColor.first?.R ?? 0,
+                                green: imageColor.first?.G ?? 1,
+                                blue: imageColor.first?.B ?? 1,
+                                opacity: imageColor.first?.A ?? 0.2
+                            ))
+                            .cornerRadius(10)
+                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
                             .foregroundColor(.black)
-                            
+                            .font(.title3)
+                            .padding([.top, .horizontal])
                     }
-                    .padding(.top)
-                    .padding(.leading)
                     Spacer()
                 }
                 
-                MealContentListView(selectedDate: selectedDate, refreshID: $refreshID)
+                MealContentListView(theDate: $theDate, refreshID: $refreshID)
                     .padding(.horizontal)
                     .onAppear {
                         refreshID = UUID()
                     }
+                Spacer()
             }
-            Spacer()
         }
     }
 }
 
 struct MealMainView_Previews: PreviewProvider {
-    @State static var selectedDate = Date()
+    @State static var theDate = Date()
     static var previews: some View {
-        MealMainView(selectedDate: $selectedDate, refreshID: .constant(UUID()))
+        MealMainView(theDate: $theDate, refreshID: .constant(UUID()))
             .modelContainer(for: [ProfileModel.self, MealContentModel.self, MyMealContentModel.self, ImageColorModel.self])
     }
 }

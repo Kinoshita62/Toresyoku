@@ -13,8 +13,7 @@ struct MealProgressView: View {
     @Environment(\.modelContext) private var context
     @Query private var mealContents: [MealContentModel]
     @Query private var profiles: [ProfileModel]
-    @Query private var myMealContents: [MyMealContentModel]
-    @Query private var ImageColor: [ImageColorModel]
+    @Query private var imageColor: [ImageColorModel]
 
     @State private var MealKcalProgress: Double = 0.0
     @State private var MealProteinProgress: Double = 0.0
@@ -26,12 +25,7 @@ struct MealProgressView: View {
     @State private var remainingFat: Double = 0.0
     @State private var remainingCarbohydrate: Double = 0.0
     
-    @State var R: Double = 0
-    @State var G: Double = 1
-    @State var B: Double = 1
-    @State var A: Double = 1
-    
-    var selectedDate: Date
+    @Binding var theDate: Date
     @Binding var refreshID: UUID
     
     var body: some View {
@@ -47,10 +41,12 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
+                    .foregroundColor(.white)
+                Rectangle()
                 .foregroundColor(Color(
-                    red: ImageColor.first?.R ?? 0,
-                    green: ImageColor.first?.G ?? 1,
-                    blue: ImageColor.first?.B ?? 1,
+                    red: imageColor.first?.R ?? 0,
+                    green: imageColor.first?.G ?? 1,
+                    blue: imageColor.first?.B ?? 1,
                     opacity: 1
                 ))
                 .scaleEffect(x: MealKcalProgress, y: 1.0, anchor: .leading)
@@ -71,10 +67,12 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
+                    .foregroundColor(.white)
+                Rectangle()
                     .foregroundColor(Color(
-                        red: ImageColor.first?.R ?? 0,
-                        green: ImageColor.first?.G ?? 1,
-                        blue: ImageColor.first?.B ?? 1,
+                        red: imageColor.first?.R ?? 0,
+                        green: imageColor.first?.G ?? 1,
+                        blue: imageColor.first?.B ?? 1,
                         opacity: 1
                     ))
                     .scaleEffect(x: MealProteinProgress, y: 1.0, anchor: .leading)
@@ -94,10 +92,12 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
+                    .foregroundColor(.white)
+                Rectangle()
                     .foregroundColor(Color(
-                        red: ImageColor.first?.R ?? 0,
-                        green: ImageColor.first?.G ?? 1,
-                        blue: ImageColor.first?.B ?? 1,
+                        red: imageColor.first?.R ?? 0,
+                        green: imageColor.first?.G ?? 1,
+                        blue: imageColor.first?.B ?? 1,
                         opacity: 1
                     ))
                     .scaleEffect(x: MealFatProgress, y: 1.0, anchor: .leading)
@@ -117,10 +117,12 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
+                    .foregroundColor(.white)
+                Rectangle()
                     .foregroundColor(Color(
-                        red: ImageColor.first?.R ?? 0,
-                        green: ImageColor.first?.G ?? 1,
-                        blue: ImageColor.first?.B ?? 1,
+                        red: imageColor.first?.R ?? 0,
+                        green: imageColor.first?.G ?? 1,
+                        blue: imageColor.first?.B ?? 1,
                         opacity: 1
                     ))
                     .scaleEffect(x: MealCarbohydrateProgress, y: 1.0, anchor: .leading)
@@ -129,77 +131,70 @@ struct MealProgressView: View {
             }
             .frame(width: 300, height: 20)
         }
+        .padding(.bottom, 5)
+        .background(Color(
+            red: imageColor.first?.R ?? 0,
+            green: imageColor.first?.G ?? 1,
+            blue: imageColor.first?.B ?? 1,
+            opacity: 0.03
+        ))
         .onChange(of: refreshID) {
-            calculateMealKcalProgress()
+            calculateProgress()
         }
         .onAppear {
             refreshID = UUID()
-            calculateMealKcalProgress()
+            calculateProgress()
         }
     }
-   
     
-    private func calculateMealKcalProgress() {
-            guard let profile = profiles.first else {
-                MealKcalProgress = 0.0
-                remainingKcal = 0.0
-                MealProteinProgress = 0.0
-                remainingProtein = 0.0
-                MealFatProgress = 0.0
-                remainingFat = 0.0
-                MealCarbohydrateProgress = 0.0
-                remainingCarbohydrate = 0.0
-                return
-            }
-            
-            let targetKcal = profile.TargetMealKcal
-            let filteredMealContents = mealContents.filter { mealContent in
-                Calendar.current.isDate(mealContent.MealDate, inSameDayAs: selectedDate)
-            }
-            let totalKcal = filteredMealContents.reduce(0) { $0 + $1.MealKcal }
-            if targetKcal > 0 {
-                MealKcalProgress = min(totalKcal / targetKcal, 1.0)
-                remainingKcal = max(targetKcal - totalKcal, 0)
-            } else {
-                MealKcalProgress = 0.0
-                remainingKcal = 0.0
-            }
-
-            let targetProtein = profile.TargetMealProtein
-            let totalProtein = filteredMealContents.reduce(0) { $0 + $1.MealProtein }
-            if targetProtein > 0 {
-                MealProteinProgress = min(totalProtein / targetProtein, 1.0)
-                remainingProtein = max(targetProtein - totalProtein, 0)
-            } else {
-                MealProteinProgress = 0.0
-                remainingProtein = 0.0
-            }
-
-            let targetFat = profile.TargetMealFat
-            let totalFat = filteredMealContents.reduce(0) { $0 + $1.MealFat }
-            if targetFat > 0 {
-                MealFatProgress = min(totalFat / targetFat, 1.0)
-                remainingFat = max(targetFat - totalFat, 0)
-            } else {
-                MealFatProgress = 0.0
-                remainingFat = 0.0
-            }
-
-            let targetCarbohydrate = profile.TargetMealCarbohydrate
-            let totalCarbohydrate = filteredMealContents.reduce(0) { $0 + $1.MealCarbohydrate }
-            if targetCarbohydrate > 0 {
-                MealCarbohydrateProgress = min(totalCarbohydrate / targetCarbohydrate, 1.0)
-                remainingCarbohydrate = max(targetCarbohydrate - totalCarbohydrate, 0)
-            } else {
-                MealCarbohydrateProgress = 0.0
-                remainingCarbohydrate = 0.0
-            }
+    private func calculateProgress(target: Double, total: Double) -> (progress: Double, remaining: Double) {
+        if target > 0 {
+            let progress = min(total / target, 1.0)
+            let remaining = max(target - total, 0)
+            return (progress, remaining)
+        } else {
+            return (0.0, 0.0)
         }
+    }
+    private func calculateProgress() {
+        guard let profile = profiles.first else {
+            resetProgress()
+            return
+        }
+        
+        let filteredMealContents = mealContents.filter { mealContent in
+            Calendar.current.isDate(mealContent.MealDate, inSameDayAs: theDate)
+        }
+        
+        let totalKcal = filteredMealContents.reduce(0) { $0 + $1.MealKcal }
+        (MealKcalProgress, remainingKcal) = calculateProgress(target: profile.TargetMealKcal, total: totalKcal)
+
+        let totalProtein = filteredMealContents.reduce(0) { $0 + $1.MealProtein }
+        (MealProteinProgress, remainingProtein) = calculateProgress(target: profile.TargetMealProtein, total: totalProtein)
+
+        let totalFat = filteredMealContents.reduce(0) { $0 + $1.MealFat }
+        (MealFatProgress, remainingFat) = calculateProgress(target: profile.TargetMealFat, total: totalFat)
+
+        let totalCarbohydrate = filteredMealContents.reduce(0) { $0 + $1.MealCarbohydrate }
+        (MealCarbohydrateProgress, remainingCarbohydrate) = calculateProgress(target: profile.TargetMealCarbohydrate, total: totalCarbohydrate)
+    }
+    
+    private func resetProgress() {
+        MealKcalProgress = 0.0
+        remainingKcal = 0.0
+        MealProteinProgress = 0.0
+        remainingProtein = 0.0
+        MealFatProgress = 0.0
+        remainingFat = 0.0
+        MealCarbohydrateProgress = 0.0
+        remainingCarbohydrate = 0.0
+    }
 }
 
 struct MealProgressView_Previews: PreviewProvider {
+    @State static var theDate = Date()
     static var previews: some View {
-        MealProgressView(selectedDate: Date(), refreshID: .constant(UUID()))
-            .modelContainer(for: [ProfileModel.self, MealContentModel.self, MyMealContentModel.self, ImageColorModel.self])
+        MealProgressView(theDate: $theDate, refreshID: .constant(UUID()))
+            .modelContainer(for: [ProfileModel.self, MealContentModel.self, ImageColorModel.self])
     }
 }

@@ -13,29 +13,35 @@ struct FirstBootView: View {
             VStack(alignment: .leading) {
                 Spacer()
                 
-                Text("〜使い方〜")
-                    .font(.title2)
-                    .padding()
-                    .padding(.top, 50)
-                Text("・マイページからプロフィール情報を入力し、目標を設定します")
-                    .font(.title3)
-                    .padding(.top)
-                    .padding(.horizontal)
-                Text("（体重・体脂肪率を更新していくことで、体の変化をグラフで確認できます）")
-                    .font(.title3)
-                    .padding(.horizontal)
-                    .padding(.bottom)
-                Text("・「食事の追加」で食事内容を追加します")
-                    .font(.title3)
-                    .padding(.top)
-                    .padding(.horizontal)
-                Text("（マイメニューを設定しておくと、次回以降の入力が楽になります）")
-                    .font(.title3)
-                    .padding(.horizontal)
-                    .padding(.bottom)
-                Text("・目標達成までに必要な残りの食事量を確認しながら、毎日の食事管理を頑張りましょう！")
-                    .font(.title3)
-                    .padding()
+                ZStack {
+                    RoundedRectangle(cornerSize: CGSize(width: 80, height: 80))
+                        .foregroundColor(.white)
+                        .frame(height: 400)
+                    VStack {
+                        Text("〜使い方〜")
+                            .font(.title2)
+                            .bold()
+                            .padding()
+                        Text("•マイページからプロフィール情報を入力し、目標を設定します")
+                            .font(.title3)
+                            .padding(.top)
+                            .padding(.horizontal)
+
+                        Text("•「食事の追加」で食事内容を追加します")
+                            .font(.title3)
+                            .padding(.top)
+                            .padding(.horizontal)
+                        Text("（マイメニューを設定しておくと、次回以降の入力が楽になります）")
+                            .font(.title3)
+                            .padding(.horizontal)
+                            .padding(.bottom)
+                        Text("•目標達成までに必要な残りの食事量を確認しながら、毎日の食事管理を頑張りましょう！")
+                            .font(.title3)
+                            .padding()
+                            .padding(.bottom)
+                    }
+                }
+                
                 Spacer()
                 HStack {
                     Spacer()
@@ -46,8 +52,13 @@ struct FirstBootView: View {
                             Circle()
                                 .frame(width: 120)
                                 .foregroundColor(.white)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.gray, lineWidth: 1)
+                                )
                             Text("はじめる")
                                 .foregroundColor(.black)
+                                .bold()
                                 .font(.title2)
                             .padding()
                         }
@@ -56,7 +67,7 @@ struct FirstBootView: View {
                 }
                 Spacer()
         }
-        .background(Color(red: 0, green: 1, blue: 1, opacity: 0.1))
+            .background(Color(red: 0, green: 1, blue: 1, opacity: 0.05))
         .edgesIgnoringSafeArea(.all)
     }
 }

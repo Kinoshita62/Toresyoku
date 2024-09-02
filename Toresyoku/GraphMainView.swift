@@ -15,21 +15,13 @@ struct GraphMainView: View {
     @Environment(\.modelContext) private var context
     @Query private var profiles: [ProfileModel]
     @Query private var mealContents: [MealContentModel]
-    @Query private var ImageColor: [ImageColorModel]
+    @Query private var imageColor: [ImageColorModel]
     
-    @State private var kcalScrollPosition: TimeInterval = 0
-    @State private var proteinScrollPosition: TimeInterval = 0
-    @State private var fatScrollPosition: TimeInterval = 0
-    @State private var carbohydrateScrollPosition: TimeInterval = 0
-    @State private var UserWeightScrollPosition: TimeInterval = 0
-    @State private var UserFatPercentageScrollPosition: TimeInterval = 0
-    
-    @State var R: Double = 0
-    @State var G: Double = 1
-    @State var B: Double = 1
-    @State var A: Double = 1
-    
-    @Binding var refreshGraph: UUID
+    @State private var kcalScrollPosition: Date = Date()
+    @State private var proteinScrollPosition: Date = Date()
+    @State private var fatScrollPosition: Date = Date()
+    @State private var carbohydrateScrollPosition: Date = Date()
+
     @Binding var refreshID: UUID
     
     
@@ -51,27 +43,23 @@ struct GraphMainView: View {
         profiles.first?.TargetMealCarbohydrate ?? 0
     }
     
-    var targetUserWeight: Double {
-        profiles.first?.TargetWeight ?? 0
-    }
-    
-    var targetFatPercentage: Double {
-        profiles.first?.TargetFatPercentage ?? 0
-    }
-    
     private var dailyCalories: [(date: Date, totalKcal: Double)] {
         guard let firstMealDate = mealContents.min(by: { $0.MealDate < $1.MealDate })?.MealDate else {
             return []
         }
         let today = calendar.startOfDay(for: Date())
+        let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: today) ?? today
+        
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
         let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
-            
-        return allDates.map { date in
-            let totalKcal = groupedMeals[date]?.reduce(0) { $0 + $1.MealKcal } ?? 0
-            return (date: date, totalKcal: totalKcal)
-        }
+
+        return allDates
+            .filter { $0 >= thirtyDaysAgo }
+            .map { date in
+                let totalKcal = groupedMeals[date]?.reduce(0) { $0 + $1.MealKcal } ?? 0
+                return (date: date, totalKcal: totalKcal)
+            }
     }
     
     private var dailyProtein: [(date: Date, totalProtein: Double)] {
@@ -79,13 +67,16 @@ struct GraphMainView: View {
             return []
         }
         let today = calendar.startOfDay(for: Date())
+        let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: today) ?? today
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
         let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
-        return allDates.map { date in
-            let totalProtein = groupedMeals[date]?.reduce(0) { $0 + $1.MealProtein} ?? 0
-            return (date: date, totalProtein: totalProtein)
-        }
+        return allDates
+            .filter { $0 >= thirtyDaysAgo }
+            .map { date in
+                let totalProtein = groupedMeals[date]?.reduce(0) { $0 + $1.MealProtein } ?? 0
+                return (date: date, totalProtein: totalProtein)
+            }
     }
     
     private var dailyFat: [(date: Date, totalFat: Double)] {
@@ -93,13 +84,16 @@ struct GraphMainView: View {
             return []
         }
         let today = calendar.startOfDay(for: Date())
+        let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: today) ?? today
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
         let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
-        return allDates.map { date in
-            let totalFat = groupedMeals[date]?.reduce(0) { $0 + $1.MealFat} ?? 0
-            return (date: date, totalFat: totalFat)
-        }
+        return allDates
+            .filter { $0 >= thirtyDaysAgo }
+            .map { date in
+                let totalFat = groupedMeals[date]?.reduce(0) { $0 + $1.MealFat } ?? 0
+                return (date: date, totalFat: totalFat)
+            }
     }
     
     private var dailyCarbohydrate: [(date: Date, totalCarbohydrate: Double)] {
@@ -107,43 +101,24 @@ struct GraphMainView: View {
             return []
         }
         let today = calendar.startOfDay(for: Date())
+        let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: today) ?? today
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
         let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
-        return allDates.map { date in
-            let totalCarbohydrate = groupedMeals[date]?.reduce(0) { $0 + $1.MealCarbohydrate} ?? 0
-            return (date: date, totalCarbohydrate: totalCarbohydrate)
-        }
-    }
-    
-    private var dailyUserWeight: [(date: Date, userWeight: Double)] {
-        let groupedWeights = Dictionary(grouping: profiles, by: { calendar.startOfDay(for: $0.UserDataAddDate) })
-            
-            return groupedWeights.compactMap { (date, profiles) in
-                guard let latestProfile = profiles.max(by: { $0.UserDataAddDate < $1.UserDataAddDate }) else {
-                    return nil
-                }
-                return (date: date, userWeight: latestProfile.UserWeight)
-            }.sorted(by: { $0.date < $1.date })
-    }
-    
-    private var dailyUserFatPercentage: [(date: Date, userFatPercentage: Double)] {
-        let groupedFatPercentages = Dictionary(grouping: profiles, by: { calendar.startOfDay(for: $0.UserDataAddDate) })
-            
-            return groupedFatPercentages.compactMap { (date, profiles) in
-                guard let latestProfile = profiles.max(by: { $0.UserDataAddDate < $1.UserDataAddDate }) else {
-                    return nil
-                }
-                return (date: date, userFatPercentage: latestProfile.UserFatPercentage)
-            }.sorted(by: { $0.date < $1.date })
+        return allDates
+            .filter { $0 >= thirtyDaysAgo }
+            .map { date in
+                let totalCarbohydrate = groupedMeals[date]?.reduce(0) { $0 + $1.MealCarbohydrate } ?? 0
+                return (date: date, totalCarbohydrate: totalCarbohydrate)
+            }
     }
 
-    
     var body: some View {
         ScrollView {
             VStack {
-                Text("カロリー摂取量（一日あたり）")
+                Text("1日のカロリー摂取量")
                     .font(.title3)
+                    .bold()
                     .padding(.top, 25)
                 Chart {
                     ForEach(dailyCalories, id: \.date) { data in
@@ -152,19 +127,19 @@ struct GraphMainView: View {
                             y: .value("kcal", data.totalKcal)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0,
-                            green: ImageColor.first?.G ?? 1,
-                            blue: ImageColor.first?.B ?? 1,
+                            red: imageColor.first?.R ?? 0,
+                            green: imageColor.first?.G ?? 1,
+                            blue: imageColor.first?.B ?? 1,
                             opacity: 1
                         ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetKcal))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(Color("Text"))
+                        .foregroundStyle(Color(.black))
                         .annotation(position: .top, alignment: .trailing) {
                             Text("目標")
                                 .font(.caption)
-                            .foregroundColor(Color("Text"))}
+                            .foregroundColor(Color(.black))}
                 }
                 .padding(5)
                 .chartScrollableAxes(.horizontal)
@@ -173,8 +148,8 @@ struct GraphMainView: View {
                         AxisGridLine()
                         AxisTick()
                         AxisValueLabel(format: Date.FormatStyle()
-                            .month(.twoDigits)
-                            .day(.twoDigits)
+                            .month(.defaultDigits)
+                            .day(.defaultDigits)
                             .locale(Locale(identifier: "ja_JP")))
                     }
                 }
@@ -187,12 +162,15 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $kcalScrollPosition)
                 .onAppear {
-                    kcalScrollPosition = Date().timeIntervalSince1970
-                }
-                .frame(height: 200)
+                                    if let lastDate = dailyCalories.last?.date {
+                                        kcalScrollPosition = lastDate
+                                    }
+                                }
+                .frame(height: 250)
                 
-                Text("たんぱく質摂取量（一日あたり）")
+                Text("1日のたんぱく質摂取量")
                     .font(.title3)
+                    .bold()
                     .padding(.top, 50)
                 Chart {
                     ForEach(dailyProtein, id: \.date) { data in
@@ -201,9 +179,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalProtein)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0,
-                            green: ImageColor.first?.G ?? 1,
-                            blue: ImageColor.first?.B ?? 1,
+                            red: imageColor.first?.R ?? 0,
+                            green: imageColor.first?.G ?? 1,
+                            blue: imageColor.first?.B ?? 1,
                             opacity: 1
                         ))
                     }
@@ -222,8 +200,8 @@ struct GraphMainView: View {
                         AxisGridLine()
                         AxisTick()
                         AxisValueLabel(format: Date.FormatStyle()
-                            .month(.twoDigits)
-                            .day(.twoDigits)
+                            .month(.defaultDigits)
+                            .day(.defaultDigits)
                             .locale(Locale(identifier: "ja_JP")))
                     }
                 }
@@ -236,12 +214,15 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $proteinScrollPosition)
                 .onAppear {
-                    proteinScrollPosition = Date().timeIntervalSince1970
-                }
-                .frame(height: 200)
+                                    if let lastDate = dailyProtein.last?.date {
+                                        proteinScrollPosition = lastDate
+                                    }
+                                }
+                .frame(height: 250)
             
-                Text("脂質摂取量（一日あたり）")
+                Text("1日の脂質摂取量")
                     .font(.title3)
+                    .bold()
                     .padding(.top, 50)
                 Chart {
                     ForEach(dailyFat, id: \.date) { data in
@@ -250,9 +231,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalFat)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0,
-                            green: ImageColor.first?.G ?? 1,
-                            blue: ImageColor.first?.B ?? 1,
+                            red: imageColor.first?.R ?? 0,
+                            green: imageColor.first?.G ?? 1,
+                            blue: imageColor.first?.B ?? 1,
                             opacity: 1
                         ))
                     }
@@ -271,8 +252,8 @@ struct GraphMainView: View {
                         AxisGridLine()
                         AxisTick()
                         AxisValueLabel(format: Date.FormatStyle()
-                            .month(.twoDigits)
-                            .day(.twoDigits)
+                            .month(.defaultDigits)
+                            .day(.defaultDigits)
                             .locale(Locale(identifier: "ja_JP")))
                     }
                 }
@@ -285,13 +266,16 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $fatScrollPosition)
                 .onAppear {
-                    fatScrollPosition = Date().timeIntervalSince1970
-                }
-                .frame(height: 200)
+                                    if let lastDate = dailyFat.last?.date {
+                                        fatScrollPosition = lastDate
+                                    }
+                                }
+                .frame(height: 250)
        
                 
-                Text("炭水化物摂取量（一日あたり）")
+                Text("1日の炭水化物摂取量")
                     .font(.title3)
+                    .bold()
                     .padding(.top, 50)
                 Chart {
                     ForEach(dailyCarbohydrate, id: \.date) { data in
@@ -300,9 +284,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalCarbohydrate)
                         )
                         .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0,
-                            green: ImageColor.first?.G ?? 1,
-                            blue: ImageColor.first?.B ?? 1,
+                            red: imageColor.first?.R ?? 0,
+                            green: imageColor.first?.G ?? 1,
+                            blue: imageColor.first?.B ?? 1,
                             opacity: 1
                         ))
                     }
@@ -321,8 +305,8 @@ struct GraphMainView: View {
                         AxisGridLine()
                         AxisTick()
                         AxisValueLabel(format: Date.FormatStyle()
-                            .month(.twoDigits)
-                            .day(.twoDigits)
+                            .month(.defaultDigits)
+                            .day(.defaultDigits)
                             .locale(Locale(identifier: "ja_JP")))
                     }
                 }
@@ -335,115 +319,11 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $carbohydrateScrollPosition)
                 .onAppear {
-                    carbohydrateScrollPosition = Date().timeIntervalSince1970
-                }
-                .frame(height: 200)
-                
-                Text("体重")
-                    .font(.title3)
-                    .padding(.top, 50)
-                Spacer()
-                Chart {
-                    ForEach(dailyUserWeight, id: \.date) { data in
-                        LineMark(
-                            x: .value("日", data.date),
-                            y: .value("体重", data.userWeight)
-                        )
-                        .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0,
-                            green: ImageColor.first?.G ?? 1,
-                            blue: ImageColor.first?.B ?? 1,
-                            opacity: 1
-                        ))
-                    }
-                    RuleMark(y: .value("目標体重", targetUserWeight))
-                        .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(Color("Text"))
-                        .annotation(position: .top, alignment: .trailing) {
-                            Text("目標")
-                                .font(.caption)
-                            .foregroundColor(Color("Text"))}
-                }
-                .padding(5)
-                .chartScrollableAxes(.horizontal)
-                .chartXAxis() {
-                    AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel(format: Date.FormatStyle()
-                            .month(.twoDigits)
-                            .day(.twoDigits)
-                            .locale(Locale(identifier: "ja_JP")))
-                    }
-                }
-                .chartYAxis {
-                    AxisMarks(values: .automatic) { value in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel()
-                    }
-                }
-                .chartScrollPosition(x: $UserWeightScrollPosition)
-                .onChange(of: refreshGraph) {
-                    UserWeightScrollPosition = Date().timeIntervalSince1970
-                }
-                .onAppear {
-                    UserWeightScrollPosition = Date().timeIntervalSince1970
-                }
-                .frame(height: 200)
-
-
-                Text("体脂肪率")
-                    .font(.title3)
-                    .padding(.top, 50)
-                Chart {
-                    ForEach(dailyUserFatPercentage, id: \.date) { data in
-                        LineMark(
-                            x: .value("日", data.date),
-                            y: .value("体脂肪率", data.userFatPercentage)
-                        )
-                        .foregroundStyle(Color(
-                            red: ImageColor.first?.R ?? 0,
-                            green: ImageColor.first?.G ?? 1,
-                            blue: ImageColor.first?.B ?? 1,
-                            opacity: 1
-                        ))
-                    }
-                    RuleMark(y: .value("目標体脂肪率", targetFatPercentage))
-                        .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundStyle(Color("Text"))
-                        .annotation(position: .top, alignment: .trailing) {
-                            Text("目標")
-                                .font(.caption)
-                            .foregroundColor(Color("Text"))}
-                }
-                .padding(5)
-                .chartScrollableAxes(.horizontal)
-                .chartXAxis {
-                    AxisMarks(preset: .aligned, values: .stride(by: .day, count: 1)) { date in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel(format: Date.FormatStyle()
-                            .month(.twoDigits)
-                            .day(.twoDigits)
-                            .locale(Locale(identifier: "ja_JP")))
-                    }
-                }
-                .chartYAxis {
-                    AxisMarks(values: .automatic) { value in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel()
-                    }
-                }
-                .chartScrollPosition(x: $UserFatPercentageScrollPosition)
-                .onChange(of: refreshGraph) {
-                    UserFatPercentageScrollPosition = Date().timeIntervalSince1970
-                }
-                .onAppear {
-                    UserFatPercentageScrollPosition = Date().timeIntervalSince1970
-                }
-                .frame(height: 200)
+                                    if let lastDate = dailyCarbohydrate.last?.date {
+                                        carbohydrateScrollPosition = lastDate
+                                    }
+                                }
+                .frame(height: 250)
             }
         }
     }
@@ -451,7 +331,7 @@ struct GraphMainView: View {
 
 struct GraphMainView_Previews: PreviewProvider {
     static var previews: some View {
-        GraphMainView(refreshGraph: .constant(UUID()), refreshID: .constant(UUID()))
+        GraphMainView(refreshID: .constant(UUID()))
             .modelContainer(for: [ProfileModel.self, MealContentModel.self, ImageColorModel.self])
     }
 }

@@ -15,7 +15,7 @@ final class ImageColorModel {
     var B: Double
     var A: Double
         
-    init(R: Double, G: Double, B: Double, A: Double) {
+    init(R: Double = 0, G: Double = 1, B: Double = 1, A: Double = 0.2) {
         self.R = R
         self.G = G
         self.B = B

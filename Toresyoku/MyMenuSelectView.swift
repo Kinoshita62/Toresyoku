@@ -11,21 +11,16 @@ import SwiftData
 struct MyMenuSelectView: View {
     
     @Environment(\.modelContext) private var context
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.dismiss) var dismiss
     
     @Query private var MyMealContents: [MyMealContentModel]
-    @Query private var ImageColor: [ImageColorModel]
+    @Query private var imageColor: [ImageColorModel]
     
     @State private var MyMealName: String = ""
     @State private var MyMealProtein: Double = 0.0
     @State private var MyMealFat: Double = 0.0
     @State private var MyMealCarbohydrate: Double = 0.0
     @State private var MyMealKcal: Double = 0.0
-    
-    @State var R: Double = 0
-    @State var G: Double = 1
-    @State var B: Double = 1
-    @State var A: Double = 0.2
     
     @Binding var selectedMealName: String
     @Binding var selectedMealProtein:String
@@ -43,20 +38,17 @@ struct MyMenuSelectView: View {
                 ForEach(MyMealContents) { myMealContent in
                     VStack(alignment: .leading) {
                         HStack {
-                            VStack {
-                                Spacer()
-                                Text(truncatedText(myMealContent.MyMealName))
+                            VStack() {
+                                Text(myMealNameLimit(myMealContent.MyMealName))
                                     .lineLimit(1)
                                     .truncationMode(.tail)
-                                Spacer()
-                                Text("\(myMealContent.MyMealKcal, specifier: "%.1f") kcal")
+                                Text("\(myMealContent.MyMealKcal, specifier: "%.f") kcal")
                                     .lineLimit(1)
                                     .truncationMode(.tail)
-                                Spacer()
                             }
                             .font(.title3)
                             Spacer()
-                            VStack {
+                            VStack(alignment: .leading) {
                                 Text("たんぱく質: \(myMealContent.MyMealProtein, specifier: "%.1f") g")
                                     .lineLimit(1)
                                     .truncationMode(.tail)
@@ -69,14 +61,17 @@ struct MyMenuSelectView: View {
                             }
                             .font(.system(size: 15))
                             Spacer()
-                            HStack(spacing: 15) {
+                            HStack {
                                 Image(systemName: "checkmark")
                                     .foregroundColor(.black)
+                                    .font(.title3)
                                     .onTapGesture {
-                                        selectMeal(myMealContent)
+                                        selectMyMeal(myMealContent)
                                     }
                                 Image(systemName: "trash")
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.black)
+                                    .font(.title3)
+                                    .padding(.leading, 20)
                                     .onTapGesture {
                                         deleteMyMeal(myMealContent)
                                     }
@@ -84,7 +79,13 @@ struct MyMenuSelectView: View {
                             .font(.title2)
                         }
                     }
-                    .listRowSeparatorTint(Color("Text"))
+                    .listRowSeparatorTint(Color.black)
+                    .listRowBackground(Color(
+                        red: imageColor.first?.R ?? 0,
+                        green: imageColor.first?.G ?? 1,
+                        blue: imageColor.first?.B ?? 1,
+                        opacity: 0.05
+                    ))
                 }
             }
             .listStyle(.plain)
@@ -96,14 +97,15 @@ struct MyMenuSelectView: View {
                 Text("マイメニューの追加")
             }
             .font(.title3)
+            .bold()
             .padding(.horizontal)
             .frame(width: 210, height: 35)
             .foregroundColor(.black)
             .background(Color(
-                red: ImageColor.first?.R ?? 0,
-                green: ImageColor.first?.G ?? 1,
-                blue: ImageColor.first?.B ?? 1,
-                opacity: ImageColor.first?.A ?? 0.2
+                red: imageColor.first?.R ?? 0,
+                green: imageColor.first?.G ?? 1,
+                blue: imageColor.first?.B ?? 1,
+                opacity: imageColor.first?.A ?? 0.2
             ))
             .cornerRadius(10)
             .overlay(
@@ -118,21 +120,17 @@ struct MyMenuSelectView: View {
         }
     }
     
-    private func truncatedText(_ text: String) -> String {
-            if text.count > 6 {
-                return String(text.prefix(6)) + "…"
-            } else {
-                return text
-            }
-        }
+    private func myMealNameLimit(_ text: String) -> String {
+        return text.count > 6 ? String(text.prefix(6)) + "…" : text
+    }
     
-    private func selectMeal(_ myMealContent: MyMealContentModel) {
+    private func selectMyMeal(_ myMealContent: MyMealContentModel) {
         selectedMealName = myMealContent.MyMealName
         selectedMealProtein = String(format: "%.1f", myMealContent.MyMealProtein)
         selectedMealFat = String(format: "%.1f", myMealContent.MyMealFat)
         selectedMealCarbohydrate = String(format: "%.1f", myMealContent.MyMealCarbohydrate)
         selectedMealKcal = myMealContent.MyMealKcal
-        presentation.wrappedValue.dismiss()
+        dismiss()
     }
     
     private func deleteMyMeal(_ myMealContent: MyMealContentModel) {
@@ -148,9 +146,9 @@ struct MyMenuSelectView: View {
 struct MyMenuAddView: View {
     
     @Environment(\.modelContext) private var context
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.dismiss) var dismiss
     
-    @Query private var ImageColor: [ImageColorModel]
+    @Query private var imageColor: [ImageColorModel]
     
     @State private var MyMealName: String = ""
     @State private var MyMealProtein: String = ""
@@ -158,22 +156,14 @@ struct MyMenuAddView: View {
     @State private var MyMealCarbohydrate: String = ""
     @State private var MyMealKcal: Double = 0.0
     
-    @State var R: Double = 0
-    @State var G: Double = 1
-    @State var B: Double = 1
-    @State var A: Double = 0.2
+    @State private var myMealNameValid: Bool = true
+    @State private var myMealProteinValid: Bool = true
+    @State private var myMealFatValid: Bool = true
+    @State private var myMealCarbohydrateValid: Bool = true
+    @State private var myMealKcalValid: Bool = true
 
     @Binding var MyMenuAddViewPresented: Bool
-    
-    var myMenuAddButtonBackgroundColor: Color {
-        return isMyMenuAddFormValid() ? Color(
-            red: ImageColor.first?.R ?? 0,
-            green: ImageColor.first?.G ?? 1,
-            blue: ImageColor.first?.B ?? 1,
-            opacity: ImageColor.first?.A ?? 0.2
-        ) : Color.gray
-    }
-    
+        
     var body: some View {
         VStack {
             HStack {
@@ -186,13 +176,18 @@ struct MyMenuAddView: View {
                         .padding(4)
                         .background(.white, in: .rect(cornerRadius: 6))
                         .font(.system(size: 25))
-                        .frame(width: 250)
+                        .frame(width: 220)
                         .overlay(
                             RoundedRectangle(cornerRadius: 6)
                                 .stroke(Color.gray, lineWidth: 1)
                         )
                 }
                 Spacer()
+                if myMealNameValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.red)
+                }
             }
             .padding()
             .padding(.top, 30)
@@ -223,6 +218,11 @@ struct MyMenuAddView: View {
             Text("g")
                 .font(.title3)
             Spacer()
+            if myMealProteinValid == false {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.red)
+            }
         }
         .padding(.horizontal)
         
@@ -251,6 +251,11 @@ struct MyMenuAddView: View {
             Text("g")
                 .font(.title3)
             Spacer()
+            if myMealFatValid == false {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.red)
+            }
         }
         .padding(.horizontal)
         
@@ -279,6 +284,11 @@ struct MyMenuAddView: View {
             Text("g")
                 .font(.title3)
             Spacer()
+            if myMealCarbohydrateValid == false {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.red)
+            }
         }
         .padding(.horizontal)
         
@@ -301,23 +311,32 @@ struct MyMenuAddView: View {
             Text("kcal")
                 .font(.title3)
             Spacer()
+            if myMealKcalValid == false {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.red)
+            }
         }
         .padding(.horizontal)
         .padding(.bottom, 30)
         
         Button(action: {
             addMyMeal()
-            MyMenuAddViewPresented.toggle()
         }) {
             Text("決定")
         }
         .font(.title3)
+        .bold()
         .padding(10)
         .frame(width: 150, height: 35)
         .foregroundColor(.black)
-        .background(myMenuAddButtonBackgroundColor)
+        .background(Color(
+            red: imageColor.first?.R ?? 0,
+            green: imageColor.first?.G ?? 1,
+            blue: imageColor.first?.B ?? 1,
+            opacity: imageColor.first?.A ?? 0.2
+        ))
         .cornerRadius(10)
-        .disabled(!isMyMenuAddFormValid())
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.gray, lineWidth: 1)
@@ -350,29 +369,61 @@ struct MyMenuAddView: View {
         MyMealKcal = round((protein * 4) + (fat * 9) + (carbohydrate * 4))
     }
     
-    private func isMyMenuAddFormValid() -> Bool {
-        let protein = Double(MyMealProtein) ?? 0
-        let fat = Double(MyMealFat) ?? 0
-        let carbohydrate = Double(MyMealCarbohydrate) ?? 0
-        return !MyMealName.isEmpty && protein >= 0 && fat >= 0 && carbohydrate >= 0 && MyMealKcal >= 0
+    private func validateMyMealForm() -> Bool {
+        var isMyMealValid = true
+
+        myMealNameValid = !MyMealName.isEmpty
+        if !myMealNameValid { isMyMealValid = false }
+
+        if let myProtein = Double(MyMealProtein), myProtein >= 0, myProtein <= 9999 {
+            myMealProteinValid = true
+        } else {
+            myMealProteinValid = false
+            isMyMealValid = false
+        }
+
+        if let myFat = Double(MyMealFat), myFat >= 0, myFat <= 9999 {
+            myMealFatValid = true
+        } else {
+            myMealFatValid = false
+            isMyMealValid = false
+        }
+
+        if let myCarbohydrate = Double(MyMealCarbohydrate), myCarbohydrate >= 0, myCarbohydrate <= 9999 {
+            myMealCarbohydrateValid = true
+        } else {
+            myMealCarbohydrateValid = false
+            isMyMealValid = false
+        }
+
+        myMealKcalValid = MyMealKcal >= 0
+        if !myMealKcalValid { isMyMealValid = false }
+
+        return isMyMealValid
     }
     
     private func addMyMeal() {
-        let protein = Double(MyMealProtein) ?? 0
-        let fat = Double(MyMealFat) ?? 0
-        let carbohydrate = Double(MyMealCarbohydrate) ?? 0
-        if !isMyMenuAddFormValid() {
+        if !validateMyMealForm() {
             return
         }
-        let newMyMeal = MyMealContentModel(MyMealName: MyMealName, MyMealProtein: protein, MyMealFat: fat, MyMealCarbohydrate: carbohydrate, MyMealKcal: MyMealKcal)
+        let newMyMeal = MyMealContentModel(MyMealName: MyMealName, MyMealProtein: Double(MyMealProtein) ?? 0, MyMealFat: Double(MyMealFat) ?? 0, MyMealCarbohydrate: Double(MyMealCarbohydrate) ?? 0, MyMealKcal: MyMealKcal)
         context.insert(newMyMeal)
-        try? context.save()
         
-        MyMealName = ""
-        MyMealProtein = ""
-        MyMealFat = ""
-        MyMealCarbohydrate = ""
-        MyMealKcal = 0.0
+        do {
+            try context.save()
+            print("MyMeal saved successfully")
+            MyMealName = ""
+            MyMealProtein = ""
+            MyMealFat = ""
+            MyMealCarbohydrate = ""
+            MyMealKcal = 0.0
+            
+            MyMenuAddViewPresented.toggle()
+            
+            dismiss()
+        } catch {
+            print("Failed to save context: \(error.localizedDescription)")
+        }
     }
 }
 

@@ -14,16 +14,16 @@ struct AddMealView: View {
     @Environment(\.dismiss) var dismiss
     
     @Query private var MyMealContents: [MyMealContentModel]
-    @Query private var ImageColor: [ImageColorModel]
+    @Query private var imageColor: [ImageColorModel]
     
     @State private var MealName: String = ""
     @State private var MealProtein: String = ""
     @State private var MealFat: String = ""
     @State private var MealCarbohydrate: String = ""
     @State private var MealKcal: Double = 0.0
-    @State private var MealDate: Date = Date()
-
-    @State var myMenuSelectModal: Bool = false
+    @State private var MealDate: Date
+    
+    @State private var myMenuSelectModal: Bool = false
     @State private var addMealModal: Bool = false
     
     @State private var MyMealName: String = ""
@@ -32,75 +32,61 @@ struct AddMealView: View {
     @State private var MyMealCarbohydrate: Double = 0.0
     @State private var MyMealKcal: Double = 0.0
     
-    @State var R: Double = 0
-    @State var G: Double = 1
-    @State var B: Double = 1
-    @State var A: Double = 0.2
+    @State private var mealNameValid: Bool = true
+    @State private var mealProteinValid: Bool = true
+    @State private var mealFatValid: Bool = true
+    @State private var mealCarbohydrateValid: Bool = true
+    @State private var mealKcalValid: Bool = true
     
     @State private var MealDateSelectPresented: Bool = false
     
     @Binding var refreshID: UUID
+    @Binding var theDate: Date
     
-    var buttonBackgroundColor: Color {
-        return isFormValid() ? Color(
-            red: ImageColor.first?.R ?? 0,
-            green: ImageColor.first?.G ?? 1,
-            blue: ImageColor.first?.B ?? 1,
-            opacity: ImageColor.first?.A ?? 0.2
-        ) : Color.gray
-    }
-
+    init(theDate: Binding<Date>, refreshID: Binding<UUID>) {
+            self._theDate = theDate
+            self._refreshID = refreshID
+            self._MealDate = State(initialValue: theDate.wrappedValue)
+        }
+    
     var body: some View {
         VStack {
             HStack {
-                Spacer()
-                Text("日付")
-                    .font(.title3)
-                Button {
-                    MealDateSelectPresented.toggle()
-                } label: {
-                    Text(dateFormat.string(from: MealDate))
-                        .font(.title3)
-                }
-                .sheet(isPresented: $MealDateSelectPresented) {
-                    MealDateSelectView(MealDate: $MealDate)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
-                }
-            }
-            .padding()
-            
-            HStack {
                 Text("メニュー")
                     .font(.title3)
-                ZStack(alignment: .leading) {
-                    TextField("", text: $MealName)
-                        .foregroundColor(.black)
-                        .padding(4)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .font(.title3)
-                        .frame(width: 250)
-                        .overlay(
-                               RoundedRectangle(cornerRadius: 6)
-                                   .stroke(Color.gray, lineWidth: 1)
-                        )
-                }
+                TextField("", text: $MealName)
+                    .foregroundColor(.black)
+                    .padding(4)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .font(.title3)
+                    .frame(width: 220)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 Spacer()
+                if mealNameValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.red)
+                }
             }
             .padding(.horizontal)
+            .padding(.top, 30)
             
 
             HStack {
                 Text("マイメニューから選択")
                     .font(.title3)
+                    .bold()
                     .foregroundColor(.black)
                     .padding(10)
                     .frame(width: 210, height: 35)
                     .background(Color(
-                        red: ImageColor.first?.R ?? 0,
-                        green: ImageColor.first?.G ?? 1,
-                        blue: ImageColor.first?.B ?? 1,
-                        opacity: ImageColor.first?.A ?? 0.2
+                        red: imageColor.first?.R ?? 0,
+                        green: imageColor.first?.G ?? 1,
+                        blue: imageColor.first?.B ?? 1,
+                        opacity: imageColor.first?.A ?? 0.2
                     ))
                     .cornerRadius(10)
                     .overlay(
@@ -149,6 +135,11 @@ struct AddMealView: View {
                 Text("g")
                     .font(.title3)
                 Spacer()
+                if mealProteinValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.red)
+                }
             }
             .padding(.horizontal)
 
@@ -176,6 +167,11 @@ struct AddMealView: View {
                 Text("g")
                     .font(.title3)
                 Spacer()
+                if mealFatValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.red)
+                }
             }
             .padding(.horizontal)
 
@@ -203,6 +199,11 @@ struct AddMealView: View {
                 Text("g")
                     .font(.title3)
                 Spacer()
+                if mealCarbohydrateValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.red)
+                }
             }
             .padding(.horizontal)
             .padding(.bottom)
@@ -225,26 +226,60 @@ struct AddMealView: View {
                 Text("kcal")
                     .font(.title3)
                 Spacer()
+                if mealKcalValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.red)
+                }
             }
             .padding(.horizontal)
             .padding(.bottom, 30)
             
-            Button("決定") {
-                addMeal()
+            HStack {
+                Spacer()
+                Button("戻る") {
+                    dismiss()
+                }
+                .font(.title3)
+                .bold()
+                .padding()
+                .frame(width: 100, height: 35)
+                .foregroundColor(.black)
+                .background(Color.gray .opacity(0.8))
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                Spacer()
+                Button("決定") {
+                    addMeal()
+                }
+                .font(.title3)
+                .bold()
+                .padding()
+                .frame(width: 150, height: 35)
+                .foregroundColor(.black)
+                .background(Color(
+                    red: imageColor.first?.R ?? 0,
+                    green: imageColor.first?.G ?? 1,
+                    blue: imageColor.first?.B ?? 1,
+                    opacity: imageColor.first?.A ?? 0.2
+                ))
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                Spacer()
             }
-            .font(.title3)
-            .padding()
-            .frame(width: 150, height: 35)
-            .foregroundColor(.black)
-            .background(buttonBackgroundColor)
-            .cornerRadius(10)
-            .disabled(!isFormValid())
-            .overlay(
-                   RoundedRectangle(cornerRadius: 10)
-                       .stroke(Color.gray, lineWidth: 1)
-            )
-            Spacer()
         }
+        .onAppear {
+                    self.MealDate = theDate
+                }
+                .onChange(of: theDate) {
+                    self.MealDate = theDate
+                }
         Spacer()
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
@@ -256,7 +291,9 @@ struct AddMealView: View {
             }
         }
         .padding(.top, 100)
+        .navigationBarBackButtonHidden(true)
     }
+        
     
     var dateFormat: DateFormatter {
         let df = DateFormatter()
@@ -267,8 +304,8 @@ struct AddMealView: View {
     }
     
     private func hideKeyboard() {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
     
     private func calculateKcal() {
         let protein = Double(MealProtein) ?? 0
@@ -281,24 +318,47 @@ struct AddMealView: View {
         MealKcal = round((protein * 4) + (fat * 9) + (carbohydrate * 4))
     }
     
-    private func isFormValid() -> Bool {
-        let protein = Double(MealProtein) ?? 0
-        let fat = Double(MealFat) ?? 0
-        let carbohydrate = Double(MealCarbohydrate) ?? 0
-        return !MealName.isEmpty && protein >= 0 && fat >= 0 && carbohydrate >= 0 && MealKcal >= 0
+    private func validateForm() -> Bool {
+        var isValid = true
+
+        mealNameValid = !MealName.isEmpty
+        if !mealNameValid { isValid = false }
+
+        if let protein = Double(MealProtein), protein >= 0, protein <= 9999 {
+            mealProteinValid = true
+        } else {
+            mealProteinValid = false
+            isValid = false
+        }
+
+        if let fat = Double(MealFat), fat >= 0, fat <= 9999 {
+            mealFatValid = true
+        } else {
+            mealFatValid = false
+            isValid = false
+        }
+
+        if let carbohydrate = Double(MealCarbohydrate), carbohydrate >= 0, carbohydrate <= 9999 {
+            mealCarbohydrateValid = true
+        } else {
+            mealCarbohydrateValid = false
+            isValid = false
+        }
+
+        mealKcalValid = MealKcal >= 0
+        if !mealKcalValid { isValid = false }
+
+        return isValid
     }
+
     
     private func addMeal() {
-        let protein = Double(MealProtein) ?? 0
-        let fat = Double(MealFat) ?? 0
-        let carbohydrate = Double(MealCarbohydrate) ?? 0
-        
-        if !isFormValid() {
+        if !validateForm() {
             return
         }
-        print("Form validation passed")
-        let newMeal = MealContentModel(MealName: MealName, MealProtein: protein, MealFat: fat, MealCarbohydrate: carbohydrate, MealKcal: MealKcal, MealDate: MealDate)
+        let newMeal = MealContentModel(MealName: MealName, MealProtein: Double(MealProtein) ?? 0, MealFat: Double(MealFat) ?? 0, MealCarbohydrate: Double(MealCarbohydrate) ?? 0, MealKcal: MealKcal, MealDate: MealDate)
         context.insert(newMeal)
+        
         do {
             try context.save()
             print("Meal saved successfully")
@@ -307,7 +367,7 @@ struct AddMealView: View {
             MealFat = ""
             MealCarbohydrate = ""
             MealKcal = 0.0
-            
+
             refreshID = UUID()
             dismiss()
         } catch {
@@ -331,7 +391,8 @@ struct MealDateSelectView: View {
 
 struct AddMealView_Previews: PreviewProvider {
     static var previews: some View {
-        AddMealView(refreshID: .constant(UUID()))
+        @State var theDate = Date()
+        AddMealView(theDate: $theDate, refreshID: .constant(UUID()))
             .modelContainer(for: [MealContentModel.self, MyMealContentModel.self, ImageColorModel.self])
     }
 }
