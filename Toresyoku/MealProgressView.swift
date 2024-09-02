@@ -167,16 +167,16 @@ struct MealProgressView: View {
         }
         
         let totalKcal = filteredMealContents.reduce(0) { $0 + $1.MealKcal }
-        (MealKcalProgress, remainingKcal) = calculateProgress(target: profile.TargetMealKcal, total: totalKcal)
+        (MealKcalProgress, remainingKcal) = calculateProgress(target: profile.targetMealKcal, total: totalKcal)
 
         let totalProtein = filteredMealContents.reduce(0) { $0 + $1.MealProtein }
-        (MealProteinProgress, remainingProtein) = calculateProgress(target: profile.TargetMealProtein, total: totalProtein)
+        (MealProteinProgress, remainingProtein) = calculateProgress(target: profile.targetMealProtein, total: totalProtein)
 
         let totalFat = filteredMealContents.reduce(0) { $0 + $1.MealFat }
-        (MealFatProgress, remainingFat) = calculateProgress(target: profile.TargetMealFat, total: totalFat)
+        (MealFatProgress, remainingFat) = calculateProgress(target: profile.targetMealFat, total: totalFat)
 
         let totalCarbohydrate = filteredMealContents.reduce(0) { $0 + $1.MealCarbohydrate }
-        (MealCarbohydrateProgress, remainingCarbohydrate) = calculateProgress(target: profile.TargetMealCarbohydrate, total: totalCarbohydrate)
+        (MealCarbohydrateProgress, remainingCarbohydrate) = calculateProgress(target: profile.targetMealCarbohydrate, total: totalCarbohydrate)
     }
     
     private func resetProgress() {

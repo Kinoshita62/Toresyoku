@@ -27,7 +27,7 @@ struct MyPageMainView: View {
                     if let profile = latestProfile {
                         HStack {
                             Spacer()
-                            Text(dateFormat.string(from: profile.UserDataAddDate))
+                            Text(dateFormat.string(from: profile.userDataAddDate))
                             Text("時点")
                         }
                         .font(.title3)
@@ -48,7 +48,7 @@ struct MyPageMainView: View {
                                     Text("年齢")
                                         .font(.title3)
                                     Spacer()
-                                    Text(" \(profile.UserAge, specifier: "%.f") 歳")
+                                    Text("\(String(profile.userAge)) 歳")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -57,7 +57,7 @@ struct MyPageMainView: View {
                                     Text("身長")
                                         .font(.title3)
                                     Spacer()
-                                    Text(" \(profile.UserTall, specifier: "%.1f") cm")
+                                    Text(" \(profile.userTall, specifier: "%.1f") cm")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -65,7 +65,7 @@ struct MyPageMainView: View {
                                     Text("体重")
                                         .font(.title3)
                                     Spacer()
-                                    Text(" \(profile.UserWeight, specifier: "%.1f") kg")
+                                    Text(" \(profile.userWeight, specifier: "%.1f") kg")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -74,7 +74,7 @@ struct MyPageMainView: View {
                                     Text("体脂肪率")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.UserFatPercentage, specifier: "%.1f") %")
+                                    Text("\(profile.userFatPercentage, specifier: "%.1f") %")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -82,13 +82,13 @@ struct MyPageMainView: View {
                                 HStack {
                                     Spacer()
                                     Text("BMI")
-                                    Text("\(profile.UserBMI, specifier: "%.1f")")
+                                    Text("\(profile.userBMI, specifier: "%.1f")")
                                     Spacer()
                                     Text("除脂肪体重")
-                                    Text("\(profile.UserLeanBodyMass, specifier: "%.1f") kg")
+                                    Text("\(profile.userLeanBodyMass, specifier: "%.1f") kg")
                                     Spacer()
                                     Text("筋肉量")
-                                    Text("\(profile.UserMuscleMass, specifier: "%.1f") kg")
+                                    Text("\(profile.userMuscleMass, specifier: "%.1f") kg")
                                     Spacer()
                                 }
                                 .font(.system(size: 15))
@@ -117,7 +117,7 @@ struct MyPageMainView: View {
                                     Text("目標体重")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.TargetWeight, specifier: "%.1f")kg")
+                                    Text("\(profile.targetWeight, specifier: "%.1f")kg")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -126,7 +126,7 @@ struct MyPageMainView: View {
                                     Text("目標体脂肪率")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.TargetFatPercentage, specifier: "%.1f") %")
+                                    Text("\(profile.targetFatPercentage, specifier: "%.1f") %")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -142,22 +142,43 @@ struct MyPageMainView: View {
                         ZStack {
                             Rectangle()
                                 .foregroundColor(.gray .opacity(0.05))
-                                .frame(height: 80)
+                                .frame(height: 120)
                             VStack {
                                 HStack {
                                     Text("基礎代謝量")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.UserBMR, specifier: "%.f") kcal")
+                                    Text("\(profile.userBMR, specifier: "%.f") kcal")
                                         .font(.title3)
                                 }
                                 .padding(5)
-                                
+                                HStack {
+                                    Text("活動レベル")
+                                        .font(.title3)
+                                    Spacer()
+                                    if profile.userActivityLevel == 0 {
+                                        Text("低い")
+                                            .font(.title3)
+                                    } else if profile.userActivityLevel == 1 {
+                                        Text("やや低い")
+                                            .font(.title3)
+                                    } else if profile.userActivityLevel == 2 {
+                                        Text("普通")
+                                            .font(.title3)
+                                    } else if profile.userActivityLevel == 3 {
+                                        Text("やや高い")
+                                            .font(.title3)
+                                    } else if profile.userActivityLevel == 4 {
+                                        Text("高い")
+                                            .font(.title3)
+                                    }
+                                }
+                                .padding(5)
                                 HStack {
                                     Text("消費カロリー")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.UserConsumeKcal, specifier: "%.f") kcal")
+                                    Text("\(profile.userConsumeKcal, specifier: "%.f") kcal")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -185,7 +206,7 @@ struct MyPageMainView: View {
                                     Text("目標摂取カロリー")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.TargetMealKcal, specifier: "%.f") kcal")
+                                    Text("\(profile.targetMealKcal, specifier: "%.f") kcal")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -194,7 +215,7 @@ struct MyPageMainView: View {
                                     Text("たんぱく質目標摂取量")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.TargetMealProtein, specifier: "%.1f") g")
+                                    Text("\(profile.targetMealProtein, specifier: "%.1f") g")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -203,7 +224,7 @@ struct MyPageMainView: View {
                                     Text("脂質目標摂取量")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.TargetMealFat, specifier: "%.1f") g")
+                                    Text("\(profile.targetMealFat, specifier: "%.1f") g")
                                         .font(.title3)
                                 }
                                 .padding(5)
@@ -212,7 +233,7 @@ struct MyPageMainView: View {
                                     Text("炭水化物目標摂取量")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(profile.TargetMealCarbohydrate, specifier: "%.1f") g")
+                                    Text("\(profile.targetMealCarbohydrate, specifier: "%.1f") g")
                                         .font(.title3)
                                 }
                                 .padding(5)

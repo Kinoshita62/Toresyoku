@@ -28,19 +28,19 @@ struct GraphMainView: View {
     let calendar = Calendar.current
     
     var targetKcal: Double {
-        profiles.first?.TargetMealKcal ?? 0
+        profiles.first?.targetMealKcal ?? 0
     }
     
     var targetProtein: Double {
-        profiles.first?.TargetMealProtein ?? 0
+        profiles.first?.targetMealProtein ?? 0
     }
     
     var targetFat: Double {
-        profiles.first?.TargetMealFat ?? 0
+        profiles.first?.targetMealFat ?? 0
     }
     
     var targetCarbohydrate: Double {
-        profiles.first?.TargetMealCarbohydrate ?? 0
+        profiles.first?.targetMealCarbohydrate ?? 0
     }
     
     private var dailyCalories: [(date: Date, totalKcal: Double)] {

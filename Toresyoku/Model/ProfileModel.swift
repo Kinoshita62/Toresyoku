@@ -11,47 +11,50 @@ import SwiftData
 @Model
 final class ProfileModel {
     var id: String
-    var UserDataAddDate: Date
+    var userDataAddDate: Date
     
-    var UserAge: Int
-    var UserSex: Int
+    var userAge: Int
+    var userSex: Int
 
-    var UserTall: Double
-    var UserWeight: Double
-    var UserBMI: Double
-    var UserFatPercentage: Double
-    var UserLeanBodyMass: Double
-    var UserMuscleMass: Double
+    var userTall: Double
+    var userWeight: Double
+    var userBMI: Double
+    var userFatPercentage: Double
+    var userLeanBodyMass: Double
+    var userMuscleMass: Double
     
-    var UserConsumeKcal: Double
-    var UserBMR: Double
+    var userConsumeKcal: Double
+    var userBMR: Double
     
-    var TargetWeight: Double
-    var TargetFatPercentage: Double
-    var TargetMealKcal: Double
-    var TargetMealProtein: Double
-    var TargetMealFat: Double
-    var TargetMealCarbohydrate: Double
+    var targetWeight: Double
+    var targetFatPercentage: Double
+    var targetMealKcal: Double
+    var targetMealProtein: Double
+    var targetMealFat: Double
+    var targetMealCarbohydrate: Double
     
-    init(UserDataAddDate: Date,UserAge: Int, UserSex: Int, UserTall: Double, UserWeight: Double, UserBMI: Double, UserFatPercentage: Double, UserLeanBodyMass: Double, UserMuscleMass: Double, UserConsumeKcal: Double, UserBMR: Double, TargetWeight: Double, TargetFatPercentage: Double, TargetMealKcal: Double, TargetMealProtein: Double, TargetMealFat: Double, TargetMealCarbohydrate: Double) {
+    var userActivityLevel: Int
+    
+    init(userDataAddDate: Date, userAge: Int, userSex: Int, userTall: Double, userWeight: Double, userBMI: Double, userFatPercentage: Double, userLeanBodyMass: Double, userMuscleMass: Double, userConsumeKcal: Double, userBMR: Double, targetWeight: Double, targetFatPercentage: Double, targetMealKcal: Double, targetMealProtein: Double, targetMealFat: Double, targetMealCarbohydrate: Double, userActivityLevel: Int) {
         self.id = UUID().uuidString
-        self.UserDataAddDate = UserDataAddDate
-        self.UserAge = UserAge
-        self.UserSex = UserSex
-        self.UserTall = UserTall
-        self.UserWeight = UserWeight
-        self.UserBMI = UserBMI
-        self.UserFatPercentage = UserFatPercentage
-        self.UserLeanBodyMass = UserLeanBodyMass
-        self.UserMuscleMass = UserMuscleMass
-        self.UserConsumeKcal = UserConsumeKcal
-        self.UserBMR = UserBMR
-        self.TargetWeight = TargetWeight
-        self.TargetFatPercentage = TargetFatPercentage
-        self.TargetMealKcal = TargetMealKcal
-        self.TargetMealProtein = TargetMealProtein
-        self.TargetMealFat = TargetMealFat
-        self.TargetMealCarbohydrate = TargetMealCarbohydrate
+        self.userDataAddDate = userDataAddDate
+        self.userAge = userAge
+        self.userSex = userSex
+        self.userTall = userTall
+        self.userWeight = userWeight
+        self.userBMI = userBMI
+        self.userFatPercentage = userFatPercentage
+        self.userLeanBodyMass = userLeanBodyMass
+        self.userMuscleMass = userMuscleMass
+        self.userConsumeKcal = userConsumeKcal
+        self.userBMR = userBMR
+        self.targetWeight = targetWeight
+        self.targetFatPercentage = targetFatPercentage
+        self.targetMealKcal = targetMealKcal
+        self.targetMealProtein = targetMealProtein
+        self.targetMealFat = targetMealFat
+        self.targetMealCarbohydrate = targetMealCarbohydrate
+        self.userActivityLevel = userActivityLevel
     }
 }
 

@@ -15,29 +15,29 @@ struct ProfileSettingView: View {
     @Query private var profiles: [ProfileModel]
     @Query private var imageColor: [ImageColorModel]
     
-    @State private var UserDataAddDate: Date
+    @State private var newUserDataAddDate: Date
     
-    @State private var UserAge: String = ""
-    @State private var UserSex: Int = 0
-    @State private var UserBMR: String = ""
+    @State private var newUserAge: String = ""
+    @State private var newUserSex: Int = 0
+    @State private var newUserBMR: String = ""
     
-    @State private var UserTall: String = ""
-    @State private var UserWeight: String = ""
-    @State private var UserBMI: String = ""
-    @State private var UserFatPercentage: String = ""
-    @State private var UserLeanBodyMass: String = ""
-    @State private var UserMuscleMass: String = ""
+    @State private var newUserTall: String = ""
+    @State private var newUserWeight: String = ""
+    @State private var newUserBMI: String = ""
+    @State private var newUserFatPercentage: String = ""
+    @State private var newUserLeanBodyMass: String = ""
+    @State private var newUserMuscleMass: String = ""
     
-    @State private var UserConsumeKcal: String = ""
+    @State private var newUserConsumeKcal: String = ""
     
-    @State private var TargetWeight: String = ""
-    @State private var TargetFatPercentage: String = ""
-    @State private var TargetMealKcal: String = ""
-    @State private var TargetMealProtein: String = ""
-    @State private var TargetMealFat: String = ""
-    @State private var TargetMealCarbohydrate: String = ""
+    @State private var newTargetWeight: String = ""
+    @State private var newTargetFatPercentage: String = ""
+    @State private var newTargetMealKcal: String = ""
+    @State private var newTargetMealProtein: String = ""
+    @State private var newTargetMealFat: String = ""
+    @State private var newTargetMealCarbohydrate: String = ""
 
-    @State private var activityLevel: Int = 2
+    @State private var newUserActivityLevel: Int = 2
 
     @State private var dateSelectPresented: Bool = false
     @State private var activityLevelExplanationPresented: Bool = false
@@ -47,7 +47,7 @@ struct ProfileSettingView: View {
     
     init(theDate: Binding<Date>) {
             self._theDate = theDate
-            self._UserDataAddDate = State(initialValue: theDate.wrappedValue)
+            self._newUserDataAddDate = State(initialValue: theDate.wrappedValue)
         }
     
     var body: some View {
@@ -66,7 +66,7 @@ struct ProfileSettingView: View {
                             Text("年齢")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $UserAge)
+                            TextField("", text: $newUserAge)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -81,7 +81,7 @@ struct ProfileSettingView: View {
                             Text("歳    ")
                                 .font(.title3)
                         }
-                        .onChange(of: UserAge) {
+                        .onChange(of: newUserAge) {
                             calculateBMR()
                         }
                         .padding(5)
@@ -90,7 +90,7 @@ struct ProfileSettingView: View {
                             Text("性別")
                                 .font(.title3)
                             Spacer()
-                            Picker("", selection: $UserSex) {
+                            Picker("", selection: $newUserSex) {
                                 Text("男性").tag(0)
                                     .font(.title3)
                                 Text("女性").tag(1)
@@ -107,7 +107,7 @@ struct ProfileSettingView: View {
                             Text("身長")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $UserTall)
+                            TextField("", text: $newUserTall)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -122,7 +122,7 @@ struct ProfileSettingView: View {
                             Text("cm  ")
                                 .font(.title3)
                         }
-                        .onChange(of: UserTall) {
+                        .onChange(of: newUserTall) {
                             calculateBMI()
                             calculateBMR()
                         }
@@ -133,7 +133,7 @@ struct ProfileSettingView: View {
                             Text("体重")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $UserWeight)
+                            TextField("", text: $newUserWeight)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -148,7 +148,7 @@ struct ProfileSettingView: View {
                             Text("kg   ")
                                 .font(.title3)
                         }
-                        .onChange(of: UserWeight) {
+                        .onChange(of: newUserWeight) {
                             calculateBMI()
                             calculateLeanBodyMass()
                             calculateMuscleMass()
@@ -160,7 +160,7 @@ struct ProfileSettingView: View {
                             Text("体脂肪率")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $UserFatPercentage)
+                            TextField("", text: $newUserFatPercentage)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -175,7 +175,7 @@ struct ProfileSettingView: View {
                             Text("%   ")
                                 .font(.title3)
                         }
-                        .onChange(of: UserFatPercentage) {
+                        .onChange(of: newUserFatPercentage) {
                             calculateLeanBodyMass()
                             calculateMuscleMass()
                         }
@@ -184,13 +184,13 @@ struct ProfileSettingView: View {
                         HStack {
                             Spacer()
                             Text("BMI")
-                            Text(UserBMI)
+                            Text(newUserBMI)
                             Spacer()
                             Text("除脂肪体重")
-                            Text(UserLeanBodyMass)
+                            Text(newUserLeanBodyMass)
                             Spacer()
                             Text("筋肉量")
-                            Text(UserMuscleMass)
+                            Text(newUserMuscleMass)
                             Spacer()
                         }
                         .foregroundColor(.gray)
@@ -217,7 +217,7 @@ struct ProfileSettingView: View {
                             Text("目標体重")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $TargetWeight)
+                            TextField("", text: $newTargetWeight)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -238,7 +238,7 @@ struct ProfileSettingView: View {
                             Text("目標体脂肪率")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $TargetFatPercentage)
+                            TextField("", text: $newTargetFatPercentage)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -272,7 +272,7 @@ struct ProfileSettingView: View {
                             Text("基礎代謝量")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $UserBMR)
+                            TextField("", text: $newUserBMR)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -284,7 +284,7 @@ struct ProfileSettingView: View {
                                     RoundedRectangle(cornerRadius: 6)
                                         .stroke(Color.gray, lineWidth: 1)
                                 )
-                                .onChange(of: UserBMR) {
+                                .onChange(of: newUserBMR) {
                                     calculateConsumeKcal()
                                 }
                             Text("kcal")
@@ -307,7 +307,7 @@ struct ProfileSettingView: View {
                                 }
                             
                             Spacer()
-                            Picker("", selection: $activityLevel) {
+                            Picker("", selection: $newUserActivityLevel) {
                                 Text("低い").tag(0)
                                     .font(.title3)
                                 Text("やや低い").tag(1)
@@ -326,7 +326,7 @@ struct ProfileSettingView: View {
                                     .stroke(Color.gray, lineWidth: 1)
                             )
                             .padding(.trailing, 25)
-                            .onChange(of: activityLevel) {
+                            .onChange(of: newUserActivityLevel) {
                                 calculateConsumeKcal()
                             }
                         }
@@ -336,7 +336,7 @@ struct ProfileSettingView: View {
                             Text("1日の消費カロリー")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $UserConsumeKcal)
+                            TextField("", text: $newUserConsumeKcal)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -384,7 +384,7 @@ struct ProfileSettingView: View {
                                         .presentationCompactAdaptation(PresentationAdaptation.popover)
                                 }
                             Spacer()
-                            TextField("", text: $TargetMealKcal)
+                            TextField("", text: $newTargetMealKcal)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -444,7 +444,7 @@ struct ProfileSettingView: View {
                             Text("目標たんぱく質摂取量")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $TargetMealProtein)
+                            TextField("", text: $newTargetMealProtein)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -465,7 +465,7 @@ struct ProfileSettingView: View {
                             Text("目標脂質摂取量")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $TargetMealFat)
+                            TextField("", text: $newTargetMealFat)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -486,7 +486,7 @@ struct ProfileSettingView: View {
                             Text("目標炭水化物摂取量")
                                 .font(.title3)
                             Spacer()
-                            TextField("", text: $TargetMealCarbohydrate)
+                            TextField("", text: $newTargetMealCarbohydrate)
                                 .font(.title3)
                                 .multilineTextAlignment(.trailing)
                                 .padding(4)
@@ -561,24 +561,25 @@ struct ProfileSettingView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 20)
                 .onChange(of: theDate) {
-                            UserDataAddDate = theDate
+                            newUserDataAddDate = theDate
                         }
                 .onAppear {
                     if let latestProfile = profiles.first {
-                        UserAge = String(latestProfile.UserAge)
-                        UserSex = latestProfile.UserSex
-                        UserTall = String(latestProfile.UserTall)
-                        UserWeight = String(latestProfile.UserWeight)
-                        UserBMI = String(latestProfile.UserBMI)
-                        UserFatPercentage = String(latestProfile.UserFatPercentage)
-                        UserLeanBodyMass = String(latestProfile.UserLeanBodyMass)
-                        UserMuscleMass = String(latestProfile.UserMuscleMass)
-                        TargetWeight = String(latestProfile.TargetWeight)
-                        TargetFatPercentage = String(latestProfile.TargetFatPercentage)
-                        TargetMealKcal = String(latestProfile.TargetMealKcal)
-                        TargetMealProtein = String(latestProfile.TargetMealProtein)
-                        TargetMealFat = String(latestProfile.TargetMealFat)
-                        TargetMealCarbohydrate = String(latestProfile.TargetMealCarbohydrate)
+                        newUserAge = String(latestProfile.userAge)
+                        newUserSex = latestProfile.userSex
+                        newUserTall = String(latestProfile.userTall)
+                        newUserWeight = String(latestProfile.userWeight)
+                        newUserBMI = String(latestProfile.userBMI)
+                        newUserFatPercentage = String(latestProfile.userFatPercentage)
+                        newUserLeanBodyMass = String(latestProfile.userLeanBodyMass)
+                        newUserMuscleMass = String(latestProfile.userMuscleMass)
+                        newTargetWeight = String(latestProfile.targetWeight)
+                        newTargetFatPercentage = String(latestProfile.targetFatPercentage)
+                        newTargetMealKcal = String(latestProfile.targetMealKcal)
+                        newTargetMealProtein = String(latestProfile.targetMealProtein)
+                        newTargetMealFat = String(latestProfile.targetMealFat)
+                        newTargetMealCarbohydrate = String(latestProfile.targetMealCarbohydrate)
+                        newUserActivityLevel = latestProfile.userActivityLevel
                     }
                 }
             }
@@ -598,39 +599,37 @@ struct ProfileSettingView: View {
     }
     
     private func calculateBMI() {
-        let userTall = Double(UserTall) ?? 0
-        let userWeight = Double(UserWeight) ?? 0
-        guard userTall > 0, userWeight > 0 else {
-            UserBMI = ""
+        let castingUserTall = Double(newUserTall) ?? 0
+        let castingUserWeight = Double(newUserWeight) ?? 0
+        guard castingUserTall > 0, castingUserWeight > 0 else {
+            newUserBMI = ""
             return
         }
-        let heightInMeters = userTall / 100
-        UserBMI = String(round(userWeight / (heightInMeters * heightInMeters) * 10) / 10)
-
-
+        let heightInMeters = castingUserTall / 100
+        newUserBMI = String(round(castingUserWeight / (heightInMeters * heightInMeters) * 10) / 10)
     }
     
     private func calculateLeanBodyMass() {
-        let userWeight = Double(UserWeight) ?? 0
-        let userFatPercentage = Double(UserFatPercentage) ?? 0
+        let castingUserWeight = Double(newUserWeight) ?? 0
+        let castingUserFatPercentage = Double(newUserFatPercentage) ?? 0
         
-        guard userWeight > 0, userFatPercentage > 0 else {
-            UserLeanBodyMass = "0.0"
+        guard castingUserWeight > 0, castingUserFatPercentage > 0 else {
+            newUserLeanBodyMass = "0.0"
             return
         }
-        let fatAmount = userWeight * (userFatPercentage / 100)
-        UserLeanBodyMass = String(round((userWeight - fatAmount) * 10) / 10)
+        let fatAmount = castingUserWeight * (castingUserFatPercentage / 100)
+        newUserLeanBodyMass = String(round((castingUserWeight - fatAmount) * 10) / 10)
     }
     
     private func calculateMuscleMass() {
-        let userWeight = Double(UserWeight) ?? 0
-        let userFatPercentage = Double(UserFatPercentage) ?? 0
-        let userLeanBodyMass = Double(UserLeanBodyMass) ?? 0
-        guard userWeight > 0, userFatPercentage > 0 else {
-            UserMuscleMass = "0.0"
+        let castingUserWeight = Double(newUserWeight) ?? 0
+        let castingUserFatPercentage = Double(newUserFatPercentage) ?? 0
+        let castingUserLeanBodyMass = Double(newUserLeanBodyMass) ?? 0
+        guard castingUserWeight > 0, castingUserFatPercentage > 0 else {
+            newUserMuscleMass = "0.0"
             return
         }
-        UserMuscleMass = String(round((userLeanBodyMass / 2) * 10) / 10)
+        newUserMuscleMass = String(round((castingUserLeanBodyMass / 2) * 10) / 10)
     }
     
     
@@ -640,39 +639,39 @@ struct ProfileSettingView: View {
     
     
     private func calculateBMR() {
-        let weight = Double(UserWeight) ?? 0
-        let tall = Double(UserTall) ?? 0
-        let age = Double(UserAge) ?? 0
-        guard weight > 0, tall > 0, age > 0 else {
-            UserBMR = ""
+        let castingUserWeight = Double(newUserWeight) ?? 0
+        let castingUserTall = Double(newUserTall) ?? 0
+        let castingUserAge = Double(newUserAge) ?? 0
+        guard castingUserWeight > 0, castingUserTall > 0, castingUserAge > 0 else {
+            newUserBMR = ""
             return
         }
-        if UserSex == 0 {
-            UserBMR = String(format: "%.f",88.362 + (13.397 * weight) + (4.799 * tall) - (5.677 * age))
-        } else if UserSex == 1 {
-            UserBMR = String(format: "%.f",447.593 + (9.247 * weight) + (3.098 * tall) - (4.33 * age))
+        if newUserSex == 0 {
+            newUserBMR = String(format: "%.f",88.362 + (13.397 * castingUserWeight) + (4.799 * castingUserTall) - (5.677 * castingUserAge))
+        } else if newUserSex == 1 {
+            newUserBMR = String(format: "%.f",447.593 + (9.247 * castingUserWeight) + (3.098 * castingUserTall) - (4.33 * castingUserAge))
         } else {
-            UserBMR = ""
+            newUserBMR = ""
             return
         }
     }
     
     
     private func calculateConsumeKcal() {
-        let userBMR = Double(UserBMR) ?? 0
-        guard userBMR > 0 else {
+        let castingUserBMR = Double(newUserBMR) ?? 0
+        guard castingUserBMR > 0 else {
             return
         }
-        if activityLevel == 0 {
-            UserConsumeKcal = String(format: "%.f", userBMR * 1.2)
-        } else if activityLevel == 1 {
-            UserConsumeKcal = String(format: "%.f", userBMR * 1.375)
-        } else if activityLevel == 2 {
-            UserConsumeKcal = String(format: "%.f", userBMR * 1.55)
-        } else if activityLevel == 3 {
-            UserConsumeKcal = String(format: "%.f", userBMR * 1.725)
-        } else if activityLevel == 4 {
-            UserConsumeKcal = String(format: "%.f", userBMR * 1.9)
+        if newUserActivityLevel == 0 {
+            newUserConsumeKcal = String(format: "%.f", castingUserBMR * 1.2)
+        } else if newUserActivityLevel == 1 {
+            newUserConsumeKcal = String(format: "%.f", castingUserBMR * 1.375)
+        } else if newUserActivityLevel == 2 {
+            newUserConsumeKcal = String(format: "%.f", castingUserBMR * 1.55)
+        } else if newUserActivityLevel == 3 {
+            newUserConsumeKcal = String(format: "%.f", castingUserBMR * 1.725)
+        } else if newUserActivityLevel == 4 {
+            newUserConsumeKcal = String(format: "%.f", castingUserBMR * 1.9)
         } else {
             return
         }
@@ -680,99 +679,101 @@ struct ProfileSettingView: View {
     
     
     private func calculate334() {
-        let targetMealKcal = Double(TargetMealKcal) ?? 0
-        guard targetMealKcal > 0 else {
-            TargetMealProtein = ""
-            TargetMealFat = ""
-            TargetMealCarbohydrate = ""
+        let castingTargetMealKcal = Double(newTargetMealKcal) ?? 0
+        guard castingTargetMealKcal > 0 else {
+            newTargetMealProtein = ""
+            newTargetMealFat = ""
+            newTargetMealCarbohydrate = ""
             return
         }
-        TargetMealProtein = String(round((targetMealKcal / 10 * 3 / 4) * 10 ) / 10)
-        TargetMealFat = String(round((targetMealKcal / 10 * 3 / 9) * 10) / 10)
-        TargetMealCarbohydrate = String(round((targetMealKcal / 10 * 4 / 4) * 10) / 10)
+        newTargetMealProtein = String(round((castingTargetMealKcal / 10 * 3 / 4) * 10 ) / 10)
+        newTargetMealFat = String(round((castingTargetMealKcal / 10 * 3 / 9) * 10) / 10)
+        newTargetMealCarbohydrate = String(round((castingTargetMealKcal / 10 * 4 / 4) * 10) / 10)
     }
     
     
     private func calculate325() {
-        let targetMealKcal = Double(TargetMealKcal) ?? 0
-        guard targetMealKcal > 0 else {
-            TargetMealProtein = ""
-            TargetMealFat = ""
-            TargetMealCarbohydrate = ""
+        let castingTargetMealKcal = Double(newTargetMealKcal) ?? 0
+        guard castingTargetMealKcal > 0 else {
+            newTargetMealProtein = ""
+            newTargetMealFat = ""
+            newTargetMealCarbohydrate = ""
             return
         }
-        TargetMealProtein = String(round((targetMealKcal / 10 * 3 / 4) * 10 ) / 10)
-        TargetMealFat = String(round((targetMealKcal / 10 * 2 / 9) * 10) / 10)
-        TargetMealCarbohydrate = String(round((targetMealKcal / 10 * 5 / 4) * 10) / 10)
+        newTargetMealProtein = String(round((castingTargetMealKcal / 10 * 3 / 4) * 10 ) / 10)
+        newTargetMealFat = String(round((castingTargetMealKcal / 10 * 2 / 9) * 10) / 10)
+        newTargetMealCarbohydrate = String(round((castingTargetMealKcal / 10 * 5 / 4) * 10) / 10)
     }
     
     private func calculate316() {
-        let targetMealKcal = Double(TargetMealKcal) ?? 0
-        guard targetMealKcal > 0 else {
-            TargetMealProtein = ""
-            TargetMealFat = ""
-            TargetMealCarbohydrate = ""
+        let castingTargetMealKcal = Double(newTargetMealKcal) ?? 0
+        guard castingTargetMealKcal > 0 else {
+            newTargetMealProtein = ""
+            newTargetMealFat = ""
+            newTargetMealCarbohydrate = ""
             return
         }
-        TargetMealProtein = String(round((targetMealKcal / 10 * 3 / 4) * 10 ) / 10)
-        TargetMealFat = String(round((targetMealKcal / 10 * 1 / 9) * 10) / 10)
-        TargetMealCarbohydrate = String(round((targetMealKcal / 10 * 6 / 4) * 10) / 10)
+        newTargetMealProtein = String(round((castingTargetMealKcal / 10 * 3 / 4) * 10 ) / 10)
+        newTargetMealFat = String(round((castingTargetMealKcal / 10 * 1 / 9) * 10) / 10)
+        newTargetMealCarbohydrate = String(round((castingTargetMealKcal / 10 * 6 / 4) * 10) / 10)
     }
     
     private func addUpdateProfile() {
-        let userAge = Int(UserAge) ?? 0
-        let userSex = UserSex
-        let userTall = Double(UserTall) ?? 0
-        let userWeight = Double(UserWeight) ?? 0
-        let userBMI = Double(UserBMI) ?? 0
-        let userFatPercentage = Double(UserFatPercentage) ?? 0
-        let userLeanBodyMass = Double(UserLeanBodyMass) ?? 0
-        let userMuscleMass = Double(UserMuscleMass) ?? 0
-        let userConsumeKcal = Double(UserConsumeKcal) ?? 0
-        let userBMR = Double(UserBMR) ?? 0
-        let targetWeight = Double(TargetWeight) ?? 0
-        let targetFatPercentage = Double(TargetFatPercentage) ?? 0
-        let targetMealKcal = Double(TargetMealKcal) ?? 0
-        let targetMealProtein = Double(TargetMealProtein) ?? 0
-        let targetMealFat = Double(TargetMealFat) ?? 0
-        let targetMealCarbohydrate = Double(TargetMealCarbohydrate) ?? 0
+        let castingUserAge = Int(newUserAge) ?? 0
+//        let castingUserSex = newUserSex
+        let castingUserTall = Double(newUserTall) ?? 0
+        let castingUserWeight = Double(newUserWeight) ?? 0
+        let castingUserBMI = Double(newUserBMI) ?? 0
+        let castingUserFatPercentage = Double(newUserFatPercentage) ?? 0
+        let castingUserLeanBodyMass = Double(newUserLeanBodyMass) ?? 0
+        let castingUserMuscleMass = Double(newUserMuscleMass) ?? 0
+        let castingUserConsumeKcal = Double(newUserConsumeKcal) ?? 0
+        let castingUserBMR = Double(newUserBMR) ?? 0
+        let castingTargetWeight = Double(newTargetWeight) ?? 0
+        let castingTargetFatPercentage = Double(newTargetFatPercentage) ?? 0
+        let castingTargetMealKcal = Double(newTargetMealKcal) ?? 0
+        let castingTargetMealProtein = Double(newTargetMealProtein) ?? 0
+        let castingTargetMealFat = Double(newTargetMealFat) ?? 0
+        let castingTargetMealCarbohydrate = Double(newTargetMealCarbohydrate) ?? 0
         if let existingProfile = profiles.first {
-            existingProfile.UserDataAddDate = UserDataAddDate
-            existingProfile.UserAge = userAge
-            existingProfile.UserSex = userSex
-            existingProfile.UserTall = userTall
-            existingProfile.UserWeight = userWeight
-            existingProfile.UserBMI = userBMI
-            existingProfile.UserFatPercentage = userFatPercentage
-            existingProfile.UserLeanBodyMass = userLeanBodyMass
-            existingProfile.UserMuscleMass = userMuscleMass
-            existingProfile.UserConsumeKcal = userConsumeKcal
-            existingProfile.UserBMR = userBMR
-            existingProfile.TargetWeight = targetWeight
-            existingProfile.TargetFatPercentage = targetFatPercentage
-            existingProfile.TargetMealKcal = targetMealKcal
-            existingProfile.TargetMealProtein = targetMealProtein
-            existingProfile.TargetMealFat = targetMealFat
-            existingProfile.TargetMealCarbohydrate = targetMealCarbohydrate
+            existingProfile.userDataAddDate = newUserDataAddDate
+            existingProfile.userAge = castingUserAge
+            existingProfile.userSex = newUserSex
+            existingProfile.userTall = castingUserTall
+            existingProfile.userWeight = castingUserWeight
+            existingProfile.userBMI = castingUserBMI
+            existingProfile.userFatPercentage = castingUserFatPercentage
+            existingProfile.userLeanBodyMass = castingUserLeanBodyMass
+            existingProfile.userMuscleMass = castingUserMuscleMass
+            existingProfile.userConsumeKcal = castingUserConsumeKcal
+            existingProfile.userBMR = castingUserBMR
+            existingProfile.targetWeight = castingTargetWeight
+            existingProfile.targetFatPercentage = castingTargetFatPercentage
+            existingProfile.targetMealKcal = castingTargetMealKcal
+            existingProfile.targetMealProtein = castingTargetMealProtein
+            existingProfile.targetMealFat = castingTargetMealFat
+            existingProfile.targetMealCarbohydrate = castingTargetMealCarbohydrate
+            existingProfile.userActivityLevel = newUserActivityLevel
         } else {
             let newProfile = ProfileModel(
-                UserDataAddDate: UserDataAddDate,
-                UserAge: userAge,
-                UserSex: userSex,
-                UserTall: userTall,
-                UserWeight: userWeight,
-                UserBMI: userBMI,
-                UserFatPercentage: userFatPercentage,
-                UserLeanBodyMass: userLeanBodyMass,
-                UserMuscleMass: userMuscleMass,
-                UserConsumeKcal: userConsumeKcal,
-                UserBMR: userBMR,
-                TargetWeight: targetWeight,
-                TargetFatPercentage: targetFatPercentage,
-                TargetMealKcal: targetMealKcal,
-                TargetMealProtein: targetMealProtein,
-                TargetMealFat: targetMealFat,
-                TargetMealCarbohydrate: targetMealCarbohydrate)
+                userDataAddDate: newUserDataAddDate,
+                userAge: castingUserAge,
+                userSex: newUserSex,
+                userTall: castingUserTall,
+                userWeight: castingUserWeight,
+                userBMI: castingUserBMI,
+                userFatPercentage: castingUserFatPercentage,
+                userLeanBodyMass: castingUserLeanBodyMass,
+                userMuscleMass: castingUserMuscleMass,
+                userConsumeKcal: castingUserConsumeKcal,
+                userBMR: castingUserBMR,
+                targetWeight: castingTargetWeight,
+                targetFatPercentage: castingTargetFatPercentage,
+                targetMealKcal: castingTargetMealKcal,
+                targetMealProtein: castingTargetMealProtein,
+                targetMealFat: castingTargetMealFat,
+                targetMealCarbohydrate: castingTargetMealCarbohydrate,
+                userActivityLevel: newUserActivityLevel)
             context.insert(newProfile)
         }
         do {
@@ -786,12 +787,12 @@ struct ProfileSettingView: View {
 
 struct DateSelectView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var UserDataAddDate: Date
+    @Binding var newUserDataAddDate: Date
     var body: some View {
-        DatePicker("", selection: $UserDataAddDate, displayedComponents: [.date])
+        DatePicker("", selection: $newUserDataAddDate, displayedComponents: [.date])
             .environment(\.locale, Locale(identifier: "ja_JP"))
             .datePickerStyle(.graphical)
-            .onChange(of: UserDataAddDate) {
+            .onChange(of: newUserDataAddDate) {
                 dismiss()
             }
     }
