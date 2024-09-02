@@ -312,60 +312,6 @@ struct SettingView: View {
         }
 
     }
-    
-//    private func selectColor(selectedRed: Double, selectedGreen: Double, selectedBlue: Double, selectedAlpha: Double) {
-//        replaceImageColor(R: selectedRed, G: selectedGreen, B: selectedBlue, A: selectedAlpha)
-//    }
-
-//    private func selectColorBlue() {
-//        let newRed: Double = 0
-//        let newGreen: Double = 255
-//        let newBlue: Double = 255
-//        let newAlpha: Double = 0.2
-//        replaceImageColor(newSelectedRed: newRed, newSelectedGreen: newGreen, newSelectedBlue: newBlue, newSelectedAlpha: newAlpha)
-//    }
-//
-//    private func selectColorPink() {
-//        let newRed: Double = 255
-//                let newGreen: Double = 0
-//                let newBlue: Double = 255
-//                let newAlpha: Double = 0.2
-//                replaceImageColor(newSelectedRed: newRed, newSelectedGreen: newGreen, newSelectedBlue: newBlue, newSelectedAlpha: newAlpha)
-//    }
-//
-//    private func selectColorOrange() {
-//        let newRed: Double = 255
-//        let newGreen: Double = 150
-//        let newBlue: Double = 0
-//        let newAlpha: Double = 0.2
-//        replaceImageColor(newSelectedRed: newRed, newSelectedGreen: newGreen, newSelectedBlue: newBlue, newSelectedAlpha: newAlpha)
-//    }
-//
-//    private func selectColorGreen() {
-//        let newRed: Double = 50
-//        let newGreen: Double = 200
-//        let newBlue: Double = 75
-//        let newAlpha: Double = 0.2
-//        replaceImageColor(newSelectedRed: newRed, newSelectedGreen: newGreen, newSelectedBlue: newBlue, newSelectedAlpha: newAlpha)
-//    }
-//
-//
-//    private func replaceImageColor(newSelectedRed: Double, newSelectedGreen: Double, newSelectedBlue: Double, newSelectedAlpha: Double) {
-//        do {
-//            let existingColors = try context.fetch(FetchDescriptor<ImageColorModel>())
-//            for color in existingColors {
-//                context.delete(color)
-//            }
-//            let newColor = ImageColorModel(selectedRed: newSelectedRed / 255, selectedGreen: newSelectedGreen / 255, selectedBlue: newSelectedBlue / 255, selectedAlpha: newSelectedAlpha)
-//            context.insert(newColor)
-//            try context.save()
-//            refreshID = UUID()
-//            settingViewPresented = false
-//        } catch {
-//            print("Failed to replace color: \(error.localizedDescription)")
-//        }
-//    }
-
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {

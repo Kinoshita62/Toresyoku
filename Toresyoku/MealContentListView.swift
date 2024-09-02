@@ -19,18 +19,18 @@ struct MealContentListView: View {
     var body: some View {
         List {
             let filteredMealContents = mealContents.filter { mealContent in
-                Calendar.current.isDate(mealContent.MealDate, inSameDayAs: theDate)
+                Calendar.current.isDate(mealContent.mealDate, inSameDayAs: theDate)
             }
             ForEach(filteredMealContents) { mealContent in
                 VStack(alignment: .leading) {
                     HStack {
                         VStack {
                             Spacer()
-                            Text(MealNameLimit(mealContent.MealName))
+                            Text(mealNameLimit(mealContent.mealName))
                                 .lineLimit(1)
                                 .truncationMode(.tail)
                             Spacer()
-                            Text("\(mealContent.MealKcal, specifier: "%.f") kcal")
+                            Text("\(mealContent.mealKcal, specifier: "%.f") kcal")
                                 .lineLimit(1)
                                 .truncationMode(.tail)
                             Spacer()
@@ -38,13 +38,13 @@ struct MealContentListView: View {
                         .font(.title3)
                         Spacer()
                         VStack(alignment: .leading) {
-                            Text("たんぱく質: \(mealContent.MealProtein, specifier: "%.1f") g")
+                            Text("たんぱく質: \(mealContent.mealProtein, specifier: "%.1f") g")
                                 .lineLimit(1)
                                 .truncationMode(.tail)
-                            Text("脂質: \(mealContent.MealFat, specifier: "%.1f") g")
+                            Text("脂質: \(mealContent.mealFat, specifier: "%.1f") g")
                                 .lineLimit(1)
                                 .truncationMode(.tail)
-                            Text("炭水化物: \(mealContent.MealCarbohydrate, specifier: "%.1f") g")
+                            Text("炭水化物: \(mealContent.mealCarbohydrate, specifier: "%.1f") g")
                                 .lineLimit(1)
                                 .truncationMode(.tail)
                         }
@@ -71,7 +71,7 @@ struct MealContentListView: View {
         .scrollContentBackground(.hidden)
     }
     
-    private func MealNameLimit(_ text: String) -> String {
+    private func mealNameLimit(_ text: String) -> String {
         return text.count > 6 ? String(text.prefix(6)) + "…" : text
     }
 

@@ -13,14 +13,14 @@ struct MyMenuSelectView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
     
-    @Query private var MyMealContents: [MyMealContentModel]
+    @Query private var myMealContents: [MyMealContentModel]
     @Query private var imageColor: [ImageColorModel]
     
-    @State private var MyMealName: String = ""
-    @State private var MyMealProtein: Double = 0.0
-    @State private var MyMealFat: Double = 0.0
-    @State private var MyMealCarbohydrate: Double = 0.0
-    @State private var MyMealKcal: Double = 0.0
+    @State private var newMyMealName: String = ""
+    @State private var newMyMealProtein: Double = 0.0
+    @State private var newMyMealFat: Double = 0.0
+    @State private var newMyMealCarbohydrate: Double = 0.0
+    @State private var newMyMealKcal: Double = 0.0
     
     @Binding var selectedMealName: String
     @Binding var selectedMealProtein:String
@@ -28,34 +28,34 @@ struct MyMenuSelectView: View {
     @Binding var selectedMealCarbohydrate: String
     @Binding var selectedMealKcal: Double
     
-    @State var MyMenuAddViewPresented: Bool = false
+    @State var myMenuAddViewPresented: Bool = false
     
     @State private var errorMessage: String?
     
     var body: some View {
         VStack {
             List {
-                ForEach(MyMealContents) { myMealContent in
+                ForEach(myMealContents) { myMealContent in
                     VStack(alignment: .leading) {
                         HStack {
                             VStack() {
-                                Text(myMealNameLimit(myMealContent.MyMealName))
+                                Text(myMealNameLimit(myMealContent.myMealName))
                                     .lineLimit(1)
                                     .truncationMode(.tail)
-                                Text("\(myMealContent.MyMealKcal, specifier: "%.f") kcal")
+                                Text("\(myMealContent.myMealKcal, specifier: "%.f") kcal")
                                     .lineLimit(1)
                                     .truncationMode(.tail)
                             }
                             .font(.title3)
                             Spacer()
                             VStack(alignment: .leading) {
-                                Text("たんぱく質: \(myMealContent.MyMealProtein, specifier: "%.1f") g")
+                                Text("たんぱく質: \(myMealContent.myMealProtein, specifier: "%.1f") g")
                                     .lineLimit(1)
                                     .truncationMode(.tail)
-                                Text("脂質: \(myMealContent.MyMealFat, specifier: "%.1f") g")
+                                Text("脂質: \(myMealContent.myMealFat, specifier: "%.1f") g")
                                     .lineLimit(1)
                                     .truncationMode(.tail)
-                                Text("炭水化物: \(myMealContent.MyMealCarbohydrate, specifier: "%.1f") g")
+                                Text("炭水化物: \(myMealContent.myMealCarbohydrate, specifier: "%.1f") g")
                                     .lineLimit(1)
                                     .truncationMode(.tail)
                             }
@@ -92,7 +92,7 @@ struct MyMenuSelectView: View {
             .scrollContentBackground(.hidden)
             
             Button(action: {
-                MyMenuAddViewPresented.toggle()
+                myMenuAddViewPresented.toggle()
             }) {
                 Text("マイメニューの追加")
             }
@@ -112,8 +112,8 @@ struct MyMenuSelectView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.gray, lineWidth: 1)
             )
-            .sheet(isPresented: $MyMenuAddViewPresented) {
-                MyMenuAddView(MyMenuAddViewPresented: $MyMenuAddViewPresented)
+            .sheet(isPresented: $myMenuAddViewPresented) {
+                MyMenuAddView(myMenuAddViewPresented: $myMenuAddViewPresented)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
             }
@@ -125,11 +125,11 @@ struct MyMenuSelectView: View {
     }
     
     private func selectMyMeal(_ myMealContent: MyMealContentModel) {
-        selectedMealName = myMealContent.MyMealName
-        selectedMealProtein = String(format: "%.1f", myMealContent.MyMealProtein)
-        selectedMealFat = String(format: "%.1f", myMealContent.MyMealFat)
-        selectedMealCarbohydrate = String(format: "%.1f", myMealContent.MyMealCarbohydrate)
-        selectedMealKcal = myMealContent.MyMealKcal
+        selectedMealName = myMealContent.myMealName
+        selectedMealProtein = String(format: "%.1f", myMealContent.myMealProtein)
+        selectedMealFat = String(format: "%.1f", myMealContent.myMealFat)
+        selectedMealCarbohydrate = String(format: "%.1f", myMealContent.myMealCarbohydrate)
+        selectedMealKcal = myMealContent.myMealKcal
         dismiss()
     }
     
@@ -150,11 +150,11 @@ struct MyMenuAddView: View {
     
     @Query private var imageColor: [ImageColorModel]
     
-    @State private var MyMealName: String = ""
-    @State private var MyMealProtein: String = ""
-    @State private var MyMealFat: String = ""
-    @State private var MyMealCarbohydrate: String = ""
-    @State private var MyMealKcal: Double = 0.0
+    @State private var newMyMealName: String = ""
+    @State private var newMyMealProtein: String = ""
+    @State private var newMyMealFat: String = ""
+    @State private var newMyMealCarbohydrate: String = ""
+    @State private var newMyMealKcal: Double = 0.0
     
     @State private var myMealNameValid: Bool = true
     @State private var myMealProteinValid: Bool = true
@@ -162,7 +162,7 @@ struct MyMenuAddView: View {
     @State private var myMealCarbohydrateValid: Bool = true
     @State private var myMealKcalValid: Bool = true
 
-    @Binding var MyMenuAddViewPresented: Bool
+    @Binding var myMenuAddViewPresented: Bool
         
     var body: some View {
         VStack {
@@ -170,7 +170,7 @@ struct MyMenuAddView: View {
                 Text("メニュー")
                     .font(.title3)
                 ZStack(alignment: .leading) {
-                    TextField("", text: $MyMealName)
+                    TextField("", text: $newMyMealName)
                         .font(.title3)
                         .foregroundColor(.black)
                         .padding(4)
@@ -196,7 +196,7 @@ struct MyMenuAddView: View {
         HStack {
             Text("たんぱく質")
                 .font(.title3)
-            TextField("", text: $MyMealProtein)
+            TextField("", text: $newMyMealProtein)
                 .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
@@ -205,9 +205,9 @@ struct MyMenuAddView: View {
                 .foregroundColor(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
-                .onChange(of: MyMealProtein) {
-                    if MyMealProtein.count > 4 {
-                        MyMealProtein = String(MyMealProtein.prefix(4))
+                .onChange(of: newMyMealProtein) {
+                    if newMyMealProtein.count > 4 {
+                        newMyMealProtein = String(newMyMealProtein.prefix(4))
                     }
                     calculateMyKcal()
                 }
@@ -229,7 +229,7 @@ struct MyMenuAddView: View {
         HStack {
             Text("脂質")
                 .font(.title3)
-            TextField("", text: $MyMealFat)
+            TextField("", text: $newMyMealFat)
                 .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
@@ -238,9 +238,9 @@ struct MyMenuAddView: View {
                 .foregroundColor(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
-                .onChange(of: MyMealFat) {
-                    if MyMealFat.count > 4 {
-                        MyMealFat = String(MyMealFat.prefix(4))
+                .onChange(of: newMyMealFat) {
+                    if newMyMealFat.count > 4 {
+                        newMyMealFat = String(newMyMealFat.prefix(4))
                     }
                     calculateMyKcal()
                 }
@@ -262,7 +262,7 @@ struct MyMenuAddView: View {
         HStack {
             Text("炭水化物")
                 .font(.title3)
-            TextField("", text: $MyMealCarbohydrate)
+            TextField("", text: $newMyMealCarbohydrate)
                 .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
@@ -271,9 +271,9 @@ struct MyMenuAddView: View {
                 .foregroundColor(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
-                .onChange(of: MyMealCarbohydrate) {
-                    if MyMealCarbohydrate.count > 4 {
-                        MyMealCarbohydrate = String(MyMealCarbohydrate.prefix(4))
+                .onChange(of: newMyMealCarbohydrate) {
+                    if newMyMealCarbohydrate.count > 4 {
+                        newMyMealCarbohydrate = String(newMyMealCarbohydrate.prefix(4))
                     }
                     calculateMyKcal()
                 }
@@ -295,7 +295,7 @@ struct MyMenuAddView: View {
         HStack {
             Text("カロリー")
                 .font(.title3)
-            TextField("", value: $MyMealKcal, format: .number)
+            TextField("", value: $newMyMealKcal, format: .number)
                 .font(.title3)
                 .multilineTextAlignment(.trailing)
                 .padding(4)
@@ -359,44 +359,44 @@ struct MyMenuAddView: View {
     }
     
     private func calculateMyKcal() {
-        let protein = Double(MyMealProtein) ?? 0
-        let fat = Double(MyMealFat) ?? 0
-        let carbohydrate = Double(MyMealCarbohydrate) ?? 0
-        guard protein >= 0, fat >= 0, carbohydrate >= 0 else {
-            MyMealKcal = 0.0
+        let castingMyProtein = Double(newMyMealProtein) ?? 0
+        let castingMyFat = Double(newMyMealFat) ?? 0
+        let castingMyCarbohydrate = Double(newMyMealCarbohydrate) ?? 0
+        guard castingMyProtein >= 0, castingMyFat >= 0, castingMyCarbohydrate >= 0 else {
+            newMyMealKcal = 0.0
             return
         }
-        MyMealKcal = round((protein * 4) + (fat * 9) + (carbohydrate * 4))
+        newMyMealKcal = round((castingMyProtein * 4) + (castingMyFat * 9) + (castingMyCarbohydrate * 4))
     }
     
     private func validateMyMealForm() -> Bool {
         var isMyMealValid = true
 
-        myMealNameValid = !MyMealName.isEmpty
+        myMealNameValid = !newMyMealName.isEmpty
         if !myMealNameValid { isMyMealValid = false }
 
-        if let myProtein = Double(MyMealProtein), myProtein >= 0, myProtein <= 9999 {
+        if let castingMyProtein = Double(newMyMealProtein), castingMyProtein >= 0, castingMyProtein <= 9999 {
             myMealProteinValid = true
         } else {
             myMealProteinValid = false
             isMyMealValid = false
         }
 
-        if let myFat = Double(MyMealFat), myFat >= 0, myFat <= 9999 {
+        if let castingMyFat = Double(newMyMealFat), castingMyFat >= 0, castingMyFat <= 9999 {
             myMealFatValid = true
         } else {
             myMealFatValid = false
             isMyMealValid = false
         }
 
-        if let myCarbohydrate = Double(MyMealCarbohydrate), myCarbohydrate >= 0, myCarbohydrate <= 9999 {
+        if let castingMyCarbohydrate = Double(newMyMealCarbohydrate), castingMyCarbohydrate >= 0, castingMyCarbohydrate <= 9999 {
             myMealCarbohydrateValid = true
         } else {
             myMealCarbohydrateValid = false
             isMyMealValid = false
         }
 
-        myMealKcalValid = MyMealKcal >= 0
+        myMealKcalValid = newMyMealKcal >= 0
         if !myMealKcalValid { isMyMealValid = false }
 
         return isMyMealValid
@@ -406,19 +406,19 @@ struct MyMenuAddView: View {
         if !validateMyMealForm() {
             return
         }
-        let newMyMeal = MyMealContentModel(MyMealName: MyMealName, MyMealProtein: Double(MyMealProtein) ?? 0, MyMealFat: Double(MyMealFat) ?? 0, MyMealCarbohydrate: Double(MyMealCarbohydrate) ?? 0, MyMealKcal: MyMealKcal)
+        let newMyMeal = MyMealContentModel(myMealName: newMyMealName, myMealProtein: Double(newMyMealProtein) ?? 0, myMealFat: Double(newMyMealFat) ?? 0, myMealCarbohydrate: Double(newMyMealCarbohydrate) ?? 0, myMealKcal: newMyMealKcal)
         context.insert(newMyMeal)
         
         do {
             try context.save()
             print("MyMeal saved successfully")
-            MyMealName = ""
-            MyMealProtein = ""
-            MyMealFat = ""
-            MyMealCarbohydrate = ""
-            MyMealKcal = 0.0
+            newMyMealName = ""
+            newMyMealProtein = ""
+            newMyMealFat = ""
+            newMyMealCarbohydrate = ""
+            newMyMealKcal = 0.0
             
-            MyMenuAddViewPresented.toggle()
+            myMenuAddViewPresented.toggle()
             
             dismiss()
         } catch {

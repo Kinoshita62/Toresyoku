@@ -15,10 +15,10 @@ struct MealProgressView: View {
     @Query private var profiles: [ProfileModel]
     @Query private var imageColor: [ImageColorModel]
 
-    @State private var MealKcalProgress: Double = 0.0
-    @State private var MealProteinProgress: Double = 0.0
-    @State private var MealFatProgress: Double = 0.0
-    @State private var MealCarbohydrateProgress: Double = 0.0
+    @State private var mealKcalProgress: Double = 0.0
+    @State private var mealProteinProgress: Double = 0.0
+    @State private var mealFatProgress: Double = 0.0
+    @State private var mealCarbohydrateProgress: Double = 0.0
     
     @State private var remainingKcal: Double = 0.0
     @State private var remainingProtein: Double = 0.0
@@ -32,7 +32,7 @@ struct MealProgressView: View {
         VStack(spacing: 5) {
             HStack {
                 Text("カロリー")
-                Text("\(String(format: "%.f", MealKcalProgress * 100))%")
+                Text("\(String(format: "%.f", mealKcalProgress * 100))%")
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingKcal)) Kcal")
@@ -49,7 +49,7 @@ struct MealProgressView: View {
                     blue: imageColor.first?.B ?? 1,
                     opacity: 1
                 ))
-                .scaleEffect(x: MealKcalProgress, y: 1.0, anchor: .leading)
+                .scaleEffect(x: mealKcalProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
             }
@@ -58,7 +58,7 @@ struct MealProgressView: View {
             
             HStack {
                 Text("たんぱく質")
-                Text("\(String(format: "%.f", MealProteinProgress * 100))%")
+                Text("\(String(format: "%.f", mealProteinProgress * 100))%")
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingProtein)) g")
@@ -75,7 +75,7 @@ struct MealProgressView: View {
                         blue: imageColor.first?.B ?? 1,
                         opacity: 1
                     ))
-                    .scaleEffect(x: MealProteinProgress, y: 1.0, anchor: .leading)
+                    .scaleEffect(x: mealProteinProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
             }
@@ -83,7 +83,7 @@ struct MealProgressView: View {
             
             HStack {
                 Text("脂質")
-                Text("\(String(format: "%.f", MealFatProgress * 100))%")
+                Text("\(String(format: "%.f", mealFatProgress * 100))%")
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingFat)) g")
@@ -100,7 +100,7 @@ struct MealProgressView: View {
                         blue: imageColor.first?.B ?? 1,
                         opacity: 1
                     ))
-                    .scaleEffect(x: MealFatProgress, y: 1.0, anchor: .leading)
+                    .scaleEffect(x: mealFatProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
             }
@@ -108,7 +108,7 @@ struct MealProgressView: View {
             
             HStack {
                 Text("炭水化物")
-                Text("\(String(format: "%.f", MealCarbohydrateProgress * 100))%")
+                Text("\(String(format: "%.f", mealCarbohydrateProgress * 100))%")
                 Spacer()
                 Text("残り")
                 Text("\(String(format: "%.f", remainingCarbohydrate)) g")
@@ -125,7 +125,7 @@ struct MealProgressView: View {
                         blue: imageColor.first?.B ?? 1,
                         opacity: 1
                     ))
-                    .scaleEffect(x: MealCarbohydrateProgress, y: 1.0, anchor: .leading)
+                    .scaleEffect(x: mealCarbohydrateProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
             }
@@ -163,30 +163,30 @@ struct MealProgressView: View {
         }
         
         let filteredMealContents = mealContents.filter { mealContent in
-            Calendar.current.isDate(mealContent.MealDate, inSameDayAs: theDate)
+            Calendar.current.isDate(mealContent.mealDate, inSameDayAs: theDate)
         }
         
-        let totalKcal = filteredMealContents.reduce(0) { $0 + $1.MealKcal }
-        (MealKcalProgress, remainingKcal) = calculateProgress(target: profile.targetMealKcal, total: totalKcal)
+        let totalKcal = filteredMealContents.reduce(0) { $0 + $1.mealKcal }
+        (mealKcalProgress, remainingKcal) = calculateProgress(target: profile.targetMealKcal, total: totalKcal)
 
-        let totalProtein = filteredMealContents.reduce(0) { $0 + $1.MealProtein }
-        (MealProteinProgress, remainingProtein) = calculateProgress(target: profile.targetMealProtein, total: totalProtein)
+        let totalProtein = filteredMealContents.reduce(0) { $0 + $1.mealProtein }
+        (mealProteinProgress, remainingProtein) = calculateProgress(target: profile.targetMealProtein, total: totalProtein)
 
-        let totalFat = filteredMealContents.reduce(0) { $0 + $1.MealFat }
-        (MealFatProgress, remainingFat) = calculateProgress(target: profile.targetMealFat, total: totalFat)
+        let totalFat = filteredMealContents.reduce(0) { $0 + $1.mealFat }
+        (mealFatProgress, remainingFat) = calculateProgress(target: profile.targetMealFat, total: totalFat)
 
-        let totalCarbohydrate = filteredMealContents.reduce(0) { $0 + $1.MealCarbohydrate }
-        (MealCarbohydrateProgress, remainingCarbohydrate) = calculateProgress(target: profile.targetMealCarbohydrate, total: totalCarbohydrate)
+        let totalCarbohydrate = filteredMealContents.reduce(0) { $0 + $1.mealCarbohydrate }
+        (mealCarbohydrateProgress, remainingCarbohydrate) = calculateProgress(target: profile.targetMealCarbohydrate, total: totalCarbohydrate)
     }
     
     private func resetProgress() {
-        MealKcalProgress = 0.0
+        mealKcalProgress = 0.0
         remainingKcal = 0.0
-        MealProteinProgress = 0.0
+        mealProteinProgress = 0.0
         remainingProtein = 0.0
-        MealFatProgress = 0.0
+        mealFatProgress = 0.0
         remainingFat = 0.0
-        MealCarbohydrateProgress = 0.0
+        mealCarbohydrateProgress = 0.0
         remainingCarbohydrate = 0.0
     }
 }

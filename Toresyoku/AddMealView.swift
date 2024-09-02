@@ -13,24 +13,24 @@ struct AddMealView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
     
-    @Query private var MyMealContents: [MyMealContentModel]
+//    @Query private var myMealContents: [MyMealContentModel]
     @Query private var imageColor: [ImageColorModel]
     
-    @State private var MealName: String = ""
-    @State private var MealProtein: String = ""
-    @State private var MealFat: String = ""
-    @State private var MealCarbohydrate: String = ""
-    @State private var MealKcal: Double = 0.0
-    @State private var MealDate: Date
+    @State private var newMealName: String = ""
+    @State private var newMealProtein: String = ""
+    @State private var newMealFat: String = ""
+    @State private var newMealCarbohydrate: String = ""
+    @State private var newMealKcal: Double = 0.0
+    @State private var newMealDate: Date
     
     @State private var myMenuSelectModal: Bool = false
     @State private var addMealModal: Bool = false
     
-    @State private var MyMealName: String = ""
-    @State private var MyMealProtein: Double = 0.0
-    @State private var MyMealFat: Double = 0.0
-    @State private var MyMealCarbohydrate: Double = 0.0
-    @State private var MyMealKcal: Double = 0.0
+//    @State private var MyMealName: String = ""
+//    @State private var MyMealProtein: Double = 0.0
+//    @State private var MyMealFat: Double = 0.0
+//    @State private var MyMealCarbohydrate: Double = 0.0
+//    @State private var MyMealKcal: Double = 0.0
     
     @State private var mealNameValid: Bool = true
     @State private var mealProteinValid: Bool = true
@@ -38,7 +38,7 @@ struct AddMealView: View {
     @State private var mealCarbohydrateValid: Bool = true
     @State private var mealKcalValid: Bool = true
     
-    @State private var MealDateSelectPresented: Bool = false
+    @State private var mealDateSelectPresented: Bool = false
     
     @Binding var refreshID: UUID
     @Binding var theDate: Date
@@ -46,7 +46,7 @@ struct AddMealView: View {
     init(theDate: Binding<Date>, refreshID: Binding<UUID>) {
             self._theDate = theDate
             self._refreshID = refreshID
-            self._MealDate = State(initialValue: theDate.wrappedValue)
+            self._newMealDate = State(initialValue: theDate.wrappedValue)
         }
     
     var body: some View {
@@ -54,7 +54,7 @@ struct AddMealView: View {
             HStack {
                 Text("メニュー")
                     .font(.title3)
-                TextField("", text: $MealName)
+                TextField("", text: $newMealName)
                     .foregroundColor(.black)
                     .padding(4)
                     .background(.white, in: .rect(cornerRadius: 6))
@@ -98,11 +98,11 @@ struct AddMealView: View {
                     }
                     .sheet(isPresented: $myMenuSelectModal) {
                         MyMenuSelectView(
-                            selectedMealName: $MealName,
-                            selectedMealProtein: $MealProtein,
-                            selectedMealFat: $MealFat,
-                            selectedMealCarbohydrate: $MealCarbohydrate,
-                            selectedMealKcal: $MealKcal
+                            selectedMealName: $newMealName,
+                            selectedMealProtein: $newMealProtein,
+                            selectedMealFat: $newMealFat,
+                            selectedMealCarbohydrate: $newMealCarbohydrate,
+                            selectedMealKcal: $newMealKcal
                         )
                         .presentationDragIndicator(.visible)
                     }
@@ -114,7 +114,7 @@ struct AddMealView: View {
             HStack {
                 Text("たんぱく質")
                     .font(.title3)
-                TextField("", text: $MealProtein)
+                TextField("", text: $newMealProtein)
                     .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
@@ -122,9 +122,9 @@ struct AddMealView: View {
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
-                    .onChange(of: MealProtein) {
-                        if MealProtein.count > 4 {
-                            MealProtein = String(MealProtein.prefix(4))
+                    .onChange(of: newMealProtein) {
+                        if newMealProtein.count > 4 {
+                            newMealProtein = String(newMealProtein.prefix(4))
                         }
                         calculateKcal()
                     }
@@ -146,7 +146,7 @@ struct AddMealView: View {
             HStack {
                 Text("脂質")
                     .font(.title3)
-                TextField("", text: $MealFat)
+                TextField("", text: $newMealFat)
                     .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
@@ -154,9 +154,9 @@ struct AddMealView: View {
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
-                    .onChange(of: MealFat) {
-                        if MealFat.count > 4 {
-                            MealFat = String(MealFat.prefix(4))
+                    .onChange(of: newMealFat) {
+                        if newMealFat.count > 4 {
+                            newMealFat = String(newMealFat.prefix(4))
                         }
                         calculateKcal()
                     }
@@ -178,7 +178,7 @@ struct AddMealView: View {
             HStack {
                 Text("炭水化物")
                     .font(.title3)
-                TextField("", text: $MealCarbohydrate)
+                TextField("", text: $newMealCarbohydrate)
                     .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
@@ -186,9 +186,9 @@ struct AddMealView: View {
                     .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundColor(.black)
                     .keyboardType(.decimalPad)
-                    .onChange(of: MealCarbohydrate) {
-                        if MealCarbohydrate.count > 4 {
-                            MealCarbohydrate = String(MealCarbohydrate.prefix(4))
+                    .onChange(of: newMealCarbohydrate) {
+                        if newMealCarbohydrate.count > 4 {
+                            newMealCarbohydrate = String(newMealCarbohydrate.prefix(4))
                         }
                         calculateKcal()
                     }
@@ -211,7 +211,7 @@ struct AddMealView: View {
             HStack {
                 Text("カロリー")
                     .font(.title3)
-                TextField("", value: $MealKcal, format: .number)
+                TextField("", value: $newMealKcal, format: .number)
                     .font(.title3)
                     .multilineTextAlignment(.trailing)
                     .padding(4)
@@ -275,10 +275,10 @@ struct AddMealView: View {
             }
         }
         .onAppear {
-                    self.MealDate = theDate
+                    self.newMealDate = theDate
                 }
                 .onChange(of: theDate) {
-                    self.MealDate = theDate
+                    self.newMealDate = theDate
                 }
         Spacer()
         .toolbar {
@@ -308,44 +308,44 @@ struct AddMealView: View {
     }
     
     private func calculateKcal() {
-        let protein = Double(MealProtein) ?? 0
-        let fat = Double(MealFat) ?? 0
-        let carbohydrate = Double(MealCarbohydrate) ?? 0
-        guard protein >= 0, fat >= 0, carbohydrate >= 0 else {
-            MealKcal = 0.0
+        let castingProtein = Double(newMealProtein) ?? 0
+        let castingFat = Double(newMealFat) ?? 0
+        let castingCarbohydrate = Double(newMealCarbohydrate) ?? 0
+        guard castingProtein >= 0, castingFat >= 0, castingCarbohydrate >= 0 else {
+            newMealKcal = 0.0
             return
         }
-        MealKcal = round((protein * 4) + (fat * 9) + (carbohydrate * 4))
+        newMealKcal = round((castingProtein * 4) + (castingFat * 9) + (castingCarbohydrate * 4))
     }
     
     private func validateForm() -> Bool {
         var isValid = true
 
-        mealNameValid = !MealName.isEmpty
+        mealNameValid = !newMealName.isEmpty
         if !mealNameValid { isValid = false }
 
-        if let protein = Double(MealProtein), protein >= 0, protein <= 9999 {
+        if let castingProtein = Double(newMealProtein), castingProtein >= 0, castingProtein <= 9999 {
             mealProteinValid = true
         } else {
             mealProteinValid = false
             isValid = false
         }
 
-        if let fat = Double(MealFat), fat >= 0, fat <= 9999 {
+        if let castingFat = Double(newMealFat), castingFat >= 0, castingFat <= 9999 {
             mealFatValid = true
         } else {
             mealFatValid = false
             isValid = false
         }
 
-        if let carbohydrate = Double(MealCarbohydrate), carbohydrate >= 0, carbohydrate <= 9999 {
+        if let castingCarbohydrate = Double(newMealCarbohydrate), castingCarbohydrate >= 0, castingCarbohydrate <= 9999 {
             mealCarbohydrateValid = true
         } else {
             mealCarbohydrateValid = false
             isValid = false
         }
 
-        mealKcalValid = MealKcal >= 0
+        mealKcalValid = newMealKcal >= 0
         if !mealKcalValid { isValid = false }
 
         return isValid
@@ -356,17 +356,17 @@ struct AddMealView: View {
         if !validateForm() {
             return
         }
-        let newMeal = MealContentModel(MealName: MealName, MealProtein: Double(MealProtein) ?? 0, MealFat: Double(MealFat) ?? 0, MealCarbohydrate: Double(MealCarbohydrate) ?? 0, MealKcal: MealKcal, MealDate: MealDate)
+        let newMeal = MealContentModel(mealName: newMealName, mealProtein: Double(newMealProtein) ?? 0, mealFat: Double(newMealFat) ?? 0, mealCarbohydrate: Double(newMealCarbohydrate) ?? 0, mealKcal: newMealKcal, mealDate: newMealDate)
         context.insert(newMeal)
         
         do {
             try context.save()
             print("Meal saved successfully")
-            MealName = ""
-            MealProtein = ""
-            MealFat = ""
-            MealCarbohydrate = ""
-            MealKcal = 0.0
+            newMealName = ""
+            newMealProtein = ""
+            newMealFat = ""
+            newMealCarbohydrate = ""
+            newMealKcal = 0.0
 
             refreshID = UUID()
             dismiss()
@@ -378,12 +378,12 @@ struct AddMealView: View {
 
 struct MealDateSelectView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var MealDate: Date
+    @Binding var newMealDate: Date
     var body: some View {
-        DatePicker("", selection: $MealDate, displayedComponents: [.date])
+        DatePicker("", selection: $newMealDate, displayedComponents: [.date])
             .environment(\.locale, Locale(identifier: "ja_JP"))
             .datePickerStyle(.graphical)
-            .onChange(of: MealDate) {
+            .onChange(of: newMealDate) {
                 dismiss()
             }
     }

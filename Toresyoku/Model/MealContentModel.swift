@@ -11,20 +11,20 @@ import SwiftData
 @Model
 final class MealContentModel {
     var id: String
-    var MealName: String
-    var MealProtein: Double
-    var MealFat: Double
-    var MealCarbohydrate: Double
-    var MealKcal: Double
-    var MealDate: Date
+    var mealName: String
+    var mealProtein: Double
+    var mealFat: Double
+    var mealCarbohydrate: Double
+    var mealKcal: Double
+    var mealDate: Date
     
-    init(MealName: String, MealProtein: Double, MealFat: Double, MealCarbohydrate: Double, MealKcal: Double, MealDate: Date) {
+    init(mealName: String, mealProtein: Double, mealFat: Double, mealCarbohydrate: Double, mealKcal: Double, mealDate: Date) {
         self.id = UUID().uuidString
-        self.MealName = MealName
-        self.MealProtein = MealProtein
-        self.MealFat = MealFat
-        self.MealCarbohydrate = MealCarbohydrate
-        self.MealKcal = MealKcal
-        self.MealDate = MealDate
+        self.mealName = mealName
+        self.mealProtein = mealProtein
+        self.mealFat = mealFat
+        self.mealCarbohydrate = mealCarbohydrate
+        self.mealKcal = mealKcal
+        self.mealDate = mealDate
     }
 }

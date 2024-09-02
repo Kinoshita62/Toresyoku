@@ -44,7 +44,7 @@ struct GraphMainView: View {
     }
     
     private var dailyCalories: [(date: Date, totalKcal: Double)] {
-        guard let firstMealDate = mealContents.min(by: { $0.MealDate < $1.MealDate })?.MealDate else {
+        guard let firstMealDate = mealContents.min(by: { $0.mealDate < $1.mealDate })?.mealDate else {
             return []
         }
         let today = calendar.startOfDay(for: Date())
@@ -52,63 +52,63 @@ struct GraphMainView: View {
         
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
-        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
+        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.mealDate) })
 
         return allDates
             .filter { $0 >= thirtyDaysAgo }
             .map { date in
-                let totalKcal = groupedMeals[date]?.reduce(0) { $0 + $1.MealKcal } ?? 0
+                let totalKcal = groupedMeals[date]?.reduce(0) { $0 + $1.mealKcal } ?? 0
                 return (date: date, totalKcal: totalKcal)
             }
     }
     
     private var dailyProtein: [(date: Date, totalProtein: Double)] {
-        guard let firstMealDate = mealContents.min(by: { $0.MealDate < $1.MealDate })?.MealDate else {
+        guard let firstMealDate = mealContents.min(by: { $0.mealDate < $1.mealDate })?.mealDate else {
             return []
         }
         let today = calendar.startOfDay(for: Date())
         let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: today) ?? today
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
-        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
+        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.mealDate) })
         return allDates
             .filter { $0 >= thirtyDaysAgo }
             .map { date in
-                let totalProtein = groupedMeals[date]?.reduce(0) { $0 + $1.MealProtein } ?? 0
+                let totalProtein = groupedMeals[date]?.reduce(0) { $0 + $1.mealProtein } ?? 0
                 return (date: date, totalProtein: totalProtein)
             }
     }
     
     private var dailyFat: [(date: Date, totalFat: Double)] {
-        guard let firstMealDate = mealContents.min(by: { $0.MealDate < $1.MealDate })?.MealDate else {
+        guard let firstMealDate = mealContents.min(by: { $0.mealDate < $1.mealDate })?.mealDate else {
             return []
         }
         let today = calendar.startOfDay(for: Date())
         let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: today) ?? today
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
-        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
+        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.mealDate) })
         return allDates
             .filter { $0 >= thirtyDaysAgo }
             .map { date in
-                let totalFat = groupedMeals[date]?.reduce(0) { $0 + $1.MealFat } ?? 0
+                let totalFat = groupedMeals[date]?.reduce(0) { $0 + $1.mealFat } ?? 0
                 return (date: date, totalFat: totalFat)
             }
     }
     
     private var dailyCarbohydrate: [(date: Date, totalCarbohydrate: Double)] {
-        guard let firstMealDate = mealContents.min(by: { $0.MealDate < $1.MealDate })?.MealDate else {
+        guard let firstMealDate = mealContents.min(by: { $0.mealDate < $1.mealDate })?.mealDate else {
             return []
         }
         let today = calendar.startOfDay(for: Date())
         let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: today) ?? today
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
-        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.MealDate) })
+        let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.mealDate) })
         return allDates
             .filter { $0 >= thirtyDaysAgo }
             .map { date in
-                let totalCarbohydrate = groupedMeals[date]?.reduce(0) { $0 + $1.MealCarbohydrate } ?? 0
+                let totalCarbohydrate = groupedMeals[date]?.reduce(0) { $0 + $1.mealCarbohydrate } ?? 0
                 return (date: date, totalCarbohydrate: totalCarbohydrate)
             }
     }
