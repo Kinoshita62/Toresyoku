@@ -60,9 +60,9 @@ struct MealContentListView: View {
                 }
                 .listRowSeparatorTint(Color(.black))
                 .listRowBackground(Color(
-                    red: imageColor.first?.R ?? 0,
-                    green: imageColor.first?.G ?? 1,
-                    blue: imageColor.first?.B ?? 1,
+                    red: imageColor.first?.imageColorRed ?? 0,
+                    green: imageColor.first?.imageColorGreen ?? 1,
+                    blue: imageColor.first?.imageColorBlue ?? 1,
                     opacity: 0.03
                 ))
             }

@@ -10,15 +10,16 @@ import SwiftData
 
 @Model
 final class ImageColorModel {
-    var R: Double
-    var G: Double
-    var B: Double
-    var A: Double
+    var imageColorRed: Double
+    var imageColorGreen: Double
+    var imageColorBlue: Double
+    var imageColorAlpha: Double
         
-    init(R: Double = 0, G: Double = 1, B: Double = 1, A: Double = 0.2) {
-        self.R = R
-        self.G = G
-        self.B = B
-        self.A = A
+    init(imageColorRed: Double = 0, imageColorGreen: Double = 1, imageColorBlue: Double = 1, imageColorAlpha: Double = 0.2) {
+        self.imageColorRed = imageColorRed
+        self.imageColorGreen = imageColorGreen
+        self.imageColorBlue = imageColorBlue
+        self.imageColorAlpha = imageColorAlpha
     }
 }
+

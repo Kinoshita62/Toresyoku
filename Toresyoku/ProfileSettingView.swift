@@ -207,9 +207,9 @@ struct ProfileSettingView: View {
                 ZStack {
                     Rectangle()
                         .foregroundColor(Color(
-                            red: imageColor.first?.R ?? 0,
-                            green: imageColor.first?.G ?? 1,
-                            blue: imageColor.first?.B ?? 1,
+                            red: imageColor.first?.imageColorRed ?? 0,
+                            green: imageColor.first?.imageColorGreen ?? 1,
+                            blue: imageColor.first?.imageColorBlue ?? 1,
                             opacity: 0.03
                         ))
                     VStack {
@@ -364,9 +364,9 @@ struct ProfileSettingView: View {
                 ZStack {
                     Rectangle()
                         .foregroundColor(Color(
-                            red: imageColor.first?.R ?? 0,
-                            green: imageColor.first?.G ?? 1,
-                            blue: imageColor.first?.B ?? 1,
+                            red: imageColor.first?.imageColorRed ?? 0,
+                            green: imageColor.first?.imageColorGreen ?? 1,
+                            blue: imageColor.first?.imageColorBlue ?? 1,
                             opacity: 0.03
                         ))
                     VStack {
@@ -545,10 +545,10 @@ struct ProfileSettingView: View {
                     .frame(width: 150, height: 35)
                     .foregroundColor(.black)
                     .background(Color(
-                        red: imageColor.first?.R ?? 0,
-                        green: imageColor.first?.G ?? 1,
-                        blue: imageColor.first?.B ?? 1,
-                        opacity: imageColor.first?.A ?? 0.2
+                        red: imageColor.first?.imageColorRed ?? 0,
+                        green: imageColor.first?.imageColorGreen ?? 1,
+                        blue: imageColor.first?.imageColorBlue ?? 1,
+                        opacity: imageColor.first?.imageColorAlpha ?? 0.2
                     ))
                     .cornerRadius(10)
                     .overlay(
@@ -806,9 +806,9 @@ struct activityLevelExplanationView: View {
             ZStack {
                 Rectangle()
                     .foregroundColor(Color(
-                        red: imageColor.first?.R ?? 0,
-                        green: imageColor.first?.G ?? 1,
-                        blue: imageColor.first?.B ?? 1,
+                        red: imageColor.first?.imageColorRed ?? 0,
+                        green: imageColor.first?.imageColorGreen ?? 1,
+                        blue: imageColor.first?.imageColorBlue ?? 1,
                         opacity: 0.05
                     ))
                     
@@ -872,9 +872,9 @@ struct TargetKcalGuideView: View {
         ZStack {
             Rectangle()
                 .foregroundColor(Color(
-                    red: imageColor.first?.R ?? 0,
-                    green: imageColor.first?.G ?? 1,
-                    blue: imageColor.first?.B ?? 1,
+                    red: imageColor.first?.imageColorRed ?? 0,
+                    green: imageColor.first?.imageColorGreen ?? 1,
+                    blue: imageColor.first?.imageColorBlue ?? 1,
                     opacity: 0.05
                 ))
             VStack(alignment: .leading) {
@@ -922,4 +922,3 @@ struct ProfileSettingView_Previews: PreviewProvider {
             .modelContainer(for: [ProfileModel.self, ImageColorModel.self])
     }
 }
-

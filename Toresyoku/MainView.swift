@@ -18,11 +18,6 @@ struct MainView: View {
     @State var datePickerPresented: Bool = false
     @State var settingViewPresented: Bool = false
     @State var isAlert: Bool = false
-    
-//    @State var R: Double = 0
-//    @State var G: Double = 255
-//    @State var B: Double = 255
-//    @State var A: Double = 0.2
    
     @State var refreshID = UUID()
     
@@ -91,10 +86,10 @@ struct MainView: View {
                     }
                 }
                 .background(Color(
-                    red: imageColor.first?.R ?? 0,
-                    green: imageColor.first?.G ?? 1,
-                    blue: imageColor.first?.B ?? 1,
-                    opacity: imageColor.first?.A ?? 0.2
+                    red: imageColor.first?.imageColorRed ?? 0,
+                    green: imageColor.first?.imageColorGreen ?? 1,
+                    blue: imageColor.first?.imageColorBlue ?? 1,
+                    opacity: imageColor.first?.imageColorAlpha ?? 0.2
                 ))
                 
                 if settingViewPresented {
@@ -142,16 +137,6 @@ struct SettingView: View {
     @Environment(\.modelContext) private var context
     @Query private var imageColor: [ImageColorModel]
     
-    @State var selectedRed: Double = 0
-    @State var selectedGreen: Double = 1
-    @State var selectedBlue: Double = 1
-    @State var selectedAlpha: Double = 0.2
-    
-    @State var R: Double = 0
-    @State var G: Double = 255
-    @State var B: Double = 255
-    @State var A: Double = 0.2
-    
     @Binding var settingViewPresented: Bool
     @Binding var isAlert: Bool
     @Binding var refreshID: UUID
@@ -185,18 +170,18 @@ struct SettingView: View {
                     }
                     .padding(.horizontal, 5)
                 Circle()
-                    .foregroundColor(Color(red: 255/255, green: 255/255, blue: 0/255, opacity: 0.2))
+                    .foregroundColor(Color(red: 255/255, green: 100/255, blue: 0/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .onTapGesture {
-                        selectColorLemon()
+                        selectColorOrange()
                     }
                     .padding(.horizontal, 5)
                 Circle()
-                    .foregroundColor(Color(red: 50/255, green: 200/255, blue: 75/255, opacity: 0.2))
+                    .foregroundColor(Color(red: 25/255, green: 200/255, blue: 50/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -262,56 +247,37 @@ struct SettingView: View {
     }
     
     private func selectColorBlue() {
-            let R: Double = 0
-            let G: Double = 255
-            let B: Double = 255
-            let A: Double = 0.2
-            replaceImageColor(R: R, G: G, B: B, A: A)
-        }
-
-        private func selectColorPink() {
-            let R: Double = 255
-            let G: Double = 0
-            let B: Double = 255
-            let A: Double = 0.2
-            replaceImageColor(R: R, G: G, B: B, A: A)
-        }
-
-        private func selectColorLemon() {
-            let R: Double = 255
-            let G: Double = 255
-            let B: Double = 0
-            let A: Double = 0.2
-            replaceImageColor(R: R, G: G, B: B, A: A)
-        }
-        
-        private func selectColorGreen() {
-            let R: Double = 150
-            let G: Double = 255
-            let B: Double = 50
-            let A: Double = 0.2
-            replaceImageColor(R: R, G: G, B: B, A: A)
-        }
-
-        private func replaceImageColor(R: Double, G: Double, B: Double, A: Double) {
-            do {
-                let existingColors = try context.fetch(FetchDescriptor<ImageColorModel>())
-                for color in existingColors {
-                    context.delete(color)
-                }
-                let imageColorModel = ImageColorModel(R: R / 255, G: G / 255, B: B / 255, A: A)
-                context.insert(imageColorModel)
-                try context.save()
-                withAnimation {
-                    settingViewPresented = false
-                }
-                refreshID = UUID()
-            } catch {
-                print("Failed to replace color: \(error.localizedDescription)")
-            }
-        }
-
+        replaceImageColor(newRed: 0, newGreen: 255, newBlue: 255, newAlpha: 0.2)
     }
+
+    private func selectColorPink() {
+        replaceImageColor(newRed: 255, newGreen: 0, newBlue: 255, newAlpha: 0.2)
+    }
+
+    private func selectColorOrange() {
+        replaceImageColor(newRed: 255, newGreen: 100, newBlue: 0, newAlpha: 0.2)
+    }
+        
+    private func selectColorGreen() {
+        replaceImageColor(newRed: 25, newGreen: 200, newBlue: 50, newAlpha: 0.2)
+    }
+
+    private func replaceImageColor(newRed: Double, newGreen: Double, newBlue: Double, newAlpha: Double) {
+        do {
+            let existingColors = try context.fetch(FetchDescriptor<ImageColorModel>())
+            for color in existingColors {
+                context.delete(color)
+            }
+            let imageColorModel = ImageColorModel(imageColorRed: newRed / 255, imageColorGreen: newGreen / 255, imageColorBlue: newBlue / 255, imageColorAlpha: newAlpha)
+             context.insert(imageColorModel)
+            try context.save()
+            settingViewPresented = false
+            refreshID = UUID()
+        } catch {
+                print("Failed to replace color: \(error.localizedDescription)")
+        }
+    }
+}
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {

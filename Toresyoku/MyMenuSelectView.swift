@@ -81,9 +81,9 @@ struct MyMenuSelectView: View {
                     }
                     .listRowSeparatorTint(Color.black)
                     .listRowBackground(Color(
-                        red: imageColor.first?.R ?? 0,
-                        green: imageColor.first?.G ?? 1,
-                        blue: imageColor.first?.B ?? 1,
+                        red: imageColor.first?.imageColorRed ?? 0,
+                        green: imageColor.first?.imageColorGreen ?? 1,
+                        blue: imageColor.first?.imageColorBlue ?? 1,
                         opacity: 0.05
                     ))
                 }
@@ -102,10 +102,10 @@ struct MyMenuSelectView: View {
             .frame(width: 210, height: 35)
             .foregroundColor(.black)
             .background(Color(
-                red: imageColor.first?.R ?? 0,
-                green: imageColor.first?.G ?? 1,
-                blue: imageColor.first?.B ?? 1,
-                opacity: imageColor.first?.A ?? 0.2
+                red: imageColor.first?.imageColorRed ?? 0,
+                green: imageColor.first?.imageColorGreen ?? 1,
+                blue: imageColor.first?.imageColorBlue ?? 1,
+                opacity: imageColor.first?.imageColorAlpha ?? 0.2
             ))
             .cornerRadius(10)
             .overlay(
@@ -331,10 +331,10 @@ struct MyMenuAddView: View {
         .frame(width: 150, height: 35)
         .foregroundColor(.black)
         .background(Color(
-            red: imageColor.first?.R ?? 0,
-            green: imageColor.first?.G ?? 1,
-            blue: imageColor.first?.B ?? 1,
-            opacity: imageColor.first?.A ?? 0.2
+            red: imageColor.first?.imageColorRed ?? 0,
+            green: imageColor.first?.imageColorGreen ?? 1,
+            blue: imageColor.first?.imageColorBlue ?? 1,
+            opacity: imageColor.first?.imageColorAlpha ?? 0.2
         ))
         .cornerRadius(10)
         .overlay(

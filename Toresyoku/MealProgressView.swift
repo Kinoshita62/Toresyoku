@@ -44,9 +44,9 @@ struct MealProgressView: View {
                     .foregroundColor(.white)
                 Rectangle()
                 .foregroundColor(Color(
-                    red: imageColor.first?.R ?? 0,
-                    green: imageColor.first?.G ?? 1,
-                    blue: imageColor.first?.B ?? 1,
+                    red: imageColor.first?.imageColorRed ?? 0,
+                    green: imageColor.first?.imageColorGreen ?? 1,
+                    blue: imageColor.first?.imageColorBlue ?? 1,
                     opacity: 1
                 ))
                 .scaleEffect(x: mealKcalProgress, y: 1.0, anchor: .leading)
@@ -70,9 +70,9 @@ struct MealProgressView: View {
                     .foregroundColor(.white)
                 Rectangle()
                     .foregroundColor(Color(
-                        red: imageColor.first?.R ?? 0,
-                        green: imageColor.first?.G ?? 1,
-                        blue: imageColor.first?.B ?? 1,
+                        red: imageColor.first?.imageColorRed ?? 0,
+                        green: imageColor.first?.imageColorGreen ?? 1,
+                        blue: imageColor.first?.imageColorBlue ?? 1,
                         opacity: 1
                     ))
                     .scaleEffect(x: mealProteinProgress, y: 1.0, anchor: .leading)
@@ -95,9 +95,9 @@ struct MealProgressView: View {
                     .foregroundColor(.white)
                 Rectangle()
                     .foregroundColor(Color(
-                        red: imageColor.first?.R ?? 0,
-                        green: imageColor.first?.G ?? 1,
-                        blue: imageColor.first?.B ?? 1,
+                        red: imageColor.first?.imageColorRed ?? 0,
+                        green: imageColor.first?.imageColorGreen ?? 1,
+                        blue: imageColor.first?.imageColorBlue ?? 1,
                         opacity: 1
                     ))
                     .scaleEffect(x: mealFatProgress, y: 1.0, anchor: .leading)
@@ -120,9 +120,9 @@ struct MealProgressView: View {
                     .foregroundColor(.white)
                 Rectangle()
                     .foregroundColor(Color(
-                        red: imageColor.first?.R ?? 0,
-                        green: imageColor.first?.G ?? 1,
-                        blue: imageColor.first?.B ?? 1,
+                        red: imageColor.first?.imageColorRed ?? 0,
+                        green: imageColor.first?.imageColorGreen ?? 1,
+                        blue: imageColor.first?.imageColorBlue ?? 1,
                         opacity: 1
                     ))
                     .scaleEffect(x: mealCarbohydrateProgress, y: 1.0, anchor: .leading)
@@ -133,9 +133,9 @@ struct MealProgressView: View {
         }
         .padding(.bottom, 5)
         .background(Color(
-            red: imageColor.first?.R ?? 0,
-            green: imageColor.first?.G ?? 1,
-            blue: imageColor.first?.B ?? 1,
+            red: imageColor.first?.imageColorRed ?? 0,
+            green: imageColor.first?.imageColorGreen ?? 1,
+            blue: imageColor.first?.imageColorBlue ?? 1,
             opacity: 0.03
         ))
         .onChange(of: refreshID) {

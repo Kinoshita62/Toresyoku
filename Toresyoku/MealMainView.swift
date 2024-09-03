@@ -35,10 +35,10 @@ struct MealMainView: View {
                             .bold()
                             .frame(width: 150, height: 35)
                             .background(Color(
-                                red: imageColor.first?.R ?? 0,
-                                green: imageColor.first?.G ?? 1,
-                                blue: imageColor.first?.B ?? 1,
-                                opacity: imageColor.first?.A ?? 0.2
+                                red: imageColor.first?.imageColorRed ?? 0,
+                                green: imageColor.first?.imageColorGreen ?? 1,
+                                blue: imageColor.first?.imageColorBlue ?? 1,
+                                opacity: imageColor.first?.imageColorAlpha ?? 0.2
                             ))
                             .cornerRadius(10)
                             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))

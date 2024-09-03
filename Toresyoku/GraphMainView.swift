@@ -127,9 +127,9 @@ struct GraphMainView: View {
                             y: .value("kcal", data.totalKcal)
                         )
                         .foregroundStyle(Color(
-                            red: imageColor.first?.R ?? 0,
-                            green: imageColor.first?.G ?? 1,
-                            blue: imageColor.first?.B ?? 1,
+                            red: imageColor.first?.imageColorRed ?? 0,
+                            green: imageColor.first?.imageColorGreen ?? 1,
+                            blue: imageColor.first?.imageColorBlue ?? 1,
                             opacity: 1
                         ))
                     }
@@ -179,9 +179,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalProtein)
                         )
                         .foregroundStyle(Color(
-                            red: imageColor.first?.R ?? 0,
-                            green: imageColor.first?.G ?? 1,
-                            blue: imageColor.first?.B ?? 1,
+                            red: imageColor.first?.imageColorRed ?? 0,
+                            green: imageColor.first?.imageColorGreen ?? 1,
+                            blue: imageColor.first?.imageColorBlue ?? 1,
                             opacity: 1
                         ))
                     }
@@ -231,9 +231,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalFat)
                         )
                         .foregroundStyle(Color(
-                            red: imageColor.first?.R ?? 0,
-                            green: imageColor.first?.G ?? 1,
-                            blue: imageColor.first?.B ?? 1,
+                            red: imageColor.first?.imageColorRed ?? 0,
+                            green: imageColor.first?.imageColorGreen ?? 1,
+                            blue: imageColor.first?.imageColorBlue ?? 1,
                             opacity: 1
                         ))
                     }
@@ -284,9 +284,9 @@ struct GraphMainView: View {
                             y: .value("g", data.totalCarbohydrate)
                         )
                         .foregroundStyle(Color(
-                            red: imageColor.first?.R ?? 0,
-                            green: imageColor.first?.G ?? 1,
-                            blue: imageColor.first?.B ?? 1,
+                            red: imageColor.first?.imageColorRed ?? 0,
+                            green: imageColor.first?.imageColorGreen ?? 1,
+                            blue: imageColor.first?.imageColorBlue ?? 1,
                             opacity: 1
                         ))
                     }
