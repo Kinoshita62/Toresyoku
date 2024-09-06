@@ -63,13 +63,13 @@ struct MyMenuSelectView: View {
                             Spacer()
                             HStack {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.black)
+                                    .foregroundStyle(.black)
                                     .font(.title3)
                                     .onTapGesture {
                                         selectMyMeal(myMealContent)
                                     }
                                 Image(systemName: "trash")
-                                    .foregroundColor(.black)
+                                    .foregroundStyle(.black)
                                     .font(.title3)
                                     .padding(.leading, 20)
                                     .onTapGesture {
@@ -100,7 +100,7 @@ struct MyMenuSelectView: View {
             .bold()
             .padding(.horizontal)
             .frame(width: 210, height: 35)
-            .foregroundColor(.black)
+            .foregroundStyle(.black)
             .background(Color(
                 red: imageColor.first?.imageColorRed ?? 0,
                 green: imageColor.first?.imageColorGreen ?? 1,
@@ -161,9 +161,9 @@ struct MyMenuAddView: View {
     @State private var myMealFatValid: Bool = true
     @State private var myMealCarbohydrateValid: Bool = true
     @State private var myMealKcalValid: Bool = true
-
+    
     @Binding var myMenuAddViewPresented: Bool
-        
+    
     var body: some View {
         VStack {
             HStack {
@@ -172,7 +172,7 @@ struct MyMenuAddView: View {
                 ZStack(alignment: .leading) {
                     TextField("", text: $newMyMealName)
                         .font(.title3)
-                        .foregroundColor(.black)
+                        .foregroundStyle(.black)
                         .padding(4)
                         .background(.white, in: .rect(cornerRadius: 6))
                         .font(.system(size: 25))
@@ -186,7 +186,7 @@ struct MyMenuAddView: View {
                 if myMealNameValid == false {
                     Image(systemName: "exclamationmark.circle.fill")
                         .font(.title2)
-                        .foregroundColor(.red)
+                        .foregroundStyle(.red)
                 }
             }
             .padding()
@@ -202,7 +202,7 @@ struct MyMenuAddView: View {
                 .padding(4)
                 .frame(width: 80)
                 .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundColor(.black)
+                .foregroundStyle(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .onChange(of: newMyMealProtein) {
@@ -221,7 +221,7 @@ struct MyMenuAddView: View {
             if myMealProteinValid == false {
                 Image(systemName: "exclamationmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
             }
         }
         .padding(.horizontal)
@@ -235,7 +235,7 @@ struct MyMenuAddView: View {
                 .padding(4)
                 .frame(width: 80)
                 .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundColor(.black)
+                .foregroundStyle(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .onChange(of: newMyMealFat) {
@@ -254,7 +254,7 @@ struct MyMenuAddView: View {
             if myMealFatValid == false {
                 Image(systemName: "exclamationmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
             }
         }
         .padding(.horizontal)
@@ -268,7 +268,7 @@ struct MyMenuAddView: View {
                 .padding(4)
                 .frame(width: 80)
                 .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundColor(.black)
+                .foregroundStyle(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .onChange(of: newMyMealCarbohydrate) {
@@ -287,7 +287,7 @@ struct MyMenuAddView: View {
             if myMealCarbohydrateValid == false {
                 Image(systemName: "exclamationmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
             }
         }
         .padding(.horizontal)
@@ -301,7 +301,7 @@ struct MyMenuAddView: View {
                 .padding(4)
                 .frame(width: 100)
                 .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundColor(.black)
+                .foregroundStyle(.black)
                 .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .overlay(
@@ -314,7 +314,7 @@ struct MyMenuAddView: View {
             if myMealKcalValid == false {
                 Image(systemName: "exclamationmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
             }
         }
         .padding(.horizontal)
@@ -329,7 +329,7 @@ struct MyMenuAddView: View {
         .bold()
         .padding(10)
         .frame(width: 150, height: 35)
-        .foregroundColor(.black)
+        .foregroundStyle(.black)
         .background(Color(
             red: imageColor.first?.imageColorRed ?? 0,
             green: imageColor.first?.imageColorGreen ?? 1,
@@ -342,16 +342,16 @@ struct MyMenuAddView: View {
                 .stroke(Color.gray, lineWidth: 1)
         )
         Spacer()
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("決定") {
-                    hideKeyboard()
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("決定") {
+                        hideKeyboard()
+                    }
+                    .foregroundStyle(.black)
                 }
-                .foregroundColor(.black)
             }
-        }
-        .padding(.top, 100)
+            .padding(.top, 100)
     }
     
     private func hideKeyboard() {
@@ -371,34 +371,34 @@ struct MyMenuAddView: View {
     
     private func validateMyMealForm() -> Bool {
         var isMyMealValid = true
-
+        
         myMealNameValid = !newMyMealName.isEmpty
         if !myMealNameValid { isMyMealValid = false }
-
+        
         if let castingMyProtein = Double(newMyMealProtein), castingMyProtein >= 0, castingMyProtein <= 9999 {
             myMealProteinValid = true
         } else {
             myMealProteinValid = false
             isMyMealValid = false
         }
-
+        
         if let castingMyFat = Double(newMyMealFat), castingMyFat >= 0, castingMyFat <= 9999 {
             myMealFatValid = true
         } else {
             myMealFatValid = false
             isMyMealValid = false
         }
-
+        
         if let castingMyCarbohydrate = Double(newMyMealCarbohydrate), castingMyCarbohydrate >= 0, castingMyCarbohydrate <= 9999 {
             myMealCarbohydrateValid = true
         } else {
             myMealCarbohydrateValid = false
             isMyMealValid = false
         }
-
+        
         myMealKcalValid = newMyMealKcal >= 0
         if !myMealKcalValid { isMyMealValid = false }
-
+        
         return isMyMealValid
     }
     

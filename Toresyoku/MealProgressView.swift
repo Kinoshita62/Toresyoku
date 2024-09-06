@@ -9,12 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct MealProgressView: View {
-
+    
     @Environment(\.modelContext) private var context
     @Query private var mealContents: [MealContentModel]
     @Query private var profiles: [ProfileModel]
     @Query private var imageColor: [ImageColorModel]
-
+    
     @State private var mealKcalProgress: Double = 0.0
     @State private var mealProteinProgress: Double = 0.0
     @State private var mealFatProgress: Double = 0.0
@@ -41,15 +41,15 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                 Rectangle()
-                .foregroundColor(Color(
-                    red: imageColor.first?.imageColorRed ?? 0,
-                    green: imageColor.first?.imageColorGreen ?? 1,
-                    blue: imageColor.first?.imageColorBlue ?? 1,
-                    opacity: 1
-                ))
-                .scaleEffect(x: mealKcalProgress, y: 1.0, anchor: .leading)
+                    .foregroundStyle(Color(
+                        red: imageColor.first?.imageColorRed ?? 0,
+                        green: imageColor.first?.imageColorGreen ?? 1,
+                        blue: imageColor.first?.imageColorBlue ?? 1,
+                        opacity: 1
+                    ))
+                    .scaleEffect(x: mealKcalProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
             }
@@ -67,9 +67,9 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                 Rectangle()
-                    .foregroundColor(Color(
+                    .foregroundStyle(Color(
                         red: imageColor.first?.imageColorRed ?? 0,
                         green: imageColor.first?.imageColorGreen ?? 1,
                         blue: imageColor.first?.imageColorBlue ?? 1,
@@ -92,9 +92,9 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                 Rectangle()
-                    .foregroundColor(Color(
+                    .foregroundStyle(Color(
                         red: imageColor.first?.imageColorRed ?? 0,
                         green: imageColor.first?.imageColorGreen ?? 1,
                         blue: imageColor.first?.imageColorBlue ?? 1,
@@ -117,9 +117,9 @@ struct MealProgressView: View {
             .padding(.horizontal)
             ZStack {
                 Rectangle()
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                 Rectangle()
-                    .foregroundColor(Color(
+                    .foregroundStyle(Color(
                         red: imageColor.first?.imageColorRed ?? 0,
                         green: imageColor.first?.imageColorGreen ?? 1,
                         blue: imageColor.first?.imageColorBlue ?? 1,
@@ -168,13 +168,13 @@ struct MealProgressView: View {
         
         let totalKcal = filteredMealContents.reduce(0) { $0 + $1.mealKcal }
         (mealKcalProgress, remainingKcal) = calculateProgress(target: profile.targetMealKcal, total: totalKcal)
-
+        
         let totalProtein = filteredMealContents.reduce(0) { $0 + $1.mealProtein }
         (mealProteinProgress, remainingProtein) = calculateProgress(target: profile.targetMealProtein, total: totalProtein)
-
+        
         let totalFat = filteredMealContents.reduce(0) { $0 + $1.mealFat }
         (mealFatProgress, remainingFat) = calculateProgress(target: profile.targetMealFat, total: totalFat)
-
+        
         let totalCarbohydrate = filteredMealContents.reduce(0) { $0 + $1.mealCarbohydrate }
         (mealCarbohydrateProgress, remainingCarbohydrate) = calculateProgress(target: profile.targetMealCarbohydrate, total: totalCarbohydrate)
     }

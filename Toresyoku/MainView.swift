@@ -18,7 +18,7 @@ struct MainView: View {
     @State var datePickerPresented: Bool = false
     @State var settingViewPresented: Bool = false
     @State var isAlert: Bool = false
-   
+    
     @State var refreshID = UUID()
     
     init() {
@@ -29,6 +29,14 @@ struct MainView: View {
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         UITabBar.appearance().scrollEdgeAppearance = appearance
         UITabBar.appearance().standardAppearance = appearance
+    }
+    
+    var dateFormat: DateFormatter {
+        let df = DateFormatter()
+        df.timeStyle = .none
+        df.dateStyle = .full
+        df.locale = Locale(identifier: "ja_JP")
+        return df
     }
     
     var body: some View {
@@ -42,7 +50,7 @@ struct MainView: View {
                             datePickerPresented.toggle()
                         } label: {
                             Image(systemName: "calendar")
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .font(.system(size: 30))
                         }
                         .sheet(isPresented: $datePickerPresented) {
@@ -52,7 +60,7 @@ struct MainView: View {
                         }
                         .padding()
                         Text(dateFormat.string(from: theDate))
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
                             .bold()
                             .font(.title2)
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -63,7 +71,7 @@ struct MainView: View {
                             }
                         } label: {
                             Image(systemName: "gearshape")
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .font(.system(size: 30))
                         }
                         .padding()
@@ -106,14 +114,6 @@ struct MainView: View {
             }
         }
     }
-    
-    var dateFormat: DateFormatter {
-        let df = DateFormatter()
-        df.timeStyle = .none
-        df.dateStyle = .full
-        df.locale = Locale(identifier: "ja_JP")
-        return df
-    }
 }
 
 struct DatePickerView: View {
@@ -148,7 +148,7 @@ struct SettingView: View {
                 .padding(.top, 250)
             HStack {
                 Circle()
-                    .foregroundColor(Color(red: 0/255, green: 255/255, blue: 255/255, opacity: 0.2))
+                    .foregroundStyle(Color(red: 0/255, green: 255/255, blue: 255/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -159,7 +159,7 @@ struct SettingView: View {
                     }
                     .padding(.horizontal, 5)
                 Circle()
-                    .foregroundColor(Color(red: 255/255, green: 0/255, blue: 255/255, opacity: 0.2))
+                    .foregroundStyle(Color(red: 255/255, green: 0/255, blue: 255/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -170,7 +170,7 @@ struct SettingView: View {
                     }
                     .padding(.horizontal, 5)
                 Circle()
-                    .foregroundColor(Color(red: 255/255, green: 100/255, blue: 0/255, opacity: 0.2))
+                    .foregroundStyle(Color(red: 255/255, green: 100/255, blue: 0/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -181,7 +181,7 @@ struct SettingView: View {
                     }
                     .padding(.horizontal, 5)
                 Circle()
-                    .foregroundColor(Color(red: 25/255, green: 200/255, blue: 50/255, opacity: 0.2))
+                    .foregroundStyle(Color(red: 25/255, green: 200/255, blue: 50/255, opacity: 0.2))
                     .frame(width: 25)
                     .overlay(
                         Circle()
@@ -197,7 +197,7 @@ struct SettingView: View {
                 isAlert.toggle()
             }
             .font(.title3)
-            .foregroundColor(.black)
+            .foregroundStyle(.black)
             .alert(isPresented: $isAlert) {
                 Alert(
                     title: Text("注意!"),
@@ -207,7 +207,7 @@ struct SettingView: View {
                     }),
                     secondaryButton: .cancel(Text("キャンセル"), action: {
                         settingViewPresented = false}
-                    )
+                                            )
                 )
             }
             .padding(.top, 20)
@@ -216,7 +216,7 @@ struct SettingView: View {
                 settingViewPresented = false
             }
             .font(.title3)
-            .foregroundColor(.black)
+            .foregroundStyle(.black)
             .padding([.top, .bottom], 20)
         }
     }
@@ -249,19 +249,19 @@ struct SettingView: View {
     private func selectColorBlue() {
         replaceImageColor(newRed: 0, newGreen: 255, newBlue: 255, newAlpha: 0.2)
     }
-
+    
     private func selectColorPink() {
         replaceImageColor(newRed: 255, newGreen: 0, newBlue: 255, newAlpha: 0.2)
     }
-
+    
     private func selectColorOrange() {
         replaceImageColor(newRed: 255, newGreen: 100, newBlue: 0, newAlpha: 0.2)
     }
-        
+    
     private func selectColorGreen() {
         replaceImageColor(newRed: 25, newGreen: 200, newBlue: 50, newAlpha: 0.2)
     }
-
+    
     private func replaceImageColor(newRed: Double, newGreen: Double, newBlue: Double, newAlpha: Double) {
         do {
             let existingColors = try context.fetch(FetchDescriptor<ImageColorModel>())
@@ -269,12 +269,12 @@ struct SettingView: View {
                 context.delete(color)
             }
             let imageColorModel = ImageColorModel(imageColorRed: newRed / 255, imageColorGreen: newGreen / 255, imageColorBlue: newBlue / 255, imageColorAlpha: newAlpha)
-             context.insert(imageColorModel)
+            context.insert(imageColorModel)
             try context.save()
             settingViewPresented = false
             refreshID = UUID()
         } catch {
-                print("Failed to replace color: \(error.localizedDescription)")
+            print("Failed to replace color: \(error.localizedDescription)")
         }
     }
 }

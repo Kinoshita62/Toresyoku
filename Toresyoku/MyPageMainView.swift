@@ -15,12 +15,19 @@ struct MyPageMainView: View {
     
     @Binding var theDate: Date
     
+    var dateFormat: DateFormatter {
+        let df = DateFormatter()
+        df.timeStyle = .none
+        df.dateStyle = .short
+        df.locale = Locale(identifier: "ja_JP")
+        return df
+    }
+    
     var latestProfile: ProfileModel? {
         profiles.first
     }
     
     var body: some View {
-        
         NavigationStack {
             ScrollView {
                 VStack {
@@ -92,7 +99,7 @@ struct MyPageMainView: View {
                                     Spacer()
                                 }
                                 .font(.system(size: 15))
-                                .foregroundColor(.gray)
+                                .foregroundStyle(.gray)
                                 .padding(5)
                             }
                             .padding(5)
@@ -105,7 +112,7 @@ struct MyPageMainView: View {
                         
                         ZStack {
                             Rectangle()
-                                .foregroundColor(Color(
+                                .foregroundStyle(Color(
                                     red: imageColor.first?.imageColorRed ?? 0,
                                     green: imageColor.first?.imageColorGreen ?? 1,
                                     blue: imageColor.first?.imageColorBlue ?? 1,
@@ -141,7 +148,7 @@ struct MyPageMainView: View {
                         
                         ZStack {
                             Rectangle()
-                                .foregroundColor(.gray .opacity(0.05))
+                                .foregroundStyle(.gray .opacity(0.05))
                                 .frame(height: 120)
                             VStack {
                                 HStack {
@@ -194,7 +201,7 @@ struct MyPageMainView: View {
                         
                         ZStack {
                             Rectangle()
-                                .foregroundColor(Color(
+                                .foregroundStyle(Color(
                                     red: imageColor.first?.imageColorRed ?? 0,
                                     green: imageColor.first?.imageColorGreen ?? 1,
                                     blue: imageColor.first?.imageColorBlue ?? 1,
@@ -256,7 +263,7 @@ struct MyPageMainView: View {
                             .padding()
                             .frame(width: 250, height: 35)
                             .cornerRadius(10)
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
                             .background(Color(
                                 red: imageColor.first?.imageColorRed ?? 0,
                                 green: imageColor.first?.imageColorGreen ?? 1,
@@ -274,14 +281,6 @@ struct MyPageMainView: View {
                 }
             }
         }
-    }
-    
-    var dateFormat: DateFormatter {
-        let df = DateFormatter()
-        df.timeStyle = .none
-        df.dateStyle = .short
-        df.locale = Locale(identifier: "ja_JP")
-        return df
     }
 }
 

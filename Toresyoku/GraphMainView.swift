@@ -21,7 +21,7 @@ struct GraphMainView: View {
     @State private var proteinScrollPosition: Date = Date()
     @State private var fatScrollPosition: Date = Date()
     @State private var carbohydrateScrollPosition: Date = Date()
-
+    
     @Binding var refreshID: UUID
     
     
@@ -53,7 +53,7 @@ struct GraphMainView: View {
         let allDates = stride(from: calendar.startOfDay(for: firstMealDate), through: today, by: 60 * 60 * 24).map { $0 }
         
         let groupedMeals = Dictionary(grouping: mealContents, by: { calendar.startOfDay(for: $0.mealDate) })
-
+        
         return allDates
             .filter { $0 >= thirtyDaysAgo }
             .map { date in
@@ -112,7 +112,7 @@ struct GraphMainView: View {
                 return (date: date, totalCarbohydrate: totalCarbohydrate)
             }
     }
-
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -139,7 +139,7 @@ struct GraphMainView: View {
                         .annotation(position: .top, alignment: .trailing) {
                             Text("目標")
                                 .font(.caption)
-                            .foregroundColor(Color(.black))}
+                            .foregroundStyle(Color(.black))}
                 }
                 .padding(5)
                 .chartScrollableAxes(.horizontal)
@@ -162,10 +162,10 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $kcalScrollPosition)
                 .onAppear {
-                                    if let lastDate = dailyCalories.last?.date {
-                                        kcalScrollPosition = lastDate
-                                    }
-                                }
+                    if let lastDate = dailyCalories.last?.date {
+                        kcalScrollPosition = lastDate
+                    }
+                }
                 .frame(height: 250)
                 
                 Text("1日のたんぱく質摂取量")
@@ -191,7 +191,7 @@ struct GraphMainView: View {
                         .annotation(position: .top, alignment: .trailing) {
                             Text("目標")
                                 .font(.caption)
-                            .foregroundColor(Color("Text"))}
+                            .foregroundStyle(Color("Text"))}
                 }
                 .padding(5)
                 .chartScrollableAxes(.horizontal)
@@ -214,12 +214,12 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $proteinScrollPosition)
                 .onAppear {
-                                    if let lastDate = dailyProtein.last?.date {
-                                        proteinScrollPosition = lastDate
-                                    }
-                                }
+                    if let lastDate = dailyProtein.last?.date {
+                        proteinScrollPosition = lastDate
+                    }
+                }
                 .frame(height: 250)
-            
+                
                 Text("1日の脂質摂取量")
                     .font(.title3)
                     .bold()
@@ -243,7 +243,7 @@ struct GraphMainView: View {
                         .annotation(position: .top, alignment: .trailing) {
                             Text("目標")
                                 .font(.caption)
-                            .foregroundColor(Color("Text"))}
+                            .foregroundStyle(Color("Text"))}
                 }
                 .padding(5)
                 .chartScrollableAxes(.horizontal)
@@ -266,12 +266,12 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $fatScrollPosition)
                 .onAppear {
-                                    if let lastDate = dailyFat.last?.date {
-                                        fatScrollPosition = lastDate
-                                    }
-                                }
+                    if let lastDate = dailyFat.last?.date {
+                        fatScrollPosition = lastDate
+                    }
+                }
                 .frame(height: 250)
-       
+                
                 
                 Text("1日の炭水化物摂取量")
                     .font(.title3)
@@ -296,7 +296,7 @@ struct GraphMainView: View {
                         .annotation(position: .top, alignment: .trailing) {
                             Text("目標")
                                 .font(.caption)
-                            .foregroundColor(Color("Text"))}
+                            .foregroundStyle(Color("Text"))}
                 }
                 .padding(5)
                 .chartScrollableAxes(.horizontal)
@@ -319,10 +319,10 @@ struct GraphMainView: View {
                 }
                 .chartScrollPosition(x: $carbohydrateScrollPosition)
                 .onAppear {
-                                    if let lastDate = dailyCarbohydrate.last?.date {
-                                        carbohydrateScrollPosition = lastDate
-                                    }
-                                }
+                    if let lastDate = dailyCarbohydrate.last?.date {
+                        carbohydrateScrollPosition = lastDate
+                    }
+                }
                 .frame(height: 250)
             }
         }

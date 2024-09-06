@@ -9,12 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct MealContentListView: View {
+    
     @Environment(\.modelContext) private var context
     @Query private var mealContents: [MealContentModel]
     @Query private var imageColor: [ImageColorModel]
     @Binding var theDate: Date
     @Binding var refreshID: UUID
-    
     
     var body: some View {
         List {
@@ -52,7 +52,7 @@ struct MealContentListView: View {
                         Spacer()
                         Image(systemName: "trash")
                             .font(.title3)
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
                             .onTapGesture {
                                 deleteMeal(mealContent)
                             }
@@ -74,7 +74,7 @@ struct MealContentListView: View {
     private func mealNameLimit(_ text: String) -> String {
         return text.count > 6 ? String(text.prefix(6)) + "…" : text
     }
-
+    
     private func deleteMeal(_ mealContent: MealContentModel) {
         do {
             context.delete(mealContent)

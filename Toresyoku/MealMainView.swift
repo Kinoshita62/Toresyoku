@@ -42,7 +42,7 @@ struct MealMainView: View {
                             ))
                             .cornerRadius(10)
                             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
                             .font(.title3)
                             .padding([.top, .horizontal])
                     }

@@ -36,9 +36,9 @@ struct ProfileSettingView: View {
     @State private var newTargetMealProtein: String = ""
     @State private var newTargetMealFat: String = ""
     @State private var newTargetMealCarbohydrate: String = ""
-
+    
     @State private var newUserActivityLevel: Int = 2
-
+    
     @State private var dateSelectPresented: Bool = false
     @State private var activityLevelExplanationPresented: Bool = false
     @State private var targetKcalGuidePresented: Bool = false
@@ -46,9 +46,17 @@ struct ProfileSettingView: View {
     @Binding var theDate: Date
     
     init(theDate: Binding<Date>) {
-            self._theDate = theDate
-            self._newUserDataAddDate = State(initialValue: theDate.wrappedValue)
-        }
+        self._theDate = theDate
+        self._newUserDataAddDate = State(initialValue: theDate.wrappedValue)
+    }
+    
+    var dateFormat: DateFormatter {
+        let df = DateFormatter()
+        df.timeStyle = .none
+        df.dateStyle = .short
+        df.locale = Locale(identifier: "ja_JP")
+        return df
+    }
     
     var body: some View {
         ScrollView {
@@ -60,7 +68,7 @@ struct ProfileSettingView: View {
                 
                 ZStack {
                     Rectangle()
-                        .foregroundColor(.gray .opacity(0.05))
+                        .foregroundStyle(.gray .opacity(0.05))
                     VStack {
                         HStack {
                             Text("年齢")
@@ -72,7 +80,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -113,7 +121,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -139,7 +147,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -166,7 +174,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -193,7 +201,7 @@ struct ProfileSettingView: View {
                             Text(newUserMuscleMass)
                             Spacer()
                         }
-                        .foregroundColor(.gray)
+                        .foregroundStyle(.gray)
                         
                     }
                     .padding(5)
@@ -206,7 +214,7 @@ struct ProfileSettingView: View {
                 
                 ZStack {
                     Rectangle()
-                        .foregroundColor(Color(
+                        .foregroundStyle(Color(
                             red: imageColor.first?.imageColorRed ?? 0,
                             green: imageColor.first?.imageColorGreen ?? 1,
                             blue: imageColor.first?.imageColorBlue ?? 1,
@@ -223,7 +231,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -244,7 +252,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -266,7 +274,7 @@ struct ProfileSettingView: View {
                 
                 ZStack {
                     Rectangle()
-                        .foregroundColor(.gray .opacity(0.05))
+                        .foregroundStyle(.gray .opacity(0.05))
                     VStack {
                         HStack {
                             Text("基礎代謝量")
@@ -278,7 +286,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 90)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -342,7 +350,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 90)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -363,7 +371,7 @@ struct ProfileSettingView: View {
                 
                 ZStack {
                     Rectangle()
-                        .foregroundColor(Color(
+                        .foregroundStyle(Color(
                             red: imageColor.first?.imageColorRed ?? 0,
                             green: imageColor.first?.imageColorGreen ?? 1,
                             blue: imageColor.first?.imageColorBlue ?? 1,
@@ -390,7 +398,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 90)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -409,7 +417,7 @@ struct ProfileSettingView: View {
                                 calculate334()
                             }
                             .padding(5)
-                            .foregroundColor(Color.black)
+                            .foregroundStyle(Color.black)
                             .background(Color.white)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 6)
@@ -420,7 +428,7 @@ struct ProfileSettingView: View {
                                 calculate325()
                             }
                             .padding(5)
-                            .foregroundColor(Color.black)
+                            .foregroundStyle(Color.black)
                             .background(Color.white)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 6)
@@ -431,7 +439,7 @@ struct ProfileSettingView: View {
                                 calculate316()
                             }
                             .padding(5)
-                            .foregroundColor(Color.black)
+                            .foregroundStyle(Color.black)
                             .background(Color.white)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 6)
@@ -450,7 +458,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -471,7 +479,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -492,7 +500,7 @@ struct ProfileSettingView: View {
                                 .padding(4)
                                 .frame(width: 80)
                                 .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .keyboardType(.decimalPad)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 6)
@@ -513,7 +521,7 @@ struct ProfileSettingView: View {
                         Button("決定") {
                             hideKeyboard()
                         }
-                        .foregroundColor(.black)
+                        .foregroundStyle(.black)
                     }
                 }
                 
@@ -526,7 +534,7 @@ struct ProfileSettingView: View {
                     .bold()
                     .padding()
                     .frame(width: 100, height: 35)
-                    .foregroundColor(.black)
+                    .foregroundStyle(.black)
                     .background(Color.gray .opacity(0.8))
                     .cornerRadius(10)
                     .overlay(
@@ -543,7 +551,7 @@ struct ProfileSettingView: View {
                     .bold()
                     .padding()
                     .frame(width: 150, height: 35)
-                    .foregroundColor(.black)
+                    .foregroundStyle(.black)
                     .background(Color(
                         red: imageColor.first?.imageColorRed ?? 0,
                         green: imageColor.first?.imageColorGreen ?? 1,
@@ -561,8 +569,8 @@ struct ProfileSettingView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 20)
                 .onChange(of: theDate) {
-                            newUserDataAddDate = theDate
-                        }
+                    newUserDataAddDate = theDate
+                }
                 .onAppear {
                     if let latestProfile = profiles.first {
                         newUserAge = String(latestProfile.userAge)
@@ -586,13 +594,7 @@ struct ProfileSettingView: View {
         }
     }
     
-    var dateFormat: DateFormatter {
-        let df = DateFormatter()
-        df.timeStyle = .none
-        df.dateStyle = .short
-        df.locale = Locale(identifier: "ja_JP")
-        return df
-    }
+    
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -631,12 +633,6 @@ struct ProfileSettingView: View {
         }
         newUserMuscleMass = String(round((castingUserLeanBodyMass / 2) * 10) / 10)
     }
-    
-    
-    
-    
-    
-    
     
     private func calculateBMR() {
         let castingUserWeight = Double(newUserWeight) ?? 0
@@ -720,7 +716,7 @@ struct ProfileSettingView: View {
     
     private func addUpdateProfile() {
         let castingUserAge = Int(newUserAge) ?? 0
-//        let castingUserSex = newUserSex
+        //        let castingUserSex = newUserSex
         let castingUserTall = Double(newUserTall) ?? 0
         let castingUserWeight = Double(newUserWeight) ?? 0
         let castingUserBMI = Double(newUserBMI) ?? 0
@@ -782,7 +778,7 @@ struct ProfileSettingView: View {
             print("Failed to save profile: \(error.localizedDescription)")
         }
     }
-
+    
 }
 
 struct DateSelectView: View {
@@ -803,64 +799,64 @@ struct activityLevelExplanationView: View {
     @Environment(\.dismiss) var dismiss
     @Query private var imageColor: [ImageColorModel]
     var body: some View {
-            ZStack {
-                Rectangle()
-                    .foregroundColor(Color(
-                        red: imageColor.first?.imageColorRed ?? 0,
-                        green: imageColor.first?.imageColorGreen ?? 1,
-                        blue: imageColor.first?.imageColorBlue ?? 1,
-                        opacity: 0.05
-                    ))
-                    
-                VStack(alignment: .leading) {
-                    Text("•低い")
-                        .padding(.leading, 30)
-                    Text("座っていることがほとんど")
-                        .padding(.horizontal)
-                        
-                    Text("•やや低い")
-                        .padding(.top, 5)
-                        .padding(.leading, 30)
-                    Text("座っていることが多いが、週1、2回は軽い運動をする")
-                        .padding(.horizontal)
-                        
-                    Text("•普通")
-                        .padding(.top, 5)
-                        .padding(.leading, 30)
-                    Text("通勤や買い物、家事などで一日中動いている、または週2、3回激しい運動をする")
-                        .padding(.horizontal)
+        ZStack {
+            Rectangle()
+                .foregroundStyle(Color(
+                    red: imageColor.first?.imageColorRed ?? 0,
+                    green: imageColor.first?.imageColorGreen ?? 1,
+                    blue: imageColor.first?.imageColorBlue ?? 1,
+                    opacity: 0.05
+                ))
+            
+            VStack(alignment: .leading) {
+                Text("•低い")
+                    .padding(.leading, 30)
+                Text("座っていることがほとんど")
+                    .padding(.horizontal)
                 
-                    Text("•やや高い")
-                        .padding(.top, 5)
-                        .padding(.leading, 30)
-                    Text("週4、5回激しい運動をする")
-                        .padding(.horizontal)
-                         
-                    Text("•高い")
-                        .padding(.top, 5)
-                        .padding(.leading, 30)
-                    Text("毎日のように非常に激しい運動をする")
-                        .padding(.horizontal)
-                        .padding(.bottom, 5)
-                    
-                    HStack {
-                        Spacer()
-                        Text("閉じる")
-                            .frame(width: 100, height: 25)
-                            .background(Color.gray .opacity(0.8))
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                            .onTapGesture {
-                                dismiss()
-                            }
-                        Spacer()
-                    }
+                Text("•やや低い")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("座っていることが多いが、週1、2回は軽い運動をする")
+                    .padding(.horizontal)
+                
+                Text("•普通")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("通勤や買い物、家事などで一日中動いている、または週2、3回激しい運動をする")
+                    .padding(.horizontal)
+                
+                Text("•やや高い")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("週4、5回激しい運動をする")
+                    .padding(.horizontal)
+                
+                Text("•高い")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("毎日のように非常に激しい運動をする")
+                    .padding(.horizontal)
+                    .padding(.bottom, 5)
+                
+                HStack {
+                    Spacer()
+                    Text("閉じる")
+                        .frame(width: 100, height: 25)
+                        .background(Color.gray .opacity(0.8))
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .onTapGesture {
+                            dismiss()
+                        }
+                    Spacer()
                 }
             }
-            .frame(height: 400)
+        }
+        .frame(height: 400)
     }
 }
 
@@ -871,7 +867,7 @@ struct TargetKcalGuideView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .foregroundColor(Color(
+                .foregroundStyle(Color(
                     red: imageColor.first?.imageColorRed ?? 0,
                     green: imageColor.first?.imageColorGreen ?? 1,
                     blue: imageColor.first?.imageColorBlue ?? 1,
