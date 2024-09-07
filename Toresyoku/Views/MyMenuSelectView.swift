@@ -165,193 +165,195 @@ struct MyMenuAddView: View {
     @Binding var myMenuAddViewPresented: Bool
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("メニュー")
-                    .font(.title3)
-                ZStack(alignment: .leading) {
-                    TextField("", text: $newMyMealName)
+        ScrollView {
+            VStack {
+                HStack {
+                    Text("メニュー")
                         .font(.title3)
-                        .foregroundStyle(.black)
-                        .padding(4)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .font(.system(size: 25))
-                        .frame(width: 220)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
+                    ZStack(alignment: .leading) {
+                        TextField("", text: $newMyMealName)
+                            .font(.title3)
+                            .foregroundStyle(.black)
+                            .padding(4)
+                            .background(.white, in: .rect(cornerRadius: 6))
+                            .font(.system(size: 25))
+                            .frame(width: 220)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
+                    }
+                    Spacer()
+                    if myMealNameValid == false {
+                        Image(systemName: "exclamationmark.circle.fill")
+                            .font(.title2)
+                            .foregroundStyle(.red)
+                    }
                 }
+                .padding()
+                .padding(.top, 30)
+            }
+            
+            HStack {
+                Text("たんぱく質")
+                    .font(.title3)
+                TextField("", text: $newMyMealProtein)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 80)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundStyle(.black)
+                    .font(.system(size: 20))
+                    .keyboardType(.decimalPad)
+                    .onChange(of: newMyMealProtein) {
+                        if newMyMealProtein.count > 4 {
+                            newMyMealProtein = String(newMyMealProtein.prefix(4))
+                        }
+                        calculateMyKcal()
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("g")
+                    .font(.title3)
                 Spacer()
-                if myMealNameValid == false {
+                if myMealProteinValid == false {
                     Image(systemName: "exclamationmark.circle.fill")
                         .font(.title2)
                         .foregroundStyle(.red)
                 }
             }
-            .padding()
-            .padding(.top, 30)
-        }
-        
-        HStack {
-            Text("たんぱく質")
-                .font(.title3)
-            TextField("", text: $newMyMealProtein)
-                .font(.title3)
-                .multilineTextAlignment(.trailing)
-                .padding(4)
-                .frame(width: 80)
-                .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundStyle(.black)
-                .font(.system(size: 20))
-                .keyboardType(.decimalPad)
-                .onChange(of: newMyMealProtein) {
-                    if newMyMealProtein.count > 4 {
-                        newMyMealProtein = String(newMyMealProtein.prefix(4))
-                    }
-                    calculateMyKcal()
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-            Text("g")
-                .font(.title3)
-            Spacer()
-            if myMealProteinValid == false {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(.horizontal)
-        
-        HStack {
-            Text("脂質")
-                .font(.title3)
-            TextField("", text: $newMyMealFat)
-                .font(.title3)
-                .multilineTextAlignment(.trailing)
-                .padding(4)
-                .frame(width: 80)
-                .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundStyle(.black)
-                .font(.system(size: 20))
-                .keyboardType(.decimalPad)
-                .onChange(of: newMyMealFat) {
-                    if newMyMealFat.count > 4 {
-                        newMyMealFat = String(newMyMealFat.prefix(4))
-                    }
-                    calculateMyKcal()
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-            Text("g")
-                .font(.title3)
-            Spacer()
-            if myMealFatValid == false {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(.horizontal)
-        
-        HStack {
-            Text("炭水化物")
-                .font(.title3)
-            TextField("", text: $newMyMealCarbohydrate)
-                .font(.title3)
-                .multilineTextAlignment(.trailing)
-                .padding(4)
-                .frame(width: 80)
-                .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundStyle(.black)
-                .font(.system(size: 20))
-                .keyboardType(.decimalPad)
-                .onChange(of: newMyMealCarbohydrate) {
-                    if newMyMealCarbohydrate.count > 4 {
-                        newMyMealCarbohydrate = String(newMyMealCarbohydrate.prefix(4))
-                    }
-                    calculateMyKcal()
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-            Text("g")
-                .font(.title3)
-            Spacer()
-            if myMealCarbohydrateValid == false {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(.horizontal)
-        
-        HStack {
-            Text("カロリー")
-                .font(.title3)
-            TextField("", value: $newMyMealKcal, format: .number)
-                .font(.title3)
-                .multilineTextAlignment(.trailing)
-                .padding(4)
-                .frame(width: 100)
-                .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundStyle(.black)
-                .font(.system(size: 20))
-                .keyboardType(.decimalPad)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-            Text("kcal")
-                .font(.title3)
-            Spacer()
-            if myMealKcalValid == false {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(.horizontal)
-        .padding(.bottom, 30)
-        
-        Button(action: {
-            addMyMeal()
-        }) {
-            Text("決定")
-        }
-        .font(.title3)
-        .bold()
-        .padding(10)
-        .frame(width: 150, height: 35)
-        .foregroundStyle(.black)
-        .background(Color(
-            red: imageColor.first?.imageColorRed ?? 0,
-            green: imageColor.first?.imageColorGreen ?? 1,
-            blue: imageColor.first?.imageColorBlue ?? 1,
-            opacity: imageColor.first?.imageColorAlpha ?? 0.2
-        ))
-        .cornerRadius(10)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 1)
-        )
-        Spacer()
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button("決定") {
-                        hideKeyboard()
-                    }
+            .padding(.horizontal)
+            
+            HStack {
+                Text("脂質")
+                    .font(.title3)
+                TextField("", text: $newMyMealFat)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 80)
+                    .background(.white, in: .rect(cornerRadius: 6))
                     .foregroundStyle(.black)
+                    .font(.system(size: 20))
+                    .keyboardType(.decimalPad)
+                    .onChange(of: newMyMealFat) {
+                        if newMyMealFat.count > 4 {
+                            newMyMealFat = String(newMyMealFat.prefix(4))
+                        }
+                        calculateMyKcal()
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("g")
+                    .font(.title3)
+                Spacer()
+                if myMealFatValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
                 }
             }
-            .padding(.top, 100)
+            .padding(.horizontal)
+            
+            HStack {
+                Text("炭水化物")
+                    .font(.title3)
+                TextField("", text: $newMyMealCarbohydrate)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 80)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundStyle(.black)
+                    .font(.system(size: 20))
+                    .keyboardType(.decimalPad)
+                    .onChange(of: newMyMealCarbohydrate) {
+                        if newMyMealCarbohydrate.count > 4 {
+                            newMyMealCarbohydrate = String(newMyMealCarbohydrate.prefix(4))
+                        }
+                        calculateMyKcal()
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("g")
+                    .font(.title3)
+                Spacer()
+                if myMealCarbohydrateValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            
+            HStack {
+                Text("カロリー")
+                    .font(.title3)
+                TextField("", value: $newMyMealKcal, format: .number)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 100)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundStyle(.black)
+                    .font(.system(size: 20))
+                    .keyboardType(.decimalPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("kcal")
+                    .font(.title3)
+                Spacer()
+                if myMealKcalValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 30)
+            
+            Button(action: {
+                addMyMeal()
+            }) {
+                Text("決定")
+            }
+            .font(.title3)
+            .bold()
+            .padding(10)
+            .frame(width: 150, height: 35)
+            .foregroundStyle(.black)
+            .background(Color(
+                red: imageColor.first?.imageColorRed ?? 0,
+                green: imageColor.first?.imageColorGreen ?? 1,
+                blue: imageColor.first?.imageColorBlue ?? 1,
+                opacity: imageColor.first?.imageColorAlpha ?? 0.2
+            ))
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
+            Spacer()
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button("決定") {
+                            hideKeyboard()
+                        }
+                        .foregroundStyle(.black)
+                    }
+                }
+                .padding(.top, 100)
+        }
     }
     
     private func hideKeyboard() {
