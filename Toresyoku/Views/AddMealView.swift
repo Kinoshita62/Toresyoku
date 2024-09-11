@@ -12,6 +12,8 @@ struct AddMealView: View {
     
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
+    
+    private var action = Action()
 
     @Query private var imageColor: [ImageColorModel]
     
@@ -78,40 +80,48 @@ struct AddMealView: View {
                 
                 
                 HStack {
-                    Text("マイメニューから選択")
-                        .font(.title3)
-                        .bold()
-                        .foregroundStyle(.black)
-                        .padding(10)
-                        .frame(width: 210, height: 35)
-                        .background(Color(
-                            red: imageColor.first?.imageColorRed ?? 0,
-                            green: imageColor.first?.imageColorGreen ?? 1,
-                            blue: imageColor.first?.imageColorBlue ?? 1,
-                            opacity: imageColor.first?.imageColorAlpha ?? 0.2
-                        ))
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                        .onTapGesture {
-                            myMenuSelectModal = true
-                        }
-                        .sheet(isPresented: $myMenuSelectModal) {
-                            MyMenuSelectView(
-                                selectedMealName: $newMealName,
-                                selectedMealProtein: $newMealProtein,
-                                selectedMealFat: $newMealFat,
-                                selectedMealCarbohydrate: $newMealCarbohydrate,
-                                selectedMealKcal: $newMealKcal
-                            )
-                            .presentationDragIndicator(.visible)
-                        }
+                    BasicButton(title: "マイメニューから選択", widthSize: 230) {
+                        myMenuSelectModal = true
+                    }
+                    
+                    
+//                    Text("マイメニューから選択")
+//                        .font(.title3)
+//                        .bold()
+//                        .foregroundStyle(.black)
+//                        .padding(10)
+//                        .frame(width: 210, height: 35)
+//                        .background(Color(
+//                            red: imageColor.first?.imageColorRed ?? 0,
+//                            green: imageColor.first?.imageColorGreen ?? 1,
+//                            blue: imageColor.first?.imageColorBlue ?? 1,
+//                            opacity: imageColor.first?.imageColorAlpha ?? 0.2
+//                        ))
+//                        .cornerRadius(10)
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .stroke(Color.gray, lineWidth: 1)
+//                        )
+//                        .onTapGesture {
+//                            myMenuSelectModal = true
+//                        }
+                        
+                        
                     Spacer()
+                }
+                .sheet(isPresented: $myMenuSelectModal) {
+                    MyMenuSelectView(
+                        selectedMealName: $newMealName,
+                        selectedMealProtein: $newMealProtein,
+                        selectedMealFat: $newMealFat,
+                        selectedMealCarbohydrate: $newMealCarbohydrate,
+                        selectedMealKcal: $newMealKcal
+                    )
+                    .presentationDragIndicator(.visible)
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 30)
+            
                 
                 HStack {
                     Text("たんぱく質")
@@ -239,40 +249,46 @@ struct AddMealView: View {
                 
                 HStack {
                     Spacer()
-                    Button("戻る") {
+                    NoButton {
                         dismiss()
                     }
-                    .font(.title3)
-                    .bold()
-                    .padding()
-                    .frame(width: 100, height: 35)
-                    .foregroundStyle(.black)
-                    .background(Color.gray .opacity(0.8))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
+//                    Button("戻る") {
+//                        dismiss()
+//                    }
+//                    .font(.title3)
+//                    .bold()
+//                    .padding()
+//                    .frame(width: 100, height: 35)
+//                    .foregroundStyle(.black)
+//                    .background(Color.gray .opacity(0.8))
+//                    .cornerRadius(10)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke(Color.gray, lineWidth: 1)
+//                    )
                     Spacer()
-                    Button("決定") {
+                    BasicButton(title: "決定") {
                         addMeal()
                     }
-                    .font(.title3)
-                    .bold()
-                    .padding()
-                    .frame(width: 150, height: 35)
-                    .foregroundStyle(.black)
-                    .background(Color(
-                        red: imageColor.first?.imageColorRed ?? 0,
-                        green: imageColor.first?.imageColorGreen ?? 1,
-                        blue: imageColor.first?.imageColorBlue ?? 1,
-                        opacity: imageColor.first?.imageColorAlpha ?? 0.2
-                    ))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
+//                    Button("決定") {
+//                        addMeal()
+//                    }
+//                    .font(.title3)
+//                    .bold()
+//                    .padding()
+//                    .frame(width: 150, height: 35)
+//                    .foregroundStyle(.black)
+//                    .background(Color(
+//                        red: imageColor.first?.imageColorRed ?? 0,
+//                        green: imageColor.first?.imageColorGreen ?? 1,
+//                        blue: imageColor.first?.imageColorBlue ?? 1,
+//                        opacity: imageColor.first?.imageColorAlpha ?? 0.2
+//                    ))
+//                    .cornerRadius(10)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke(Color.gray, lineWidth: 1)
+//                    )
                     Spacer()
                 }
             }
@@ -287,7 +303,7 @@ struct AddMealView: View {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
                         Button("決定") {
-                            hideKeyboard()
+                            action.hideKeyboard()
                         }
                         .foregroundStyle(.black)
                     }
@@ -297,9 +313,9 @@ struct AddMealView: View {
         }
     }
     
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
+//    private func hideKeyboard() {
+//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//    }
     
     private func calculateKcal() {
         let castingProtein = Double(newMealProtein) ?? 0
@@ -387,6 +403,6 @@ struct AddMealView_Previews: PreviewProvider {
     static var previews: some View {
         @State var theDate = Date()
         AddMealView(theDate: $theDate, refreshID: .constant(UUID()))
-            .modelContainer(for: ImageColorModel.self)
+            .modelContainer(for: [MyMealContentModel.self, ImageColorModel.self])
     }
 }

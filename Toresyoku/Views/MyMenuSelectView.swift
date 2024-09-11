@@ -16,6 +16,8 @@ struct MyMenuSelectView: View {
     @Query private var myMealContents: [MyMealContentModel]
     @Query private var imageColor: [ImageColorModel]
     
+    private var action = Action()
+    
     @State private var newMyMealName: String = ""
     @State private var newMyMealProtein: Double = 0.0
     @State private var newMyMealFat: Double = 0.0
@@ -31,6 +33,14 @@ struct MyMenuSelectView: View {
     @State var myMenuAddViewPresented: Bool = false
     
     @State private var errorMessage: String?
+    
+    init(selectedMealName: Binding<String>, selectedMealProtein: Binding<String>, selectedMealFat: Binding<String>, selectedMealCarbohydrate: Binding<String>, selectedMealKcal: Binding<Double>) {
+            self._selectedMealName = selectedMealName
+            self._selectedMealProtein = selectedMealProtein
+            self._selectedMealFat = selectedMealFat
+            self._selectedMealCarbohydrate = selectedMealCarbohydrate
+            self._selectedMealKcal = selectedMealKcal
+        }
     
     var body: some View {
         VStack {
@@ -91,32 +101,37 @@ struct MyMenuSelectView: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
             
-            Button(action: {
-                myMenuAddViewPresented.toggle()
-            }) {
-                Text("マイメニューの追加")
+            BasicButton(title: "マイメニューの追加", widthSize: 210) {
+                myMenuAddViewPresented = true
             }
-            .font(.title3)
-            .bold()
-            .padding(.horizontal)
-            .frame(width: 210, height: 35)
-            .foregroundStyle(.black)
-            .background(Color(
-                red: imageColor.first?.imageColorRed ?? 0,
-                green: imageColor.first?.imageColorGreen ?? 1,
-                blue: imageColor.first?.imageColorBlue ?? 1,
-                opacity: imageColor.first?.imageColorAlpha ?? 0.2
-            ))
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
             .sheet(isPresented: $myMenuAddViewPresented) {
                 MyMenuAddView(myMenuAddViewPresented: $myMenuAddViewPresented)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
             }
+            
+//            Button(action: {
+//                myMenuAddViewPresented.toggle()
+//            }) {
+//                Text("マイメニューの追加")
+//            }
+//            .font(.title3)
+//            .bold()
+//            .padding(.horizontal)
+//            .frame(width: 210, height: 35)
+//            .foregroundStyle(.black)
+//            .background(Color(
+//                red: imageColor.first?.imageColorRed ?? 0,
+//                green: imageColor.first?.imageColorGreen ?? 1,
+//                blue: imageColor.first?.imageColorBlue ?? 1,
+//                opacity: imageColor.first?.imageColorAlpha ?? 0.2
+//            ))
+//            .cornerRadius(10)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 10)
+//                    .stroke(Color.gray, lineWidth: 1)
+//            )
+            
         }
     }
     
@@ -150,6 +165,8 @@ struct MyMenuAddView: View {
     
     @Query private var imageColor: [ImageColorModel]
     
+    private var action = Action()
+    
     @State private var newMyMealName: String = ""
     @State private var newMyMealProtein: String = ""
     @State private var newMyMealFat: String = ""
@@ -163,6 +180,10 @@ struct MyMenuAddView: View {
     @State private var myMealKcalValid: Bool = true
     
     @Binding var myMenuAddViewPresented: Bool
+    
+    init(myMenuAddViewPresented: Binding<Bool>) {
+            self._myMenuAddViewPresented = myMenuAddViewPresented
+        }
     
     var body: some View {
         ScrollView {
@@ -321,33 +342,37 @@ struct MyMenuAddView: View {
             .padding(.horizontal)
             .padding(.bottom, 30)
             
-            Button(action: {
+            BasicButton(title: "決定") {
                 addMyMeal()
-            }) {
-                Text("決定")
             }
-            .font(.title3)
-            .bold()
-            .padding(10)
-            .frame(width: 150, height: 35)
-            .foregroundStyle(.black)
-            .background(Color(
-                red: imageColor.first?.imageColorRed ?? 0,
-                green: imageColor.first?.imageColorGreen ?? 1,
-                blue: imageColor.first?.imageColorBlue ?? 1,
-                opacity: imageColor.first?.imageColorAlpha ?? 0.2
-            ))
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
+            
+//            Button(action: {
+//                addMyMeal()
+//            }) {
+//                Text("決定")
+//            }
+//            .font(.title3)
+//            .bold()
+//            .padding(10)
+//            .frame(width: 150, height: 35)
+//            .foregroundStyle(.black)
+//            .background(Color(
+//                red: imageColor.first?.imageColorRed ?? 0,
+//                green: imageColor.first?.imageColorGreen ?? 1,
+//                blue: imageColor.first?.imageColorBlue ?? 1,
+//                opacity: imageColor.first?.imageColorAlpha ?? 0.2
+//            ))
+//            .cornerRadius(10)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 10)
+//                    .stroke(Color.gray, lineWidth: 1)
+//            )
             Spacer()
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
                         Button("決定") {
-                            hideKeyboard()
+                            action.hideKeyboard()
                         }
                         .foregroundStyle(.black)
                     }
@@ -356,9 +381,9 @@ struct MyMenuAddView: View {
         }
     }
     
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
+//    private func hideKeyboard() {
+//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//    }
     
     private func calculateMyKcal() {
         let castingMyProtein = Double(newMyMealProtein) ?? 0

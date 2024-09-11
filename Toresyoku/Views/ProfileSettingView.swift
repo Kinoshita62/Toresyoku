@@ -15,6 +15,8 @@ struct ProfileSettingView: View {
     @Query private var profiles: [ProfileModel]
     @Query private var imageColor: [ImageColorModel]
     
+    private var action = Action()
+    
     @State private var newUserDataAddDate: Date
     
     @State private var newUserAge: String = ""
@@ -307,7 +309,7 @@ struct ProfileSettingView: View {
                                 .font(.title3)
                                 .onTapGesture {
                                     activityLevelExplanationPresented = true
-                                    hideKeyboard()
+                                    action.hideKeyboard()
                                 }
                                 .popover(isPresented: $activityLevelExplanationPresented) {
                                     activityLevelExplanationView()
@@ -385,7 +387,7 @@ struct ProfileSettingView: View {
                                 .font(.title3)
                                 .onTapGesture {
                                     targetKcalGuidePresented = true
-                                    hideKeyboard()
+                                    action.hideKeyboard()
                                 }
                                 .popover(isPresented: $targetKcalGuidePresented) {
                                     TargetKcalGuideView()
@@ -519,7 +521,7 @@ struct ProfileSettingView: View {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
                         Button("決定") {
-                            hideKeyboard()
+                            action.hideKeyboard()
                         }
                         .foregroundStyle(.black)
                     }
@@ -527,42 +529,49 @@ struct ProfileSettingView: View {
                 
                 HStack {
                     Spacer()
-                    Button("戻る") {
+                    NoButton {
                         dismiss()
                     }
-                    .font(.title3)
-                    .bold()
-                    .padding()
-                    .frame(width: 100, height: 35)
-                    .foregroundStyle(.black)
-                    .background(Color.gray .opacity(0.8))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
+//                    Button("戻る") {
+//                        dismiss()
+//                    }
+//                    .font(.title3)
+//                    .bold()
+//                    .padding()
+//                    .frame(width: 100, height: 35)
+//                    .foregroundStyle(.black)
+//                    .background(Color.gray .opacity(0.8))
+//                    .cornerRadius(10)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke(Color.gray, lineWidth: 1)
+//                    )
                     
                     Spacer()
-                    Button("決定") {
+                    BasicButton(title: "決定") {
                         addUpdateProfile()
                         dismiss()
                     }
-                    .font(.title3)
-                    .bold()
-                    .padding()
-                    .frame(width: 150, height: 35)
-                    .foregroundStyle(.black)
-                    .background(Color(
-                        red: imageColor.first?.imageColorRed ?? 0,
-                        green: imageColor.first?.imageColorGreen ?? 1,
-                        blue: imageColor.first?.imageColorBlue ?? 1,
-                        opacity: imageColor.first?.imageColorAlpha ?? 0.2
-                    ))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
+//                    Button("決定") {
+//                        addUpdateProfile()
+//                        dismiss()
+//                    }
+//                    .font(.title3)
+//                    .bold()
+//                    .padding()
+//                    .frame(width: 150, height: 35)
+//                    .foregroundStyle(.black)
+//                    .background(Color(
+//                        red: imageColor.first?.imageColorRed ?? 0,
+//                        green: imageColor.first?.imageColorGreen ?? 1,
+//                        blue: imageColor.first?.imageColorBlue ?? 1,
+//                        opacity: imageColor.first?.imageColorAlpha ?? 0.2
+//                    ))
+//                    .cornerRadius(10)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .stroke(Color.gray, lineWidth: 1)
+//                    )
                     Spacer()
                 }
                 .navigationBarBackButtonHidden(true)
@@ -596,9 +605,9 @@ struct ProfileSettingView: View {
     
     
     
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
+//    private func hideKeyboard() {
+//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//    }
     
     private func calculateBMI() {
         let castingUserTall = Double(newUserTall) ?? 0

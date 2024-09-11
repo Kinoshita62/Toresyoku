@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9C136AB7-A9FD-4782-B549-01C44A97C0D9"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Toresyoku/Model/ImageColorModel.swift"
@@ -18,36 +18,6 @@
             endingLineNumber = "12"
             landmarkName = "ImageColorModel"
             landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "9C136AB7-A9FD-4782-B549-01C44A97C0D9 - 46ac1b75aa7408fd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Toresyoku.ImageColorModel.deinit"
-                  moduleName = "Toresyoku"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Documents/workspace/Toresyoku/Toresyoku/Model/ImageColorModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "9C136AB7-A9FD-4782-B549-01C44A97C0D9 - 5db61b19a0120b0b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Toresyoku.ImageColorModel.__deallocating_deinit"
-                  moduleName = "Toresyoku"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Documents/workspace/Toresyoku/Toresyoku/Model/ImageColorModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
