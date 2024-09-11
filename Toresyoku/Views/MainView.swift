@@ -93,12 +93,13 @@ struct MainView: View {
                             }.tag(3)
                     }
                 }
-                .background(Color(
-                    red: imageColor.first?.imageColorRed ?? 0,
-                    green: imageColor.first?.imageColorGreen ?? 1,
-                    blue: imageColor.first?.imageColorBlue ?? 1,
-                    opacity: imageColor.first?.imageColorAlpha ?? 0.2
-                ))
+                .background(colorManager(from: imageColor.first, opacity: 0.2))
+//                .background(Color(
+//                    red: imageColor.first?.imageColorRed ?? 0,
+//                    green: imageColor.first?.imageColorGreen ?? 1,
+//                    blue: imageColor.first?.imageColorBlue ?? 1,
+//                    opacity: imageColor.first?.imageColorAlpha ?? 0.2
+//                ))
                 
                 if settingViewPresented {
                     GeometryReader { geometry in

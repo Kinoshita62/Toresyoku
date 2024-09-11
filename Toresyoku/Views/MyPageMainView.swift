@@ -112,12 +112,13 @@ struct MyPageMainView: View {
                         
                         ZStack {
                             Rectangle()
-                                .foregroundStyle(Color(
-                                    red: imageColor.first?.imageColorRed ?? 0,
-                                    green: imageColor.first?.imageColorGreen ?? 1,
-                                    blue: imageColor.first?.imageColorBlue ?? 1,
-                                    opacity: 0.03
-                                ))
+                                .foregroundStyle(colorManager(from: imageColor.first, opacity: 0.03))
+//                                .foregroundStyle(Color(
+//                                    red: imageColor.first?.imageColorRed ?? 0,
+//                                    green: imageColor.first?.imageColorGreen ?? 1,
+//                                    blue: imageColor.first?.imageColorBlue ?? 1,
+//                                    opacity: 0.03
+//                                ))
                                 .frame(height: 80)
                             VStack {
                                 HStack {
@@ -201,12 +202,13 @@ struct MyPageMainView: View {
                         
                         ZStack {
                             Rectangle()
-                                .foregroundStyle(Color(
-                                    red: imageColor.first?.imageColorRed ?? 0,
-                                    green: imageColor.first?.imageColorGreen ?? 1,
-                                    blue: imageColor.first?.imageColorBlue ?? 1,
-                                    opacity: 0.03
-                                ))
+                                .foregroundStyle(colorManager(from: imageColor.first, opacity: 0.03))
+//                                .foregroundStyle(Color(
+//                                    red: imageColor.first?.imageColorRed ?? 0,
+//                                    green: imageColor.first?.imageColorGreen ?? 1,
+//                                    blue: imageColor.first?.imageColorBlue ?? 1,
+//                                    opacity: 0.03
+//                                ))
                                 .frame(height: 170)
                             VStack {
                                 HStack {
@@ -264,12 +266,13 @@ struct MyPageMainView: View {
                             .frame(width: 250, height: 35)
                             .cornerRadius(10)
                             .foregroundStyle(.black)
-                            .background(Color(
-                                red: imageColor.first?.imageColorRed ?? 0,
-                                green: imageColor.first?.imageColorGreen ?? 1,
-                                blue: imageColor.first?.imageColorBlue ?? 1,
-                                opacity: imageColor.first?.imageColorAlpha ?? 0.2
-                            ))
+                            .background(colorManager(from: imageColor.first, opacity: 0.2))
+//                            .background(Color(
+//                                red: imageColor.first?.imageColorRed ?? 0,
+//                                green: imageColor.first?.imageColorGreen ?? 1,
+//                                blue: imageColor.first?.imageColorBlue ?? 1,
+//                                opacity: imageColor.first?.imageColorAlpha ?? 0.2
+//                            ))
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)

@@ -43,12 +43,13 @@ struct MealProgressView: View {
                 Rectangle()
                     .foregroundStyle(.white)
                 Rectangle()
-                    .foregroundStyle(Color(
-                        red: imageColor.first?.imageColorRed ?? 0,
-                        green: imageColor.first?.imageColorGreen ?? 1,
-                        blue: imageColor.first?.imageColorBlue ?? 1,
-                        opacity: 1
-                    ))
+                    .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
+//                    .foregroundStyle(Color(
+//                        red: imageColor.first?.imageColorRed ?? 0,
+//                        green: imageColor.first?.imageColorGreen ?? 1,
+//                        blue: imageColor.first?.imageColorBlue ?? 1,
+//                        opacity: 1
+//                    ))
                     .scaleEffect(x: mealKcalProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
@@ -69,12 +70,13 @@ struct MealProgressView: View {
                 Rectangle()
                     .foregroundStyle(.white)
                 Rectangle()
-                    .foregroundStyle(Color(
-                        red: imageColor.first?.imageColorRed ?? 0,
-                        green: imageColor.first?.imageColorGreen ?? 1,
-                        blue: imageColor.first?.imageColorBlue ?? 1,
-                        opacity: 1
-                    ))
+                    .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
+//                    .foregroundStyle(Color(
+//                        red: imageColor.first?.imageColorRed ?? 0,
+//                        green: imageColor.first?.imageColorGreen ?? 1,
+//                        blue: imageColor.first?.imageColorBlue ?? 1,
+//                        opacity: 1
+//                    ))
                     .scaleEffect(x: mealProteinProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
@@ -94,12 +96,13 @@ struct MealProgressView: View {
                 Rectangle()
                     .foregroundStyle(.white)
                 Rectangle()
-                    .foregroundStyle(Color(
-                        red: imageColor.first?.imageColorRed ?? 0,
-                        green: imageColor.first?.imageColorGreen ?? 1,
-                        blue: imageColor.first?.imageColorBlue ?? 1,
-                        opacity: 1
-                    ))
+                    .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
+//                    .foregroundStyle(Color(
+//                        red: imageColor.first?.imageColorRed ?? 0,
+//                        green: imageColor.first?.imageColorGreen ?? 1,
+//                        blue: imageColor.first?.imageColorBlue ?? 1,
+//                        opacity: 1
+//                    ))
                     .scaleEffect(x: mealFatProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
@@ -119,12 +122,13 @@ struct MealProgressView: View {
                 Rectangle()
                     .foregroundStyle(.white)
                 Rectangle()
-                    .foregroundStyle(Color(
-                        red: imageColor.first?.imageColorRed ?? 0,
-                        green: imageColor.first?.imageColorGreen ?? 1,
-                        blue: imageColor.first?.imageColorBlue ?? 1,
-                        opacity: 1
-                    ))
+                    .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
+//                    .foregroundStyle(Color(
+//                        red: imageColor.first?.imageColorRed ?? 0,
+//                        green: imageColor.first?.imageColorGreen ?? 1,
+//                        blue: imageColor.first?.imageColorBlue ?? 1,
+//                        opacity: 1
+//                    ))
                     .scaleEffect(x: mealCarbohydrateProgress, y: 1.0, anchor: .leading)
                 Rectangle()
                     .stroke(.gray)
@@ -132,12 +136,13 @@ struct MealProgressView: View {
             .frame(width: 300, height: 20)
         }
         .padding(.bottom, 5)
-        .background(Color(
-            red: imageColor.first?.imageColorRed ?? 0,
-            green: imageColor.first?.imageColorGreen ?? 1,
-            blue: imageColor.first?.imageColorBlue ?? 1,
-            opacity: 0.03
-        ))
+        .background(colorManager(from: imageColor.first, opacity: 0.03))
+//        .background(Color(
+//            red: imageColor.first?.imageColorRed ?? 0,
+//            green: imageColor.first?.imageColorGreen ?? 1,
+//            blue: imageColor.first?.imageColorBlue ?? 1,
+//            opacity: 0.03
+//        ))
         .onChange(of: refreshID) {
             calculateProgress()
         }
