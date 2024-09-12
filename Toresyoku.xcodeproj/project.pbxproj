@@ -13,6 +13,7 @@
 		CE2B0F9E2C91721A0066DB8F /* NoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B0F9D2C91721A0066DB8F /* NoButton.swift */; };
 		CE2B0FA12C9176090066DB8F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B0FA02C9176090066DB8F /* Action.swift */; };
 		CE2B0FA32C91B5AA0066DB8F /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B0FA22C91B5AA0066DB8F /* ColorManager.swift */; };
+		CE2B0FA52C92758E0066DB8F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B0FA42C92758E0066DB8F /* SettingView.swift */; };
 		CE432EC82C61DEBE00F70560 /* MealProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE432EC72C61DEBD00F70560 /* MealProgressView.swift */; };
 		CE4BBE292C6DCB7100A51730 /* MyMealContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4BBE282C6DCB7000A51730 /* MyMealContentModel.swift */; };
 		CE70098F2C8BFA00003F00D4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B09B42C561FB3006FD3D9 /* MainView.swift */; };
@@ -56,6 +57,7 @@
 		CE2B0F9D2C91721A0066DB8F /* NoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoButton.swift; sourceTree = "<group>"; };
 		CE2B0FA02C9176090066DB8F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		CE2B0FA22C91B5AA0066DB8F /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
+		CE2B0FA42C92758E0066DB8F /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		CE432EC72C61DEBD00F70560 /* MealProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealProgressView.swift; sourceTree = "<group>"; };
 		CE4BBE282C6DCB7000A51730 /* MyMealContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMealContentModel.swift; sourceTree = "<group>"; };
 		CE8B09AF2C561FB3006FD3D9 /* Toresyoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toresyoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8B09B42C561FB3006FD3D9 /* MainView.swift */,
+				CE2B0FA42C92758E0066DB8F /* SettingView.swift */,
 				CE8B09C22C56241D006FD3D9 /* MealMainView.swift */,
 				CE432EC72C61DEBD00F70560 /* MealProgressView.swift */,
 				CE8B09C42C56245B006FD3D9 /* MealContentListView.swift */,
@@ -340,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE28C2192C7C3CA1004674CA /* FirstBootView.swift in Sources */,
+				CE2B0FA52C92758E0066DB8F /* SettingView.swift in Sources */,
 				CE2B0FA12C9176090066DB8F /* Action.swift in Sources */,
 				CE8B09D52C562645006FD3D9 /* ProfileModel.swift in Sources */,
 				CEBD36952C73834000A1AB99 /* ImageColorModel.swift in Sources */,

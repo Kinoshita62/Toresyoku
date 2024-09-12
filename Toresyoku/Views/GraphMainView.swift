@@ -127,12 +127,6 @@ struct GraphMainView: View {
                             y: .value("kcal", data.totalKcal)
                         )
                         .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                        .foregroundStyle(Color(
-//                            red: imageColor.first?.imageColorRed ?? 0,
-//                            green: imageColor.first?.imageColorGreen ?? 1,
-//                            blue: imageColor.first?.imageColorBlue ?? 1,
-//                            opacity: 1
-//                        ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetKcal))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
@@ -180,12 +174,6 @@ struct GraphMainView: View {
                             y: .value("g", data.totalProtein)
                         )
                         .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                        .foregroundStyle(Color(
-//                            red: imageColor.first?.imageColorRed ?? 0,
-//                            green: imageColor.first?.imageColorGreen ?? 1,
-//                            blue: imageColor.first?.imageColorBlue ?? 1,
-//                            opacity: 1
-//                        ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetProtein))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
@@ -233,12 +221,6 @@ struct GraphMainView: View {
                             y: .value("g", data.totalFat)
                         )
                         .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                        .foregroundStyle(Color(
-//                            red: imageColor.first?.imageColorRed ?? 0,
-//                            green: imageColor.first?.imageColorGreen ?? 1,
-//                            blue: imageColor.first?.imageColorBlue ?? 1,
-//                            opacity: 1
-//                        ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetFat))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))
@@ -287,12 +269,6 @@ struct GraphMainView: View {
                             y: .value("g", data.totalCarbohydrate)
                         )
                         .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                        .foregroundStyle(Color(
-//                            red: imageColor.first?.imageColorRed ?? 0,
-//                            green: imageColor.first?.imageColorGreen ?? 1,
-//                            blue: imageColor.first?.imageColorBlue ?? 1,
-//                            opacity: 1
-//                        ))
                     }
                     RuleMark(y: .value("ターゲットkcal", targetCarbohydrate))
                         .lineStyle(StrokeStyle(lineWidth: 2, dash: [5]))

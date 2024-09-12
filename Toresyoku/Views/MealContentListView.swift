@@ -1,8 +1,9 @@
-//
-//  MealContentListView.swift
-//  Toresyoku
-//
-//  Created by USER on 2024/07/28.
+////
+////  MealContentListView.swift
+////  Toresyoku
+////
+////  Created by USER on 2024/07/28.
+////
 //
 
 import SwiftUI
@@ -16,64 +17,53 @@ struct MealContentListView: View {
     @Binding var theDate: Date
     @Binding var refreshID: UUID
     
+    @State private var filteredMealContents: [MealContentModel] = []
+    
     var body: some View {
         List {
-            let filteredMealContents = mealContents.filter { mealContent in
-                Calendar.current.isDate(mealContent.mealDate, inSameDayAs: theDate)
-            }
             ForEach(filteredMealContents) { mealContent in
-                VStack(alignment: .leading) {
-                    HStack {
-                        VStack {
-                            Spacer()
-                            Text(mealNameLimit(mealContent.mealName))
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                            Spacer()
-                            Text("\(mealContent.mealKcal, specifier: "%.f") kcal")
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                            Spacer()
-                        }
-                        .font(.title3)
-                        Spacer()
-                        VStack(alignment: .leading) {
-                            Text("たんぱく質: \(mealContent.mealProtein, specifier: "%.1f") g")
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                            Text("脂質: \(mealContent.mealFat, specifier: "%.1f") g")
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                            Text("炭水化物: \(mealContent.mealCarbohydrate, specifier: "%.1f") g")
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                        }
-                        .font(.system(size: 15))
-                        Spacer()
-                        Image(systemName: "trash")
-                            .font(.title3)
-                            .foregroundStyle(.black)
-                            .onTapGesture {
-                                deleteMeal(mealContent)
-                            }
-                    }
-                }
-                .listRowSeparatorTint(Color(.black))
-                .listRowBackground(colorManager(from: imageColor.first, opacity: 0.03))
-//                .listRowBackground(Color(
-//                    red: imageColor.first?.imageColorRed ?? 0,
-//                    green: imageColor.first?.imageColorGreen ?? 1,
-//                    blue: imageColor.first?.imageColorBlue ?? 1,
-//                    opacity: 0.03
-//                ))
+                MealContentRowView(mealContent: mealContent, imageColor: imageColor.first, action: {
+                    deleteMeal(mealContent)
+                })
             }
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
+        .onAppear {
+            filterMeals()
+        }
+        .onChange(of: theDate) {
+            filterMeals()
+        }
     }
+}
+
+struct MealContentRowView: View {
     
-    private func mealNameLimit(_ text: String) -> String {
-        return text.count > 6 ? String(text.prefix(6)) + "…" : text
+    let mealContent: MealContentModel
+    let imageColor: ImageColorModel?
+    let action: () -> Void
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                mealInfo
+                Spacer()
+                nutritionInfo
+                Spacer()
+                deleteButton
+            }
+        }
+        .listRowSeparatorTint(.black)
+        .listRowBackground(colorManager(from: imageColor, opacity: 0.03))
+    }
+}
+
+extension MealContentListView {
+    private func filterMeals() {
+        filteredMealContents = mealContents.filter { mealContent in
+            Calendar.current.isDate(mealContent.mealDate, inSameDayAs: theDate)
+        }
     }
     
     private func deleteMeal(_ mealContent: MealContentModel) {
@@ -81,9 +71,55 @@ struct MealContentListView: View {
             context.delete(mealContent)
             try context.save()
             refreshID = UUID()
+            filterMeals()
         } catch {
             print("Failed to delete data: \(error.localizedDescription)")
         }
+    }
+}
+
+extension MealContentRowView {
+    private var mealInfo: some View {
+        VStack {
+            Spacer()
+            Text(mealNameLimit(mealContent.mealName))
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Spacer()
+            Text("\(mealContent.mealKcal, specifier: "%.f") kcal")
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Spacer()
+        }
+        .font(.title3)
+    }
+    
+    private var nutritionInfo: some View {
+        VStack(alignment: .leading) {
+            Text("たんぱく質: \(mealContent.mealProtein, specifier: "%.1f") g")
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Text("脂質: \(mealContent.mealFat, specifier: "%.1f") g")
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Text("炭水化物: \(mealContent.mealCarbohydrate, specifier: "%.1f") g")
+                .lineLimit(1)
+                .truncationMode(.tail)
+        }
+        .font(.system(size: 15))
+    }
+    
+    private var deleteButton: some View {
+        Image(systemName: "trash")
+            .font(.title3)
+            .foregroundStyle(.black)
+            .onTapGesture {
+                action()
+            }
+    }
+    
+    private func mealNameLimit(_ text: String) -> String {
+        return text.count > 6 ? String(text.prefix(6)) + "…" : text
     }
 }
 

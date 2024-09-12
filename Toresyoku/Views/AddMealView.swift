@@ -55,337 +55,34 @@ struct AddMealView: View {
     var body: some View {
         ScrollView {
             VStack {
-                HStack {
-                    Text("メニュー")
-                        .font(.title3)
-                    TextField("", text: $newMealName)
-                        .foregroundStyle(.black)
-                        .padding(4)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .font(.title3)
-                        .frame(width: 220)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Spacer()
-                    if mealNameValid == false {
-                        Image(systemName: "exclamationmark.circle.fill")
-                            .font(.title2)
-                            .foregroundStyle(.red)
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.top, 30)
+                mealSelectArea
                 
+                mealNutritionArea
                 
-                HStack {
-                    BasicButton(title: "マイメニューから選択", widthSize: 230) {
-                        myMenuSelectModal = true
-                    }
-                    
-                    
-//                    Text("マイメニューから選択")
-//                        .font(.title3)
-//                        .bold()
-//                        .foregroundStyle(.black)
-//                        .padding(10)
-//                        .frame(width: 210, height: 35)
-//                        .background(Color(
-//                            red: imageColor.first?.imageColorRed ?? 0,
-//                            green: imageColor.first?.imageColorGreen ?? 1,
-//                            blue: imageColor.first?.imageColorBlue ?? 1,
-//                            opacity: imageColor.first?.imageColorAlpha ?? 0.2
-//                        ))
-//                        .cornerRadius(10)
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color.gray, lineWidth: 1)
-//                        )
-//                        .onTapGesture {
-//                            myMenuSelectModal = true
-//                        }
-                        
-                        
-                    Spacer()
-                }
-                .sheet(isPresented: $myMenuSelectModal) {
-                    MyMenuSelectView(
-                        selectedMealName: $newMealName,
-                        selectedMealProtein: $newMealProtein,
-                        selectedMealFat: $newMealFat,
-                        selectedMealCarbohydrate: $newMealCarbohydrate,
-                        selectedMealKcal: $newMealKcal
-                    )
-                    .presentationDragIndicator(.visible)
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 30)
-            
+                mealDecisionArea
                 
-                HStack {
-                    Text("たんぱく質")
-                        .font(.title3)
-                    TextField("", text: $newMealProtein)
-                        .font(.title3)
-                        .multilineTextAlignment(.trailing)
-                        .padding(4)
-                        .frame(width: 80)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .foregroundStyle(.black)
-                        .keyboardType(.decimalPad)
-                        .onChange(of: newMealProtein) {
-                            if newMealProtein.count > 4 {
-                                newMealProtein = String(newMealProtein.prefix(4))
-                            }
-                            calculateKcal()
-                        }
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Text("g")
-                        .font(.title3)
-                    Spacer()
-                    if mealProteinValid == false {
-                        Image(systemName: "exclamationmark.circle.fill")
-                            .font(.title2)
-                            .foregroundStyle(.red)
-                    }
-                }
-                .padding(.horizontal)
-                
-                HStack {
-                    Text("脂質")
-                        .font(.title3)
-                    TextField("", text: $newMealFat)
-                        .font(.title3)
-                        .multilineTextAlignment(.trailing)
-                        .padding(4)
-                        .frame(width: 80)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .foregroundStyle(.black)
-                        .keyboardType(.decimalPad)
-                        .onChange(of: newMealFat) {
-                            if newMealFat.count > 4 {
-                                newMealFat = String(newMealFat.prefix(4))
-                            }
-                            calculateKcal()
-                        }
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Text("g")
-                        .font(.title3)
-                    Spacer()
-                    if mealFatValid == false {
-                        Image(systemName: "exclamationmark.circle.fill")
-                            .font(.title2)
-                            .foregroundStyle(.red)
-                    }
-                }
-                .padding(.horizontal)
-                
-                HStack {
-                    Text("炭水化物")
-                        .font(.title3)
-                    TextField("", text: $newMealCarbohydrate)
-                        .font(.title3)
-                        .multilineTextAlignment(.trailing)
-                        .padding(4)
-                        .frame(width: 80)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .foregroundStyle(.black)
-                        .keyboardType(.decimalPad)
-                        .onChange(of: newMealCarbohydrate) {
-                            if newMealCarbohydrate.count > 4 {
-                                newMealCarbohydrate = String(newMealCarbohydrate.prefix(4))
-                            }
-                            calculateKcal()
-                        }
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Text("g")
-                        .font(.title3)
-                    Spacer()
-                    if mealCarbohydrateValid == false {
-                        Image(systemName: "exclamationmark.circle.fill")
-                            .font(.title2)
-                            .foregroundStyle(.red)
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-                
-                HStack {
-                    Text("カロリー")
-                        .font(.title3)
-                    TextField("", value: $newMealKcal, format: .number)
-                        .font(.title3)
-                        .multilineTextAlignment(.trailing)
-                        .padding(4)
-                        .frame(width: 100)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .foregroundStyle(.black)
-                        .keyboardType(.decimalPad)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                    Text("kcal")
-                        .font(.title3)
-                    Spacer()
-                    if mealKcalValid == false {
-                        Image(systemName: "exclamationmark.circle.fill")
-                            .font(.title2)
-                            .foregroundStyle(.red)
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 30)
-                
-                HStack {
-                    Spacer()
-                    NoButton {
-                        dismiss()
-                    }
-//                    Button("戻る") {
-//                        dismiss()
-//                    }
-//                    .font(.title3)
-//                    .bold()
-//                    .padding()
-//                    .frame(width: 100, height: 35)
-//                    .foregroundStyle(.black)
-//                    .background(Color.gray .opacity(0.8))
-//                    .cornerRadius(10)
-//                    .overlay(
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .stroke(Color.gray, lineWidth: 1)
-//                    )
-                    Spacer()
-                    BasicButton(title: "決定") {
-                        addMeal()
-                    }
-//                    Button("決定") {
-//                        addMeal()
-//                    }
-//                    .font(.title3)
-//                    .bold()
-//                    .padding()
-//                    .frame(width: 150, height: 35)
-//                    .foregroundStyle(.black)
-//                    .background(Color(
-//                        red: imageColor.first?.imageColorRed ?? 0,
-//                        green: imageColor.first?.imageColorGreen ?? 1,
-//                        blue: imageColor.first?.imageColorBlue ?? 1,
-//                        opacity: imageColor.first?.imageColorAlpha ?? 0.2
-//                    ))
-//                    .cornerRadius(10)
-//                    .overlay(
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .stroke(Color.gray, lineWidth: 1)
-//                    )
-                    Spacer()
-                }
+                Spacer()
             }
-            .onAppear {
-                self.newMealDate = theDate
-            }
-            .onChange(of: theDate) {
-                self.newMealDate = theDate
-            }
-            Spacer()
-                .toolbar {
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Spacer()
-                        Button("決定") {
-                            action.hideKeyboard()
-                        }
-                        .foregroundStyle(.black)
-                    }
+        }
+        .onAppear {
+            self.newMealDate = theDate
+        }
+        .onChange(of: theDate) {
+            self.newMealDate = theDate
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("決定") {
+                    action.hideKeyboard()
                 }
-                .padding(.top, 100)
-                .navigationBarBackButtonHidden(true)
+                .foregroundStyle(.black)
+            }
         }
-    }
-    
-//    private func hideKeyboard() {
-//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-//    }
-    
-    private func calculateKcal() {
-        let castingProtein = Double(newMealProtein) ?? 0
-        let castingFat = Double(newMealFat) ?? 0
-        let castingCarbohydrate = Double(newMealCarbohydrate) ?? 0
-        guard castingProtein >= 0, castingFat >= 0, castingCarbohydrate >= 0 else {
-            newMealKcal = 0.0
-            return
-        }
-        newMealKcal = round((castingProtein * 4) + (castingFat * 9) + (castingCarbohydrate * 4))
-    }
-    
-    private func validateForm() -> Bool {
-        var isValid = true
-        
-        mealNameValid = !newMealName.isEmpty
-        if !mealNameValid { isValid = false }
-        
-        if let castingProtein = Double(newMealProtein), castingProtein >= 0, castingProtein <= 9999 {
-            mealProteinValid = true
-        } else {
-            mealProteinValid = false
-            isValid = false
-        }
-        
-        if let castingFat = Double(newMealFat), castingFat >= 0, castingFat <= 9999 {
-            mealFatValid = true
-        } else {
-            mealFatValid = false
-            isValid = false
-        }
-        
-        if let castingCarbohydrate = Double(newMealCarbohydrate), castingCarbohydrate >= 0, castingCarbohydrate <= 9999 {
-            mealCarbohydrateValid = true
-        } else {
-            mealCarbohydrateValid = false
-            isValid = false
-        }
-        
-        mealKcalValid = newMealKcal >= 0
-        if !mealKcalValid { isValid = false }
-        
-        return isValid
-    }
-    
-    
-    private func addMeal() {
-        if !validateForm() {
-            return
-        }
-        let newMeal = MealContentModel(mealName: newMealName, mealProtein: Double(newMealProtein) ?? 0, mealFat: Double(newMealFat) ?? 0, mealCarbohydrate: Double(newMealCarbohydrate) ?? 0, mealKcal: newMealKcal, mealDate: newMealDate)
-        context.insert(newMeal)
-        
-        do {
-            try context.save()
-            print("Meal saved successfully")
-            newMealName = ""
-            newMealProtein = ""
-            newMealFat = ""
-            newMealCarbohydrate = ""
-            newMealKcal = 0.0
-            
-            refreshID = UUID()
-            dismiss()
-        } catch {
-            print("Failed to save context: \(error.localizedDescription)")
-        }
+        .navigationBarBackButtonHidden(true)
     }
 }
-
+        
 struct MealDateSelectView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var newMealDate: Date
@@ -398,11 +95,271 @@ struct MealDateSelectView: View {
             }
     }
 }
+        
+extension AddMealView {
+    private var mealSelectArea: some View {
+        VStack {
+            HStack {
+                Text("メニュー")
+                    .font(.title3)
+                TextField("", text: $newMealName)
+                    .foregroundStyle(.black)
+                    .padding(4)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .font(.title3)
+                    .frame(width: 220)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Spacer()
+                if mealNameValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top, 20)
+            
+            HStack {
+                BasicButton(title: "マイメニューから選択", widthSize: 230) {
+                    myMenuSelectModal = true
+                }
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 30)
+            .sheet(isPresented: $myMenuSelectModal) {
+                MyMenuSelectView(
+                    selectedMealName: $newMealName,
+                    selectedMealProtein: $newMealProtein,
+                    selectedMealFat: $newMealFat,
+                    selectedMealCarbohydrate: $newMealCarbohydrate,
+                    selectedMealKcal: $newMealKcal
+                )
+                .presentationDragIndicator(.visible)
+            }
+        }
+    }
+    
+    private var mealNutritionArea: some View {
+        VStack {
+            HStack {
+                Text("たんぱく質")
+                    .font(.title3)
+                TextField("", text: $newMealProtein)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 80)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundStyle(.black)
+                    .keyboardType(.decimalPad)
+                    .onChange(of: newMealProtein) {
+                        if newMealProtein.count > 4 {
+                            newMealProtein = String(newMealProtein.prefix(4))
+                        }
+                        calculateKcal()
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("g")
+                    .font(.title3)
+                Spacer()
+                if mealProteinValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            
+            HStack {
+                Text("脂質")
+                    .font(.title3)
+                TextField("", text: $newMealFat)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 80)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundStyle(.black)
+                    .keyboardType(.decimalPad)
+                    .onChange(of: newMealFat) {
+                        if newMealFat.count > 4 {
+                            newMealFat = String(newMealFat.prefix(4))
+                        }
+                        calculateKcal()
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("g")
+                    .font(.title3)
+                Spacer()
+                if mealFatValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            
+            HStack {
+                Text("炭水化物")
+                    .font(.title3)
+                TextField("", text: $newMealCarbohydrate)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 80)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundStyle(.black)
+                    .keyboardType(.decimalPad)
+                    .onChange(of: newMealCarbohydrate) {
+                        if newMealCarbohydrate.count > 4 {
+                            newMealCarbohydrate = String(newMealCarbohydrate.prefix(4))
+                        }
+                        calculateKcal()
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("g")
+                    .font(.title3)
+                Spacer()
+                if mealCarbohydrateValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom)
+            
+            HStack {
+                Text("カロリー")
+                    .font(.title3)
+                TextField("", value: $newMealKcal, format: .number)
+                    .font(.title3)
+                    .multilineTextAlignment(.trailing)
+                    .padding(4)
+                    .frame(width: 100)
+                    .background(.white, in: .rect(cornerRadius: 6))
+                    .foregroundStyle(.black)
+                    .keyboardType(.decimalPad)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                Text("kcal")
+                    .font(.title3)
+                Spacer()
+                if mealKcalValid == false {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 30)
+        }
+    }
+    
+    private var mealDecisionArea: some View {
+        VStack {
+            HStack {
+                Spacer()
+                NoButton {
+                    dismiss()
+                }
+                Spacer()
+                BasicButton(title: "決定") {
+                    addMeal()
+                }
+                Spacer()
+            }
+        }
+       
+    }
+
+    private func calculateKcal() {
+        let castingProtein = Double(newMealProtein) ?? 0
+        let castingFat = Double(newMealFat) ?? 0
+        let castingCarbohydrate = Double(newMealCarbohydrate) ?? 0
+    
+        guard castingProtein >= 0, castingFat >= 0, castingCarbohydrate >= 0 else {
+            newMealKcal = 0.0
+            return
+        }
+        newMealKcal = round((castingProtein * 4) + (castingFat * 9) + (castingCarbohydrate * 4))
+    }
+
+    private func validateForm() -> Bool {
+        var isValid = true
+        mealNameValid = !newMealName.isEmpty
+        if !mealNameValid { isValid = false }
+    
+        if let castingProtein = Double(newMealProtein), castingProtein >= 0, castingProtein <= 9999 {
+            mealProteinValid = true
+        } else {
+            mealProteinValid = false
+            isValid = false
+        }
+    
+        if let castingFat = Double(newMealFat), castingFat >= 0, castingFat <= 9999 {
+            mealFatValid = true
+        } else {
+            mealFatValid = false
+            isValid = false
+        }
+    
+        if let castingCarbohydrate = Double(newMealCarbohydrate), castingCarbohydrate >= 0, castingCarbohydrate <= 9999 {
+            mealCarbohydrateValid = true
+        } else {
+            mealCarbohydrateValid = false
+            isValid = false
+        }
+    
+        mealKcalValid = newMealKcal >= 0
+        if !mealKcalValid { isValid = false }
+    
+        return isValid
+    }
+
+    private func addMeal() {
+        if !validateForm() {
+            return
+        }
+        let newMeal = MealContentModel(mealName: newMealName, mealProtein: Double(newMealProtein) ?? 0, mealFat: Double(newMealFat) ?? 0, mealCarbohydrate: Double(newMealCarbohydrate) ?? 0, mealKcal: newMealKcal, mealDate: newMealDate)
+        context.insert(newMeal)
+    
+        do {
+            try context.save()
+            print("Meal saved successfully")
+            newMealName = ""
+            newMealProtein = ""
+            newMealFat = ""
+            newMealCarbohydrate = ""
+            newMealKcal = 0.0
+        
+            refreshID = UUID()
+            dismiss()
+        } catch {
+            print("Failed to save context: \(error.localizedDescription)")
+        }
+    }
+}
 
 struct AddMealView_Previews: PreviewProvider {
     static var previews: some View {
-        @State var theDate = Date()
-        AddMealView(theDate: $theDate, refreshID: .constant(UUID()))
-            .modelContainer(for: [MyMealContentModel.self, ImageColorModel.self])
+    @State var theDate = Date()
+    AddMealView(theDate: $theDate, refreshID: .constant(UUID()))
+        .modelContainer(for: [MyMealContentModel.self, ImageColorModel.self])
     }
 }

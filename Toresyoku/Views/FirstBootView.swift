@@ -12,62 +12,75 @@ struct FirstBootView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
-            ZStack {
-                RoundedRectangle(cornerSize: CGSize(width: 80, height: 80))
-                    .foregroundStyle(.white)
-                    .frame(height: 400)
-                VStack {
-                    Text("〜使い方〜")
-                        .font(.title2)
-                        .bold()
-                        .padding()
-                    Text("•マイページからプロフィール情報を入力し、目標を設定します")
-                        .font(.title3)
-                        .padding(.top)
-                        .padding(.horizontal)
-                    
-                    Text("•「食事の追加」で食事内容を追加します")
-                        .font(.title3)
-                        .padding(.top)
-                        .padding(.horizontal)
-                    Text("（マイメニューを設定しておくと、次回以降の入力が楽になります）")
-                        .font(.title3)
-                        .padding(.horizontal)
-                        .padding(.bottom)
-                    Text("•目標達成までに必要な残りの食事量を確認しながら、毎日の食事管理を頑張りましょう！")
-                        .font(.title3)
-                        .padding()
-                        .padding(.bottom)
-                }
-            }
+            
+            howToUse
             
             Spacer()
-            HStack {
-                Spacer()
-                Button(action: {
-                    isFirstBoot = false
-                }) {
-                    ZStack {
-                        Circle()
-                            .frame(width: 120)
-                            .foregroundStyle(.white)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                        Text("はじめる")
-                            .foregroundStyle(.black)
-                            .bold()
-                            .font(.title2)
-                            .padding()
-                    }
+            
+            startButton
+            
+            Spacer()
+        }
+        .background(.linearGradient(colors: [Color(red: 0, green: 1, blue: 1, opacity: 0.1), Color(red: 0, green: 1, blue: 1, opacity: 0.5)], startPoint: .topLeading, endPoint: .bottomTrailing))
+        .edgesIgnoringSafeArea(.all)
+    }
+}
+
+extension FirstBootView {
+    private var howToUse: some View {
+        ZStack {
+            RoundedRectangle(cornerSize: CGSize(width: 80, height: 80))
+                .foregroundStyle(.white)
+                .frame(height: 400)
+            VStack {
+                Text("〜使い方〜")
+                    .font(.title2)
+                    .bold()
+                    .padding()
+                Text("•マイページからプロフィール情報を入力し、目標を設定します")
+                    .font(.title3)
+                    .padding(.top)
+                    .padding(.horizontal)
+                
+                Text("•「食事の追加」で食事内容を追加します")
+                    .font(.title3)
+                    .padding(.top)
+                    .padding(.horizontal)
+                Text("（マイメニューを設定しておくと、次回以降の入力が楽になります）")
+                    .font(.title3)
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                Text("•目標達成までに必要な残りの食事量を確認しながら、毎日の食事管理を頑張りましょう！")
+                    .font(.title3)
+                    .padding()
+                    .padding(.bottom)
+            }
+        }
+    }
+    
+    private var startButton: some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                isFirstBoot = false
+            }) {
+                ZStack {
+                    Circle()
+                        .frame(width: 120)
+                        .foregroundStyle(.white)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                    Text("はじめる")
+                        .foregroundStyle(.black)
+                        .bold()
+                        .font(.title2)
+                        .padding()
                 }
-                Spacer()
             }
             Spacer()
         }
-        .background(Color(red: 0, green: 1, blue: 1, opacity: 0.05))
-        .edgesIgnoringSafeArea(.all)
     }
 }
 

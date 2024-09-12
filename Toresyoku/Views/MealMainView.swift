@@ -19,47 +19,61 @@ struct MealMainView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("今日の達成状況")
-                    .font(.title2)
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding([.top, .horizontal])
-                        
-                MealProgressView(theDate: $theDate, refreshID: $refreshID)
-                    .padding(.horizontal)
-
-                        
-                HStack {
-                    NavigationLink(destination: AddMealView(theDate: $theDate, refreshID: $refreshID)) {
-                        Text("食事の追加")
-                            .bold()
-                            .frame(width: 150, height: 35)
-                            .background(colorManager(from: imageColor.first, opacity: 0.2))
-//                            .background(Color(
-//                                red: imageColor.first?.imageColorRed ?? 0,
-//                                green: imageColor.first?.imageColorGreen ?? 1,
-//                                blue: imageColor.first?.imageColorBlue ?? 1,
-//                                opacity: imageColor.first?.imageColorAlpha ?? 0.2
-//                            ))
-                            .cornerRadius(10)
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
-                            .foregroundStyle(.black)
-                            .font(.title3)
-                            .padding([.top, .horizontal])
-                    }
-                    Spacer()
-                }
+                headerArea
                 
-                MealContentListView(theDate: $theDate, refreshID: $refreshID)
-                    .padding(.horizontal)
-                    .onAppear {
-                        refreshID = UUID()
-                    }
+                mealProgressArea
+
+                addButtonArea
+                
+                mealContentListArea
+                
                 Spacer()
             }
         }
     }
 }
+
+extension MealMainView {
+    private var headerArea: some View {
+        Text("今日の達成状況")
+            .font(.title2)
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding([.top, .horizontal])
+
+    }
+    
+    private var mealProgressArea: some View {
+        MealProgressView(theDate: $theDate, refreshID: $refreshID)
+            .padding(.horizontal)
+    }
+    
+    private var addButtonArea: some View {
+        HStack {
+            NavigationLink(destination: AddMealView(theDate: $theDate, refreshID: $refreshID)) {
+                Text("食事の追加")
+                    .bold()
+                    .frame(width: 150, height: 35)
+                    .background(colorManager(from: imageColor.first, opacity: 0.2))
+                    .cornerRadius(10)
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+                    .foregroundStyle(.black)
+                    .font(.title3)
+                    .padding([.top, .horizontal])
+            }
+            Spacer()
+        }
+    }
+    
+    private var mealContentListArea: some View {
+        MealContentListView(theDate: $theDate, refreshID: $refreshID)
+            .padding(.horizontal)
+            .onAppear {
+                refreshID = UUID()
+            }
+    }
+}
+
 
 struct MealMainView_Previews: PreviewProvider {
     @State static var theDate = Date()

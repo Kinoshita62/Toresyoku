@@ -29,129 +29,50 @@ struct MealProgressView: View {
     @Binding var refreshID: UUID
     
     var body: some View {
+            VStack(spacing: 5) {
+                progressView(title: "カロリー", progress: mealKcalProgress, remaining: remainingKcal, unit: "Kcal")
+                progressView(title: "たんぱく質", progress: mealProteinProgress, remaining: remainingProtein, unit: "g")
+                progressView(title: "脂質", progress: mealFatProgress, remaining: remainingFat, unit: "g")
+                progressView(title: "炭水化物", progress: mealCarbohydrateProgress, remaining: remainingCarbohydrate, unit: "g")
+            }
+            .padding(.bottom, 5)
+            .background(colorManager(from: imageColor.first, opacity: 0.03))
+            .onChange(of: refreshID) {
+                calculateProgress()
+            }
+            .onAppear {
+                refreshID = UUID()
+                calculateProgress()
+            }
+        }
+    
+    @ViewBuilder
+    private func progressView(title: String, progress: Double, remaining: Double, unit: String) -> some View {
         VStack(spacing: 5) {
             HStack {
-                Text("カロリー")
-                Text("\(String(format: "%.f", mealKcalProgress * 100))%")
+                Text(title)
+                Text("\(String(format: "%.f", progress * 100))%")
                 Spacer()
                 Text("残り")
-                Text("\(String(format: "%.f", remainingKcal)) Kcal")
+                Text("\(String(format: "%.f", remaining)) \(unit)")
             }
             .font(.title2)
             .padding(.horizontal)
+            
             ZStack {
-                Rectangle()
-                    .foregroundStyle(.white)
+                Rectangle().foregroundStyle(.white)
                 Rectangle()
                     .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                    .foregroundStyle(Color(
-//                        red: imageColor.first?.imageColorRed ?? 0,
-//                        green: imageColor.first?.imageColorGreen ?? 1,
-//                        blue: imageColor.first?.imageColorBlue ?? 1,
-//                        opacity: 1
-//                    ))
-                    .scaleEffect(x: mealKcalProgress, y: 1.0, anchor: .leading)
-                Rectangle()
-                    .stroke(.gray)
+                    .scaleEffect(x: progress, y: 1.0, anchor: .leading)
+                Rectangle().stroke(.gray)
             }
             .frame(width: 300, height: 20)
             
-            
-            HStack {
-                Text("たんぱく質")
-                Text("\(String(format: "%.f", mealProteinProgress * 100))%")
-                Spacer()
-                Text("残り")
-                Text("\(String(format: "%.f", remainingProtein)) g")
-            }
-            .font(.title2)
-            .padding(.horizontal)
-            ZStack {
-                Rectangle()
-                    .foregroundStyle(.white)
-                Rectangle()
-                    .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                    .foregroundStyle(Color(
-//                        red: imageColor.first?.imageColorRed ?? 0,
-//                        green: imageColor.first?.imageColorGreen ?? 1,
-//                        blue: imageColor.first?.imageColorBlue ?? 1,
-//                        opacity: 1
-//                    ))
-                    .scaleEffect(x: mealProteinProgress, y: 1.0, anchor: .leading)
-                Rectangle()
-                    .stroke(.gray)
-            }
-            .frame(width: 300, height: 20)
-            
-            HStack {
-                Text("脂質")
-                Text("\(String(format: "%.f", mealFatProgress * 100))%")
-                Spacer()
-                Text("残り")
-                Text("\(String(format: "%.f", remainingFat)) g")
-            }
-            .font(.title2)
-            .padding(.horizontal)
-            ZStack {
-                Rectangle()
-                    .foregroundStyle(.white)
-                Rectangle()
-                    .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                    .foregroundStyle(Color(
-//                        red: imageColor.first?.imageColorRed ?? 0,
-//                        green: imageColor.first?.imageColorGreen ?? 1,
-//                        blue: imageColor.first?.imageColorBlue ?? 1,
-//                        opacity: 1
-//                    ))
-                    .scaleEffect(x: mealFatProgress, y: 1.0, anchor: .leading)
-                Rectangle()
-                    .stroke(.gray)
-            }
-            .frame(width: 300, height: 20)
-            
-            HStack {
-                Text("炭水化物")
-                Text("\(String(format: "%.f", mealCarbohydrateProgress * 100))%")
-                Spacer()
-                Text("残り")
-                Text("\(String(format: "%.f", remainingCarbohydrate)) g")
-            }
-            .font(.title2)
-            .padding(.horizontal)
-            ZStack {
-                Rectangle()
-                    .foregroundStyle(.white)
-                Rectangle()
-                    .foregroundStyle(colorManager(from: imageColor.first, opacity: 1))
-//                    .foregroundStyle(Color(
-//                        red: imageColor.first?.imageColorRed ?? 0,
-//                        green: imageColor.first?.imageColorGreen ?? 1,
-//                        blue: imageColor.first?.imageColorBlue ?? 1,
-//                        opacity: 1
-//                    ))
-                    .scaleEffect(x: mealCarbohydrateProgress, y: 1.0, anchor: .leading)
-                Rectangle()
-                    .stroke(.gray)
-            }
-            .frame(width: 300, height: 20)
-        }
-        .padding(.bottom, 5)
-        .background(colorManager(from: imageColor.first, opacity: 0.03))
-//        .background(Color(
-//            red: imageColor.first?.imageColorRed ?? 0,
-//            green: imageColor.first?.imageColorGreen ?? 1,
-//            blue: imageColor.first?.imageColorBlue ?? 1,
-//            opacity: 0.03
-//        ))
-        .onChange(of: refreshID) {
-            calculateProgress()
-        }
-        .onAppear {
-            refreshID = UUID()
-            calculateProgress()
         }
     }
-    
+}
+
+extension MealProgressView {
     private func calculateProgress(target: Double, total: Double) -> (progress: Double, remaining: Double) {
         if target > 0 {
             let progress = min(total / target, 1.0)
