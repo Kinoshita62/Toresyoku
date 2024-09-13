@@ -73,21 +73,7 @@ struct ProfileSettingView: View {
                         .foregroundStyle(.gray .opacity(0.05))
                     VStack {
                         HStack {
-                            Text("年齢")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newUserAge)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "年齢", text: $newUserAge)
                             Text("歳    ")
                                 .font(.title3)
                         }
@@ -111,24 +97,8 @@ struct ProfileSettingView: View {
                         }
                         .padding(5)
                         
-                        
-                        
                         HStack {
-                            Text("身長")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newUserTall)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "身長", text: $newUserTall)
                             Text("cm  ")
                                 .font(.title3)
                         }
@@ -140,21 +110,7 @@ struct ProfileSettingView: View {
                         
                         
                         HStack {
-                            Text("体重")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newUserWeight)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "体重", text: $newUserWeight)
                             Text("kg   ")
                                 .font(.title3)
                         }
@@ -167,21 +123,7 @@ struct ProfileSettingView: View {
                         .padding(5)
                         
                         HStack {
-                            Text("体脂肪率")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newUserFatPercentage)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "体脂肪率", text: $newUserFatPercentage)
                             Text("%   ")
                                 .font(.title3)
                         }
@@ -219,42 +161,14 @@ struct ProfileSettingView: View {
                         .foregroundStyle(colorManager(from: imageColor.first, opacity: 0.03))
                     VStack {
                         HStack {
-                            Text("目標体重")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newTargetWeight)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "目標体重", text: $newTargetWeight)
                             Text("kg   ")
                                 .font(.title3)
                         }
                         .padding(5)
                         
                         HStack {
-                            Text("目標体脂肪率")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newTargetFatPercentage)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "目標体脂肪率", text: $newTargetFatPercentage)
                             Text("%   ")
                                 .font(.title3)
                         }
@@ -274,21 +188,7 @@ struct ProfileSettingView: View {
                         .foregroundStyle(.gray .opacity(0.05))
                     VStack {
                         HStack {
-                            Text("基礎代謝量")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newUserBMR)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 90)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "基礎代謝量", text: $newUserBMR)
                                 .onChange(of: newUserBMR) {
                                     calculateConsumeKcal()
                                 }
@@ -338,21 +238,7 @@ struct ProfileSettingView: View {
                         .padding(5)
                         
                         HStack {
-                            Text("1日の消費カロリー")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newUserConsumeKcal)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 90)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "1日の消費カロリー", text: $newUserConsumeKcal)
                             Text("kcal")
                                 .font(.title3)
                         }
@@ -441,63 +327,21 @@ struct ProfileSettingView: View {
                         }
                         
                         HStack {
-                            Text("目標たんぱく質摂取量")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newTargetMealProtein)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "目標たんぱく質摂取量", text: $newTargetMealProtein)
                             Text("g    ")
                                 .font(.title3)
                         }
                         .padding(5)
                         
                         HStack {
-                            Text("目標脂質摂取量")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newTargetMealFat)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "目標脂質摂取量", text: $newTargetMealFat)
                             Text("g    ")
                                 .font(.title3)
                         }
                         .padding(5)
                         
                         HStack {
-                            Text("目標炭水化物摂取量")
-                                .font(.title3)
-                            Spacer()
-                            TextField("", text: $newTargetMealCarbohydrate)
-                                .font(.title3)
-                                .multilineTextAlignment(.trailing)
-                                .padding(4)
-                                .frame(width: 80)
-                                .background(.white, in: .rect(cornerRadius: 6))
-                                .foregroundStyle(.black)
-                                .keyboardType(.decimalPad)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
+                            ProfileInputField(title: "目標炭水化物摂取量", text: $newTargetMealCarbohydrate)
                             Text("g    ")
                                 .font(.title3)
                             
@@ -558,6 +402,132 @@ struct ProfileSettingView: View {
         }
     }
 
+    
+    
+}
+
+struct DateSelectView: View {
+    @Environment(\.dismiss) var dismiss
+    @Binding var newUserDataAddDate: Date
+    var body: some View {
+        DatePicker("", selection: $newUserDataAddDate, displayedComponents: [.date])
+            .environment(\.locale, Locale(identifier: "ja_JP"))
+            .datePickerStyle(.graphical)
+            .onChange(of: newUserDataAddDate) {
+                dismiss()
+            }
+    }
+}
+
+struct activityLevelExplanationView: View {
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) var dismiss
+    @Query private var imageColor: [ImageColorModel]
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .foregroundStyle(colorManager(from: imageColor.first, opacity: 0.05))
+            
+            VStack(alignment: .leading) {
+                Text("•低い")
+                    .padding(.leading, 30)
+                Text("座っていることがほとんど")
+                    .padding(.horizontal)
+                
+                Text("•やや低い")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("座っていることが多いが、週1、2回は軽い運動をする")
+                    .padding(.horizontal)
+                
+                Text("•普通")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("通勤や買い物、家事などで一日中動いている、または週2、3回激しい運動をする")
+                    .padding(.horizontal)
+                
+                Text("•やや高い")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("週4、5回激しい運動をする")
+                    .padding(.horizontal)
+                
+                Text("•高い")
+                    .padding(.top, 5)
+                    .padding(.leading, 30)
+                Text("毎日のように非常に激しい運動をする")
+                    .padding(.horizontal)
+                    .padding(.bottom, 5)
+                
+                HStack {
+                    Spacer()
+                    Text("閉じる")
+                        .frame(width: 100, height: 25)
+                        .background(Color.gray .opacity(0.8))
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .onTapGesture {
+                            dismiss()
+                        }
+                    Spacer()
+                }
+            }
+        }
+        .frame(height: 400)
+    }
+}
+
+struct TargetKcalGuideView: View {
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) var dismiss
+    @Query private var imageColor: [ImageColorModel]
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .foregroundStyle(colorManager(from: imageColor.first, opacity: 0.05))
+            VStack(alignment: .leading) {
+                Text("増量するには摂取カロリーが消費カロリーを上回る必要があります")
+                    .padding(.horizontal, 5)
+                    .padding(.top, 5)
+                Text("消費カロリー ＋ ２００〜５００kcalを目安に摂取カロリーを設定しましょう")
+                    .padding(.horizontal, 5)
+                    .padding(.top, 5)
+                Text("減量するには摂取カロリーが消費カロリーを下回る必要があります")
+                    .padding(.horizontal, 5)
+                    .padding(.top, 20)
+                Text("消費カロリー ー ３００〜7００kcalを目安に摂取カロリーを設定しましょう")
+                    .padding(.horizontal, 5)
+                    .padding(.top, 5)
+                Text("（ただし、基礎代謝量を下回る設定は控えましょう）")
+                    .padding(.horizontal, 5)
+                
+                HStack {
+                    Spacer()
+                    Text("閉じる")
+                        .frame(width: 100, height: 25)
+                        .background(Color.gray .opacity(0.8))
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .onTapGesture {
+                            dismiss()
+                        }
+                    Spacer()
+                }
+                
+            }
+        }
+        .frame(height: 400)
+    }
+}
+
+extension ProfileSettingView {
+    
     private func calculateBMI() {
         let castingUserTall = Double(newUserTall) ?? 0
         let castingUserWeight = Double(newUserWeight) ?? 0
@@ -735,137 +705,6 @@ struct ProfileSettingView: View {
         } catch {
             print("Failed to save profile: \(error.localizedDescription)")
         }
-    }
-    
-}
-
-struct DateSelectView: View {
-    @Environment(\.dismiss) var dismiss
-    @Binding var newUserDataAddDate: Date
-    var body: some View {
-        DatePicker("", selection: $newUserDataAddDate, displayedComponents: [.date])
-            .environment(\.locale, Locale(identifier: "ja_JP"))
-            .datePickerStyle(.graphical)
-            .onChange(of: newUserDataAddDate) {
-                dismiss()
-            }
-    }
-}
-
-struct activityLevelExplanationView: View {
-    @Environment(\.modelContext) private var context
-    @Environment(\.dismiss) var dismiss
-    @Query private var imageColor: [ImageColorModel]
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundStyle(Color(
-                    red: imageColor.first?.imageColorRed ?? 0,
-                    green: imageColor.first?.imageColorGreen ?? 1,
-                    blue: imageColor.first?.imageColorBlue ?? 1,
-                    opacity: 0.05
-                ))
-            
-            VStack(alignment: .leading) {
-                Text("•低い")
-                    .padding(.leading, 30)
-                Text("座っていることがほとんど")
-                    .padding(.horizontal)
-                
-                Text("•やや低い")
-                    .padding(.top, 5)
-                    .padding(.leading, 30)
-                Text("座っていることが多いが、週1、2回は軽い運動をする")
-                    .padding(.horizontal)
-                
-                Text("•普通")
-                    .padding(.top, 5)
-                    .padding(.leading, 30)
-                Text("通勤や買い物、家事などで一日中動いている、または週2、3回激しい運動をする")
-                    .padding(.horizontal)
-                
-                Text("•やや高い")
-                    .padding(.top, 5)
-                    .padding(.leading, 30)
-                Text("週4、5回激しい運動をする")
-                    .padding(.horizontal)
-                
-                Text("•高い")
-                    .padding(.top, 5)
-                    .padding(.leading, 30)
-                Text("毎日のように非常に激しい運動をする")
-                    .padding(.horizontal)
-                    .padding(.bottom, 5)
-                
-                HStack {
-                    Spacer()
-                    Text("閉じる")
-                        .frame(width: 100, height: 25)
-                        .background(Color.gray .opacity(0.8))
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                        .onTapGesture {
-                            dismiss()
-                        }
-                    Spacer()
-                }
-            }
-        }
-        .frame(height: 400)
-    }
-}
-
-struct TargetKcalGuideView: View {
-    @Environment(\.modelContext) private var context
-    @Environment(\.dismiss) var dismiss
-    @Query private var imageColor: [ImageColorModel]
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundStyle(Color(
-                    red: imageColor.first?.imageColorRed ?? 0,
-                    green: imageColor.first?.imageColorGreen ?? 1,
-                    blue: imageColor.first?.imageColorBlue ?? 1,
-                    opacity: 0.05
-                ))
-            VStack(alignment: .leading) {
-                Text("増量するには摂取カロリーが消費カロリーを上回る必要があります")
-                    .padding(.horizontal, 5)
-                    .padding(.top, 5)
-                Text("消費カロリー ＋ ２００〜５００kcalを目安に摂取カロリーを設定しましょう")
-                    .padding(.horizontal, 5)
-                    .padding(.top, 5)
-                Text("減量するには摂取カロリーが消費カロリーを下回る必要があります")
-                    .padding(.horizontal, 5)
-                    .padding(.top, 20)
-                Text("消費カロリー ー ３００〜7００kcalを目安に摂取カロリーを設定しましょう")
-                    .padding(.horizontal, 5)
-                    .padding(.top, 5)
-                Text("（ただし、基礎代謝量を下回る設定は控えましょう）")
-                    .padding(.horizontal, 5)
-                
-                HStack {
-                    Spacer()
-                    Text("閉じる")
-                        .frame(width: 100, height: 25)
-                        .background(Color.gray .opacity(0.8))
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                        .onTapGesture {
-                            dismiss()
-                        }
-                    Spacer()
-                }
-                
-            }
-        }
-        .frame(height: 400)
     }
 }
 

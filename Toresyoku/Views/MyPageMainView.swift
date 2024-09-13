@@ -55,36 +55,14 @@ struct MyPageMainView: View {
                                     Text("年齢")
                                         .font(.title3)
                                     Spacer()
-                                    Text("\(String(profile.userAge)) 歳")
+                                    Text("\(profile.userAge) 歳")
                                         .font(.title3)
                                 }
                                 .padding(5)
                                 
-                                HStack {
-                                    Text("身長")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text(" \(profile.userTall, specifier: "%.1f") cm")
-                                        .font(.title3)
-                                }
-                                .padding(5)
-                                HStack {
-                                    Text("体重")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text(" \(profile.userWeight, specifier: "%.1f") kg")
-                                        .font(.title3)
-                                }
-                                .padding(5)
-                                
-                                HStack {
-                                    Text("体脂肪率")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.userFatPercentage, specifier: "%.1f") %")
-                                        .font(.title3)
-                                }
-                                .padding(5)
+                                ProfileRowView(title: "身長", value: profile.userTall, unit: "cm")
+                                ProfileRowView(title: "体重", value: profile.userWeight, unit: "kg")
+                                ProfileRowView(title: "体脂肪率", value: profile.userFatPercentage, unit: "%")
                                 
                                 HStack {
                                     Spacer()
@@ -115,23 +93,8 @@ struct MyPageMainView: View {
                                 .foregroundStyle(colorManager(from: imageColor.first, opacity: 0.03))
                                 .frame(height: 80)
                             VStack {
-                                HStack {
-                                    Text("目標体重")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.targetWeight, specifier: "%.1f")kg")
-                                        .font(.title3)
-                                }
-                                .padding(5)
-                                
-                                HStack {
-                                    Text("目標体脂肪率")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.targetFatPercentage, specifier: "%.1f") %")
-                                        .font(.title3)
-                                }
-                                .padding(5)
+                                ProfileRowView(title: "目標体重", value: profile.targetWeight, unit: "kg")
+                                ProfileRowView(title: "目標体脂肪率", value: profile.targetFatPercentage, unit: "%")
                             }
                             .padding(5)
                         }
@@ -146,14 +109,7 @@ struct MyPageMainView: View {
                                 .foregroundStyle(.gray .opacity(0.05))
                                 .frame(height: 120)
                             VStack {
-                                HStack {
-                                    Text("基礎代謝量")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.userBMR, specifier: "%.f") kcal")
-                                        .font(.title3)
-                                }
-                                .padding(5)
+                                ProfileRowView(title: "基礎代謝量", value: profile.userBMR, unit: "kcal", specifier: "%.0f")
                                 HStack {
                                     Text("活動レベル")
                                         .font(.title3)
@@ -176,14 +132,7 @@ struct MyPageMainView: View {
                                     }
                                 }
                                 .padding(5)
-                                HStack {
-                                    Text("消費カロリー")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.userConsumeKcal, specifier: "%.f") kcal")
-                                        .font(.title3)
-                                }
-                                .padding(5)
+                                ProfileRowView(title: "消費カロリー", value: profile.userConsumeKcal, unit: "kcal", specifier: "%.0f")
                             }
                             .padding(5)
                         }
@@ -199,41 +148,10 @@ struct MyPageMainView: View {
                                 .foregroundStyle(colorManager(from: imageColor.first, opacity: 0.03))
                                 .frame(height: 170)
                             VStack {
-                                HStack {
-                                    Text("目標摂取カロリー")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.targetMealKcal, specifier: "%.f") kcal")
-                                        .font(.title3)
-                                }
-                                .padding(5)
-                                
-                                HStack {
-                                    Text("たんぱく質目標摂取量")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.targetMealProtein, specifier: "%.1f") g")
-                                        .font(.title3)
-                                }
-                                .padding(5)
-                                
-                                HStack {
-                                    Text("脂質目標摂取量")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.targetMealFat, specifier: "%.1f") g")
-                                        .font(.title3)
-                                }
-                                .padding(5)
-                                
-                                HStack {
-                                    Text("炭水化物目標摂取量")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.targetMealCarbohydrate, specifier: "%.1f") g")
-                                        .font(.title3)
-                                }
-                                .padding(5)
+                                ProfileRowView(title: "目標摂取カロリー", value: profile.targetMealKcal, unit: "kcal", specifier: "%.0f")
+                                ProfileRowView(title: "たんぱく質目標摂取量", value: profile.targetMealProtein, unit: "g")
+                                ProfileRowView(title: "脂質目標摂取量", value: profile.targetMealFat, unit: "g")
+                                ProfileRowView(title: "炭水化物目標摂取量", value: profile.targetMealCarbohydrate, unit: "g")
                             }
                             .padding(5)
                         }
