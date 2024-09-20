@@ -230,6 +230,7 @@ struct ProfileSettingView: View {
                                 RoundedRectangle(cornerRadius: 6)
                                     .stroke(Color.gray, lineWidth: 1)
                             )
+                            .accentColor(.black)
                             .padding(.trailing, 25)
                             .onChange(of: newUserActivityLevel) {
                                 calculateConsumeKcal()

@@ -32,6 +32,9 @@
 		CEBD36952C73834000A1AB99 /* ImageColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD36942C73834000A1AB99 /* ImageColorModel.swift */; };
 		CEC2B4CF2C93D07100BA84D8 /* ProfileInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC2B4CE2C93D07100BA84D8 /* ProfileInputField.swift */; };
 		CEC2B4D12C93DB6700BA84D8 /* ProfileRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC2B4D02C93DB6700BA84D8 /* ProfileRowView.swift */; };
+		CECF90B82C9BB8F7000D05D2 /* InputMealNameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90B72C9BB8F7000D05D2 /* InputMealNameArea.swift */; };
+		CECF90BA2C9BBDFA000D05D2 /* InputMealNutritionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90B92C9BBDFA000D05D2 /* InputMealNutritionArea.swift */; };
+		CECF90BC2C9BE4DB000D05D2 /* InputMealKcalArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90BB2C9BE4DB000D05D2 /* InputMealKcalArea.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE0E7ACB2C9947EB00F58EAF /* Toresyoku.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Toresyoku.xctestplan; sourceTree = "<group>"; };
 		CE133ACE2C8C0ABA006738CD /* ToresyokuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToresyokuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE133ADD2C8C0B23006738CD /* ToresyokuUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToresyokuUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE28C2182C7C3CA1004674CA /* FirstBootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstBootView.swift; sourceTree = "<group>"; };
@@ -80,6 +84,9 @@
 		CEBD36942C73834000A1AB99 /* ImageColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColorModel.swift; sourceTree = "<group>"; };
 		CEC2B4CE2C93D07100BA84D8 /* ProfileInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputField.swift; sourceTree = "<group>"; };
 		CEC2B4D02C93DB6700BA84D8 /* ProfileRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRowView.swift; sourceTree = "<group>"; };
+		CECF90B72C9BB8F7000D05D2 /* InputMealNameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMealNameArea.swift; sourceTree = "<group>"; };
+		CECF90B92C9BBDFA000D05D2 /* InputMealNutritionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMealNutritionArea.swift; sourceTree = "<group>"; };
+		CECF90BB2C9BE4DB000D05D2 /* InputMealKcalArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMealKcalArea.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +131,9 @@
 				CE2B0F9D2C91721A0066DB8F /* NoButton.swift */,
 				CEC2B4CE2C93D07100BA84D8 /* ProfileInputField.swift */,
 				CEC2B4D02C93DB6700BA84D8 /* ProfileRowView.swift */,
+				CECF90B72C9BB8F7000D05D2 /* InputMealNameArea.swift */,
+				CECF90B92C9BBDFA000D05D2 /* InputMealNutritionArea.swift */,
+				CECF90BB2C9BE4DB000D05D2 /* InputMealKcalArea.swift */,
 			);
 			path = ViewsComponents;
 			sourceTree = "<group>";
@@ -131,6 +141,7 @@
 		CE8B09A62C561FB3006FD3D9 = {
 			isa = PBXGroup;
 			children = (
+				CE0E7ACB2C9947EB00F58EAF /* Toresyoku.xctestplan */,
 				CE8B09B12C561FB3006FD3D9 /* Toresyoku */,
 				CE8B09B02C561FB3006FD3D9 /* Products */,
 			);
@@ -351,6 +362,7 @@
 				CE28C2192C7C3CA1004674CA /* FirstBootView.swift in Sources */,
 				CE2B0FA52C92758E0066DB8F /* SettingView.swift in Sources */,
 				CE2B0FA12C9176090066DB8F /* Action.swift in Sources */,
+				CECF90BA2C9BBDFA000D05D2 /* InputMealNutritionArea.swift in Sources */,
 				CE8B09D52C562645006FD3D9 /* ProfileModel.swift in Sources */,
 				CEC2B4CF2C93D07100BA84D8 /* ProfileInputField.swift in Sources */,
 				CEBD36952C73834000A1AB99 /* ImageColorModel.swift in Sources */,
@@ -361,11 +373,13 @@
 				CE2B0FA32C91B5AA0066DB8F /* ColorManager.swift in Sources */,
 				CE8B09D12C5625E3006FD3D9 /* ProfileSettingView.swift in Sources */,
 				CE4BBE292C6DCB7100A51730 /* MyMealContentModel.swift in Sources */,
+				CECF90BC2C9BE4DB000D05D2 /* InputMealKcalArea.swift in Sources */,
 				CE8B09CF2C5625A8006FD3D9 /* MyPageMainView.swift in Sources */,
 				CE70098F2C8BFA00003F00D4 /* MainView.swift in Sources */,
 				CE8B09D72C562664006FD3D9 /* MealContentModel.swift in Sources */,
 				CE8B09C72C56248B006FD3D9 /* AddMealView.swift in Sources */,
 				CE2B0F9E2C91721A0066DB8F /* NoButton.swift in Sources */,
+				CECF90B82C9BB8F7000D05D2 /* InputMealNameArea.swift in Sources */,
 				CE8B09C52C56245B006FD3D9 /* MealContentListView.swift in Sources */,
 				CE8B09B32C561FB3006FD3D9 /* ToresyokuApp.swift in Sources */,
 				CE432EC82C61DEBE00F70560 /* MealProgressView.swift in Sources */,

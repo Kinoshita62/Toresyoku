@@ -190,156 +190,35 @@ extension MyMenuSelectView {
 extension MyMenuAddView {
     private var mealInputArea: some View {
         VStack {
-            HStack {
-                Text("メニュー")
-                    .font(.title3)
-                ZStack(alignment: .leading) {
-                    TextField("", text: $newMyMealName)
-                        .font(.title3)
-                        .foregroundStyle(.black)
-                        .padding(4)
-                        .background(.white, in: .rect(cornerRadius: 6))
-                        .font(.system(size: 25))
-                        .frame(width: 220)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                }
-                Spacer()
-                if myMealNameValid == false {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.red)
-                }
-            }
-            .padding()
-            .padding(.top, 30)
-        
-        HStack {
-            Text("たんぱく質")
-                .font(.title3)
-            TextField("", text: $newMyMealProtein)
-                .font(.title3)
-                .multilineTextAlignment(.trailing)
-                .padding(4)
-                .frame(width: 80)
-                .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundStyle(.black)
-                .font(.system(size: 20))
-                .keyboardType(.decimalPad)
+            InputMealNameArea(name: $newMyMealName, nameValid: $myMealNameValid)
+                .padding(.vertical, 20)
+
+        InputMealNutritionArea(title: "たんぱく質", nutrition: $newMyMealProtein, valid: $myMealProteinValid)
                 .onChange(of: newMyMealProtein) {
                     if newMyMealProtein.count > 4 {
                         newMyMealProtein = String(newMyMealProtein.prefix(4))
                     }
                     calculateMyKcal()
                 }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-            Text("g")
-                .font(.title3)
-            Spacer()
-            if myMealProteinValid == false {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(.horizontal)
-        
-        HStack {
-            Text("脂質")
-                .font(.title3)
-            TextField("", text: $newMyMealFat)
-                .font(.title3)
-                .multilineTextAlignment(.trailing)
-                .padding(4)
-                .frame(width: 80)
-                .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundStyle(.black)
-                .font(.system(size: 20))
-                .keyboardType(.decimalPad)
+            
+        InputMealNutritionArea(title: "脂質", nutrition: $newMyMealFat, valid: $myMealFatValid)
                 .onChange(of: newMyMealFat) {
                     if newMyMealFat.count > 4 {
                         newMyMealFat = String(newMyMealFat.prefix(4))
                     }
                     calculateMyKcal()
                 }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-            Text("g")
-                .font(.title3)
-            Spacer()
-            if myMealFatValid == false {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(.horizontal)
-        
-        HStack {
-            Text("炭水化物")
-                .font(.title3)
-            TextField("", text: $newMyMealCarbohydrate)
-                .font(.title3)
-                .multilineTextAlignment(.trailing)
-                .padding(4)
-                .frame(width: 80)
-                .background(.white, in: .rect(cornerRadius: 6))
-                .foregroundStyle(.black)
-                .font(.system(size: 20))
-                .keyboardType(.decimalPad)
+            
+        InputMealNutritionArea(title: "炭水化物", nutrition: $newMyMealCarbohydrate, valid: $myMealCarbohydrateValid)
                 .onChange(of: newMyMealCarbohydrate) {
                     if newMyMealCarbohydrate.count > 4 {
                         newMyMealCarbohydrate = String(newMyMealCarbohydrate.prefix(4))
                     }
                     calculateMyKcal()
                 }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-            Text("g")
-                .font(.title3)
-            Spacer()
-            if myMealCarbohydrateValid == false {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(.horizontal)
-        
-            HStack {
-                Text("カロリー")
-                    .font(.title3)
-                TextField("", value: $newMyMealKcal, format: .number)
-                    .font(.title3)
-                    .multilineTextAlignment(.trailing)
-                    .padding(4)
-                    .frame(width: 100)
-                    .background(.white, in: .rect(cornerRadius: 6))
-                    .foregroundStyle(.black)
-                    .font(.system(size: 20))
-                    .keyboardType(.decimalPad)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                Text("kcal")
-                    .font(.title3)
-                Spacer()
-                if myMealKcalValid == false {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.red)
-                }
-            }
+            
+        InputMealKcalArea(kcal: $newMyMealKcal, kcalValid: $myMealKcalValid)
+            
         }
         .padding(.bottom, 30)
     }

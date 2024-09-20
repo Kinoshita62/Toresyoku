@@ -99,29 +99,8 @@ struct MealDateSelectView: View {
 extension AddMealView {
     private var mealSelectArea: some View {
         VStack {
-            HStack {
-                Text("メニュー")
-                    .font(.title3)
-                TextField("", text: $newMealName)
-                    .foregroundStyle(.black)
-                    .padding(4)
-                    .background(.white, in: .rect(cornerRadius: 6))
-                    .font(.title3)
-                    .frame(width: 220)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                Spacer()
-                if mealNameValid == false {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.red)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top, 20)
-            
+            InputMealNameArea(name: $newMealName, nameValid: $mealNameValid)
+
             HStack {
                 BasicButton(title: "マイメニューから選択", widthSize: 230) {
                     myMenuSelectModal = true
@@ -145,129 +124,31 @@ extension AddMealView {
     
     private var mealNutritionArea: some View {
         VStack {
-            HStack {
-                Text("たんぱく質")
-                    .font(.title3)
-                TextField("", text: $newMealProtein)
-                    .font(.title3)
-                    .multilineTextAlignment(.trailing)
-                    .padding(4)
-                    .frame(width: 80)
-                    .background(.white, in: .rect(cornerRadius: 6))
-                    .foregroundStyle(.black)
-                    .keyboardType(.decimalPad)
-                    .onChange(of: newMealProtein) {
-                        if newMealProtein.count > 4 {
-                            newMealProtein = String(newMealProtein.prefix(4))
-                        }
-                        calculateKcal()
+            InputMealNutritionArea(title: "たんぱく質", nutrition: $newMealProtein, valid: $mealProteinValid)
+                .onChange(of: newMealProtein) {
+                    if newMealProtein.count > 4 {
+                        newMealProtein = String(newMealProtein.prefix(4))
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                Text("g")
-                    .font(.title3)
-                Spacer()
-                if mealProteinValid == false {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.red)
+                    calculateKcal()
                 }
-            }
-            .padding(.horizontal)
             
-            HStack {
-                Text("脂質")
-                    .font(.title3)
-                TextField("", text: $newMealFat)
-                    .font(.title3)
-                    .multilineTextAlignment(.trailing)
-                    .padding(4)
-                    .frame(width: 80)
-                    .background(.white, in: .rect(cornerRadius: 6))
-                    .foregroundStyle(.black)
-                    .keyboardType(.decimalPad)
-                    .onChange(of: newMealFat) {
-                        if newMealFat.count > 4 {
-                            newMealFat = String(newMealFat.prefix(4))
-                        }
-                        calculateKcal()
+            InputMealNutritionArea(title: "脂質", nutrition: $newMealFat, valid: $mealFatValid)
+                .onChange(of: newMealFat) {
+                    if newMealFat.count > 4 {
+                        newMealFat = String(newMealFat.prefix(4))
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                Text("g")
-                    .font(.title3)
-                Spacer()
-                if mealFatValid == false {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.red)
+                    calculateKcal()
                 }
-            }
-            .padding(.horizontal)
             
-            HStack {
-                Text("炭水化物")
-                    .font(.title3)
-                TextField("", text: $newMealCarbohydrate)
-                    .font(.title3)
-                    .multilineTextAlignment(.trailing)
-                    .padding(4)
-                    .frame(width: 80)
-                    .background(.white, in: .rect(cornerRadius: 6))
-                    .foregroundStyle(.black)
-                    .keyboardType(.decimalPad)
-                    .onChange(of: newMealCarbohydrate) {
-                        if newMealCarbohydrate.count > 4 {
-                            newMealCarbohydrate = String(newMealCarbohydrate.prefix(4))
-                        }
-                        calculateKcal()
+            InputMealNutritionArea(title: "炭水化物", nutrition: $newMealCarbohydrate, valid: $mealCarbohydrateValid)
+                .onChange(of: newMealCarbohydrate) {
+                    if newMealCarbohydrate.count > 4 {
+                        newMealCarbohydrate = String(newMealCarbohydrate.prefix(4))
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                Text("g")
-                    .font(.title3)
-                Spacer()
-                if mealCarbohydrateValid == false {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.red)
+                    calculateKcal()
                 }
-            }
-            .padding(.horizontal)
-            .padding(.bottom)
             
-            HStack {
-                Text("カロリー")
-                    .font(.title3)
-                TextField("", value: $newMealKcal, format: .number)
-                    .font(.title3)
-                    .multilineTextAlignment(.trailing)
-                    .padding(4)
-                    .frame(width: 100)
-                    .background(.white, in: .rect(cornerRadius: 6))
-                    .foregroundStyle(.black)
-                    .keyboardType(.decimalPad)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                Text("kcal")
-                    .font(.title3)
-                Spacer()
-                if mealKcalValid == false {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.red)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 30)
+            InputMealKcalArea(kcal: $newMealKcal, kcalValid: $mealKcalValid)
         }
     }
     

@@ -1,0 +1,44 @@
+{
+  "configurations" : [
+    {
+      "id" : "76C25A80-C090-4CCC-BABD-E9A65C22A183",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "environmentVariableEntries" : [
+      {
+        "key" : "IDEPreferLogStreaming",
+        "value" : "Yes"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Toresyoku.xcodeproj",
+      "identifier" : "CE8B09AE2C561FB3006FD3D9",
+      "name" : "Toresyoku"
+    }
+  },
+  "testTargets" : [
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Toresyoku.xcodeproj",
+        "identifier" : "CE133ACD2C8C0ABA006738CD",
+        "name" : "ToresyokuUITests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Toresyoku.xcodeproj",
+        "identifier" : "CE133ADC2C8C0B23006738CD",
+        "name" : "ToresyokuUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
