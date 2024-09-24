@@ -28,7 +28,11 @@ struct MealProgressView: View {
     @Binding var theDate: Date
     @Binding var refreshID: UUID
     
+    @EnvironmentObject var tabSelectionManager: TabSelectionManager
+    
     var body: some View {
+        
+        if let profile = profiles.first, profile.targetMealKcal != 0, profile.targetMealProtein != 0, profile.targetMealFat != 0, profile.targetMealCarbohydrate != 0 {
             VStack(spacing: 5) {
                 progressView(title: "カロリー", progress: mealKcalProgress, remaining: remainingKcal, unit: "Kcal")
                 progressView(title: "たんぱく質", progress: mealProteinProgress, remaining: remainingProtein, unit: "g")
@@ -44,7 +48,20 @@ struct MealProgressView: View {
                 refreshID = UUID()
                 calculateProgress()
             }
+        } else {
+            Button(action: {
+                tabSelectionManager.selectedTab = 3
+            }, label: {
+                Text("1日の目標を入力してください")
+                    .font(.title3)
+                    .foregroundStyle(.black)
+                    .underline()
+                    .frame(width: 350, height: 200)
+                    .background(colorManager(from: imageColor.first, opacity: 0.03))
+            })
+            
         }
+    }
     
     @ViewBuilder
     private func progressView(title: String, progress: Double, remaining: Double, unit: String) -> some View {

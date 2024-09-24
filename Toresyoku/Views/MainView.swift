@@ -14,7 +14,8 @@ struct MainView: View {
     @Environment(\.modelContext) private var context
     @Query private var imageColor: [ImageColorModel]
     
-    @State var mainSelectedTag = 1
+    @StateObject var tabSelectionManager = TabSelectionManager()
+    
     @State var theDate = Date()
     @State var datePickerPresented: Bool = false
     @State var settingViewPresented: Bool = false
@@ -50,6 +51,7 @@ struct MainView: View {
                 settingArea
             }
         }
+        .environmentObject(tabSelectionManager)
     }
 }
 
@@ -105,7 +107,7 @@ extension MainView {
             }
             .background(.linearGradient(colors: [colorManager(from: imageColor.first, opacity: 0.1), colorManager(from: imageColor.first, opacity: 0.4)], startPoint: .topLeading, endPoint: .bottomTrailing))
             
-            TabView(selection: $mainSelectedTag) {
+            TabView(selection: $tabSelectionManager.selectedTab) {
                 MealMainView(theDate: $theDate, refreshID: $refreshID)
                     .tabItem {
                         Label("食事", systemImage: "fork.knife")

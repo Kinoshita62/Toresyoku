@@ -35,6 +35,7 @@
 		CECF90B82C9BB8F7000D05D2 /* InputMealNameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90B72C9BB8F7000D05D2 /* InputMealNameArea.swift */; };
 		CECF90BA2C9BBDFA000D05D2 /* InputMealNutritionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90B92C9BBDFA000D05D2 /* InputMealNutritionArea.swift */; };
 		CECF90BC2C9BE4DB000D05D2 /* InputMealKcalArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90BB2C9BE4DB000D05D2 /* InputMealKcalArea.swift */; };
+		CECF90BE2CA24B11000D05D2 /* TabSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90BD2CA24B11000D05D2 /* TabSelectionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		CECF90B72C9BB8F7000D05D2 /* InputMealNameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMealNameArea.swift; sourceTree = "<group>"; };
 		CECF90B92C9BBDFA000D05D2 /* InputMealNutritionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMealNutritionArea.swift; sourceTree = "<group>"; };
 		CECF90BB2C9BE4DB000D05D2 /* InputMealKcalArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMealKcalArea.swift; sourceTree = "<group>"; };
+		CECF90BD2CA24B11000D05D2 /* TabSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelectionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 			children = (
 				CE2B0FA02C9176090066DB8F /* Action.swift */,
 				CE2B0FA22C91B5AA0066DB8F /* ColorManager.swift */,
+				CECF90BD2CA24B11000D05D2 /* TabSelectionManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				CE4BBE292C6DCB7100A51730 /* MyMealContentModel.swift in Sources */,
 				CECF90BC2C9BE4DB000D05D2 /* InputMealKcalArea.swift in Sources */,
 				CE8B09CF2C5625A8006FD3D9 /* MyPageMainView.swift in Sources */,
+				CECF90BE2CA24B11000D05D2 /* TabSelectionManager.swift in Sources */,
 				CE70098F2C8BFA00003F00D4 /* MainView.swift in Sources */,
 				CE8B09D72C562664006FD3D9 /* MealContentModel.swift in Sources */,
 				CE8B09C72C56248B006FD3D9 /* AddMealView.swift in Sources */,
