@@ -51,15 +51,7 @@ struct MyPageMainView: View {
                                 .foregroundColor(.gray .opacity(0.05))
                                 .frame(height: 200)
                             VStack{
-                                HStack {
-                                    Text("年齢")
-                                        .font(.title3)
-                                    Spacer()
-                                    Text("\(profile.userAge) 歳")
-                                        .font(.title3)
-                                }
-                                .padding(5)
-                                
+                                ProfileRowView(title: "年齢", value: profile.userAge, unit: "歳")
                                 ProfileRowView(title: "身長", value: profile.userTall, unit: "cm")
                                 ProfileRowView(title: "体重", value: profile.userWeight, unit: "kg")
                                 ProfileRowView(title: "体脂肪率", value: profile.userFatPercentage, unit: "%")

@@ -170,51 +170,26 @@ extension AddMealView {
     }
 
     private func calculateKcal() {
-        let castingProtein = Double(newMealProtein) ?? 0
-        let castingFat = Double(newMealFat) ?? 0
-        let castingCarbohydrate = Double(newMealCarbohydrate) ?? 0
-    
-        guard castingProtein >= 0, castingFat >= 0, castingCarbohydrate >= 0 else {
-            newMealKcal = 0.0
-            return
-        }
-        newMealKcal = round((castingProtein * 4) + (castingFat * 9) + (castingCarbohydrate * 4))
+        newMealKcal = action.calculateCalories(protein: newMealProtein, fat: newMealFat, carbohydrate: newMealCarbohydrate)
     }
 
-    private func validateForm() -> Bool {
-        var isValid = true
-        mealNameValid = !newMealName.isEmpty
-        if !mealNameValid { isValid = false }
-    
-        if let castingProtein = Double(newMealProtein), castingProtein >= 0, castingProtein <= 9999 {
-            mealProteinValid = true
-        } else {
-            mealProteinValid = false
-            isValid = false
-        }
-    
-        if let castingFat = Double(newMealFat), castingFat >= 0, castingFat <= 9999 {
-            mealFatValid = true
-        } else {
-            mealFatValid = false
-            isValid = false
-        }
-    
-        if let castingCarbohydrate = Double(newMealCarbohydrate), castingCarbohydrate >= 0, castingCarbohydrate <= 9999 {
-            mealCarbohydrateValid = true
-        } else {
-            mealCarbohydrateValid = false
-            isValid = false
-        }
-    
-        mealKcalValid = newMealKcal >= 0
-        if !mealKcalValid { isValid = false }
-    
-        return isValid
+    private func mealValidateForm() -> Bool {
+        return action.validateForm(
+            name: newMealName,
+            protein: newMealProtein,
+            fat: newMealFat,
+            carbohydrate: newMealCarbohydrate,
+            kcal: newMealKcal,
+            nameValid: &mealNameValid,
+            proteinValid: &mealProteinValid,
+            fatValid: &mealFatValid,
+            carbohydrateValid: &mealCarbohydrateValid,
+            kcalValid: &mealKcalValid
+        )
     }
 
     private func addMeal() {
-        if !validateForm() {
+        if !mealValidateForm() {
             return
         }
         let newMeal = MealContentModel(mealName: newMealName, mealProtein: Double(newMealProtein) ?? 0, mealFat: Double(newMealFat) ?? 0, mealCarbohydrate: Double(newMealCarbohydrate) ?? 0, mealKcal: newMealKcal, mealDate: newMealDate)

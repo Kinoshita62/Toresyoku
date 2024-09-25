@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ProfileRowView: View {
+struct ProfileRowView<Value: Numeric>: View {
     var title: String
-    var value: Double
+    var value: Value
     var unit: String = ""
     var specifier: String = "%.1f"
     var body: some View {
@@ -17,7 +17,7 @@ struct ProfileRowView: View {
             Text(title)
                 .font(.title3)
             Spacer()
-            Text("\(value, specifier: specifier)")
+            Text("\(value)")
                 .font(.title3)
             if !unit.isEmpty {
                 Text(unit)
